@@ -7,11 +7,13 @@ import { childQuestionnaireSchema, type ChildQuestionnaire } from '@/lib/questio
 import { FormField } from '@/components/FormField';
 import { FileUpload } from '@/components/FileUpload';
 import { useLocale } from '@/lib/locale';
+import { useTranslation } from '@/lib/useTranslation';
 import { questionnaireTranslations } from '@/lib/questionnaire-translations';
 import { motion } from 'framer-motion';
 
 export default function ChildQuestionnairePage() {
   const { locale } = useLocale();
+  const t = useTranslation();
   const q = questionnaireTranslations[locale];
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -95,27 +97,27 @@ export default function ChildQuestionnairePage() {
         transition={{ duration: 0.3 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">Основная информация</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.child.mainInfo}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <FormField label="Возраст ребенка" required error={errors.age?.message}>
+          <FormField label={q.child.childAge} required error={errors.age?.message}>
             <input type="number" {...register('age')} />
           </FormField>
-          <FormField label="Вес ребенка (кг)" required error={errors.weight?.message}>
+          <FormField label={q.child.childWeight} required error={errors.weight?.message}>
             <input type="number" step="0.1" {...register('weight')} />
           </FormField>
         </div>
         <div className="space-y-4 mt-4">
-          <FormField label="Пищеварение" error={errors.digestion?.message}>
-            <textarea {...register('digestion')} placeholder="Боли в животе (особенно ночью), диарея, запор" rows={3} />
+          <FormField label={q.women.digestion} error={errors.digestion?.message}>
+            <textarea {...register('digestion')} placeholder={q.child.digestionPlaceholder} rows={3} />
           </FormField>
-          <FormField label="Зубы" error={errors.teeth?.message}>
-            <textarea {...register('teeth')} placeholder="Быстро портятся, неприятный запах изо рта" rows={2} />
+          <FormField label={q.women.teeth} error={errors.teeth?.message}>
+            <textarea {...register('teeth')} placeholder={q.child.teethPlaceholder} rows={2} />
           </FormField>
-          <FormField label="Потеет во сне, скрипит зубами" error={errors.nightSweating?.message}>
+          <FormField label={q.child.nightSweating} error={errors.nightSweating?.message}>
             <select {...register('nightSweating')}>
-              <option value="">Выберите...</option>
-              <option value="Да">Да</option>
-              <option value="Нет">Нет</option>
+              <option value="">{q.select}</option>
+              <option value={q.yes}>{q.yes}</option>
+              <option value={q.no}>{q.no}</option>
             </select>
           </FormField>
         </div>
@@ -128,38 +130,38 @@ export default function ChildQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.1 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">Поведение и здоровье</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.child.behavior}</h2>
         <div className="space-y-4">
-          <FormField label="Просит постоянно сладкое, вплоть до истерик. Живет на перекусах, при этом отказывается от домашней еды" error={errors.sweets?.message}>
+          <FormField label={q.child.sweets} error={errors.sweets?.message}>
             <select {...register('sweets')}>
-              <option value="">Выберите...</option>
-              <option value="Да">Да</option>
-              <option value="Нет">Нет</option>
-              <option value="Иногда">Иногда</option>
+              <option value="">{q.select}</option>
+              <option value={q.yes}>{q.yes}</option>
+              <option value={q.no}>{q.no}</option>
+              <option value={locale === 'ru' ? 'Иногда' : 'Sometimes'}>{q.child.sweetsOptions.sometimes}</option>
             </select>
           </FormField>
-          <FormField label="Высыпания на коже, экзема, дерматит" error={errors.skinIssues?.message}>
+          <FormField label={q.child.skinIssues} error={errors.skinIssues?.message}>
             <select {...register('skinIssues')}>
-              <option value="">Выберите...</option>
-              <option value="Нет проблем">Нет проблем</option>
-              <option value="Высыпания">Высыпания</option>
-              <option value="Экзема">Экзема</option>
-              <option value="Дерматит">Дерматит</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.child.skinIssuesOptions.noProblems}</option>
+              <option value={locale === 'ru' ? 'Высыпания' : 'Rashes'}>{q.child.skinIssuesOptions.rashes}</option>
+              <option value={locale === 'ru' ? 'Экзема' : 'Eczema'}>{q.child.skinIssuesOptions.eczema}</option>
+              <option value={locale === 'ru' ? 'Дерматит' : 'Dermatitis'}>{q.child.skinIssuesOptions.dermatitis}</option>
             </select>
           </FormField>
-          <FormField label="Аллергия" error={errors.allergies?.message}>
-            <textarea {...register('allergies')} placeholder="На цветение, животных, пыль, еду, лекарства" rows={2} />
+          <FormField label={q.women.allergies} error={errors.allergies?.message}>
+            <textarea {...register('allergies')} placeholder={q.child.allergiesPlaceholder} rows={2} />
           </FormField>
-          <FormField label="Гиперактивный или часто жалуется на усталость" error={errors.hyperactivity?.message}>
+          <FormField label={q.child.hyperactivity} error={errors.hyperactivity?.message}>
             <select {...register('hyperactivity')}>
-              <option value="">Выберите...</option>
-              <option value="Гиперактивный">Гиперактивный</option>
-              <option value="Часто жалуется на усталость">Часто жалуется на усталость</option>
-              <option value="Нет проблем">Нет проблем</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Гиперактивный' : 'Hyperactive'}>{q.child.hyperactivityOptions.hyperactive}</option>
+              <option value={locale === 'ru' ? 'Часто жалуется на усталость' : 'Often complains of fatigue'}>{q.child.hyperactivityOptions.tired}</option>
+              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.child.hyperactivityOptions.noProblems}</option>
             </select>
           </FormField>
-          <FormField label="Сколько воды в день пьет (миллилитров)" error={errors.waterIntake?.message}>
-            <input type="number" {...register('waterIntake')} placeholder="Чай, кофе, компоты, супы — НЕ считаются водой" />
+          <FormField label={q.child.waterIntake} error={errors.waterIntake?.message}>
+            <input type="number" {...register('waterIntake')} placeholder={q.child.waterIntakePlaceholder} />
           </FormField>
         </div>
       </motion.section>
@@ -171,25 +173,25 @@ export default function ChildQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.2 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">Травмы и заболевания</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.child.injuries}</h2>
         <div className="space-y-4">
-          <FormField label="Травмы, операции, удары по голове, сильные падения, переломы" error={errors.injuries?.message}>
+          <FormField label={q.child.injuries} error={errors.injuries?.message}>
             <textarea {...register('injuries')} rows={3} />
           </FormField>
-          <FormField label="Жалобы на головную боль, плохой сон" error={errors.headaches?.message}>
+          <FormField label={q.child.headaches} error={errors.headaches?.message}>
             <select {...register('headaches')}>
-              <option value="">Выберите...</option>
-              <option value="Нет проблем">Нет проблем</option>
-              <option value="Головные боли">Головные боли</option>
-              <option value="Плохой сон">Плохой сон</option>
-              <option value="И головные боли, и плохой сон">И головные боли, и плохой сон</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.child.headachesOptions.noProblems}</option>
+              <option value={locale === 'ru' ? 'Головные боли' : 'Headaches'}>{q.child.headachesOptions.headaches}</option>
+              <option value={locale === 'ru' ? 'Плохой сон' : 'Poor sleep'}>{q.child.headachesOptions.badSleep}</option>
+              <option value={locale === 'ru' ? 'И головные боли, и плохой сон' : 'Both headaches and poor sleep'}>{q.child.headachesOptions.both}</option>
             </select>
           </FormField>
-          <FormField label="Сколько раз в году болеет, даете ли антибиотики и другие лекарства" error={errors.illnesses?.message}>
+          <FormField label={q.child.illnesses} error={errors.illnesses?.message}>
             <textarea {...register('illnesses')} rows={3} />
           </FormField>
-          <FormField label="Суставы" error={errors.joints?.message}>
-            <textarea {...register('joints')} placeholder="Жалобы на боли в ножках, просит сделать массаж ножек, часто просится на руки во время прогулки" rows={3} />
+          <FormField label={q.women.joints} error={errors.joints?.message}>
+            <textarea {...register('joints')} placeholder={q.child.jointsPlaceholder} rows={3} />
           </FormField>
         </div>
       </motion.section>
@@ -201,28 +203,28 @@ export default function ChildQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.3 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">Завершение</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.child.completion}</h2>
         <div className="space-y-4">
-          <FormField label="Что еще Вы хотите добавить о здоровье ребенка" error={errors.additional?.message}>
+          <FormField label={q.child.additional} error={errors.additional?.message}>
             <textarea {...register('additional')} rows={4} />
           </FormField>
-          <FormField label="Как вы обо мне узнали" error={errors.source?.message}>
+          <FormField label={q.child.source} error={errors.source?.message}>
             <select {...register('source')}>
-              <option value="">Выберите...</option>
-              <option value="Телеграмм">Телеграмм</option>
-              <option value="Инстаграм">Инстаграм</option>
-              <option value="По рекомендации">По рекомендации</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Телеграмм' : 'Telegram'}>{q.child.sourceOptions.telegram}</option>
+              <option value={locale === 'ru' ? 'Инстаграм' : 'Instagram'}>{q.child.sourceOptions.instagram}</option>
+              <option value={locale === 'ru' ? 'По рекомендации' : 'By recommendation'}>{q.child.sourceOptions.recommendation}</option>
             </select>
           </FormField>
-          <FormField label="Если есть анализы и узи за последние 3 месяца - приложите" error={errors.hasTests?.message}>
+          <FormField label={q.child.hasTests} error={errors.hasTests?.message}>
             <select {...register('hasTests')}>
-              <option value="">Выберите...</option>
-              <option value="Да, есть анализы / УЗИ за последние 2–3 месяца">Да, есть анализы / УЗИ за последние 2–3 месяца</option>
-              <option value="Нет">Нет</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Да, есть анализы / УЗИ за последние 2–3 месяца' : 'Yes, I have tests / ultrasound from the last 2-3 months'}>{q.child.hasTestsOptions.yes}</option>
+              <option value={q.no}>{q.no}</option>
             </select>
           </FormField>
 
-          {hasTests === 'Да, есть анализы / УЗИ за последние 2–3 месяца' && (
+          {hasTests === (locale === 'ru' ? 'Да, есть анализы / УЗИ за последние 2–3 месяца' : 'Yes, I have tests / ultrasound from the last 2-3 months') && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
@@ -231,14 +233,36 @@ export default function ChildQuestionnairePage() {
               <FileUpload
                 files={files}
                 onChange={(newFiles) => setValue('files', newFiles)}
-                label="Приложите файлы"
+                label={q.attachFiles}
               />
             </motion.div>
           )}
 
           <div className="mt-6 p-4 bg-primary-50 border border-primary-200 rounded-lg">
-            <p className="text-sm text-medical-700">
-              <strong>Конфиденциальность:</strong> Ваши данные будут отправлены в защищённую группу Telegram. Мы не храним ваши персональные данные на сервере.
+            <h3 className="text-base font-semibold text-medical-900 mb-3">
+              {t.common.gdprTitle}
+            </h3>
+            <p className="text-sm text-medical-700 mb-4 leading-relaxed">
+              {t.common.gdprText}
+            </p>
+            <div className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                id="gdprConsent"
+                {...register('gdprConsent')}
+                className="mt-1 w-5 h-5 border-medical-300 rounded text-primary-600 focus:ring-primary-500 focus:ring-2 cursor-pointer"
+              />
+              <label htmlFor="gdprConsent" className="text-sm text-medical-900 cursor-pointer flex-1">
+                {t.common.gdprConsent} <span className="text-red-500">*</span>
+              </label>
+            </div>
+            {errors.gdprConsent && (
+              <p className="text-sm text-red-600 mt-2">
+                {t.common.gdprRequired}
+              </p>
+            )}
+            <p className="text-xs text-medical-600 mt-4 leading-relaxed">
+              <strong>{q.privacy}:</strong> {q.privacyText}
             </p>
           </div>
         </div>
@@ -249,11 +273,11 @@ export default function ChildQuestionnairePage() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.4 }}
-        className="sticky bottom-4 z-10"
+        className="sticky bottom-4 z-10 px-4 sm:px-0"
       >
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !watch('gdprConsent')}
           className="w-full px-6 py-3 bg-primary-600 text-white rounded-lg font-medium shadow-sm hover:bg-primary-700 hover:shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {isSubmitting ? (

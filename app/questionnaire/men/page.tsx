@@ -7,11 +7,13 @@ import { menQuestionnaireSchema, type MenQuestionnaire } from '@/lib/questionnai
 import { FormField } from '@/components/FormField';
 import { FileUpload } from '@/components/FileUpload';
 import { useLocale } from '@/lib/locale';
+import { useTranslation } from '@/lib/useTranslation';
 import { questionnaireTranslations } from '@/lib/questionnaire-translations';
 import { motion } from 'framer-motion';
 
 export default function MenQuestionnairePage() {
   const { locale } = useLocale();
+  const t = useTranslation();
   const q = questionnaireTranslations[locale];
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -125,75 +127,75 @@ export default function MenQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.1 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">Здоровье</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.men.health}</h2>
         <div className="space-y-4">
-          <FormField label="Устраивает ли вас ваш вес?" error={errors.weightSatisfaction?.message}>
+          <FormField label={q.men.weightSatisfaction} error={errors.weightSatisfaction?.message}>
             <select {...register('weightSatisfaction')}>
-              <option value="">Выберите...</option>
-              <option value="Да">Да</option>
-              <option value="Нет">Нет</option>
+              <option value="">{q.select}</option>
+              <option value={q.yes}>{q.yes}</option>
+              <option value={q.no}>{q.no}</option>
             </select>
           </FormField>
-          <FormField label="Хотели бы вы изменить вес?" error={errors.weightChange?.message}>
+          <FormField label={q.men.weightChange} error={errors.weightChange?.message}>
             <select {...register('weightChange')}>
-              <option value="">Выберите...</option>
-              <option value="Нет">Нет</option>
-              <option value="Да, хотелось бы похудеть">Да, хотелось бы похудеть</option>
-              <option value="Да, хотелось бы набрать">Да, хотелось бы набрать</option>
+              <option value="">{q.select}</option>
+              <option value={q.no}>{q.no}</option>
+              <option value={locale === 'ru' ? 'Да, хотелось бы похудеть' : 'Yes, would like to lose weight'}>{q.men.weightChangeOptions.lose}</option>
+              <option value={locale === 'ru' ? 'Да, хотелось бы набрать' : 'Yes, would like to gain weight'}>{q.men.weightChangeOptions.gain}</option>
             </select>
           </FormField>
-          <FormField label="Был ли ковид или вакцина" error={errors.covid?.message}>
+          <FormField label={q.men.covid} error={errors.covid?.message}>
             <select {...register('covid')}>
-              <option value="">Выберите...</option>
-              <option value="Нет">Нет</option>
-              <option value="Болел">Болел</option>
-              <option value="Вакцинирован">Вакцинирован</option>
-              <option value="Болел и вакцинирован">Болел и вакцинирован</option>
+              <option value="">{q.select}</option>
+              <option value={q.no}>{q.men.covidOptions.no}</option>
+              <option value={locale === 'ru' ? 'Болел' : 'Had COVID'}>{q.men.covidOptions.sick}</option>
+              <option value={locale === 'ru' ? 'Вакцинирован' : 'Vaccinated'}>{q.men.covidOptions.vaccinated}</option>
+              <option value={locale === 'ru' ? 'Болел и вакцинирован' : 'Had COVID and vaccinated'}>{q.men.covidOptions.both}</option>
             </select>
           </FormField>
-          <FormField label="Пищеварение" error={errors.digestion?.message}>
+          <FormField label={q.women.digestion} error={errors.digestion?.message}>
             <select {...register('digestion')}>
-              <option value="">Выберите...</option>
-              <option value="Нет проблем">Нет проблем</option>
-              <option value="Изжога">Изжога</option>
-              <option value="Вздутие">Вздутие</option>
-              <option value="Диарея">Диарея</option>
-              <option value="Запор">Запор</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.digestionOptions.noProblems}</option>
+              <option value={locale === 'ru' ? 'Изжога' : 'Heartburn'}>{q.men.digestionOptions.heartburn}</option>
+              <option value={locale === 'ru' ? 'Вздутие' : 'Bloating'}>{q.men.digestionOptions.bloating}</option>
+              <option value={locale === 'ru' ? 'Диарея' : 'Diarrhea'}>{q.men.digestionOptions.diarrhea}</option>
+              <option value={locale === 'ru' ? 'Запор' : 'Constipation'}>{q.men.digestionOptions.constipation}</option>
             </select>
           </FormField>
-          <FormField label="Варикоз или геморрой" error={errors.varicose?.message}>
+          <FormField label={q.men.varicose} error={errors.varicose?.message}>
             <select {...register('varicose')}>
-              <option value="">Выберите...</option>
-              <option value="Нет проблем">Нет проблем</option>
-              <option value="Варикоз">Варикоз</option>
-              <option value="Геморрой">Геморрой</option>
-              <option value="Оба">Оба</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.varicoseOptions.noProblems}</option>
+              <option value={locale === 'ru' ? 'Варикоз' : 'Varicose veins'}>{q.men.varicoseOptions.varicose}</option>
+              <option value={locale === 'ru' ? 'Геморрой' : 'Hemorrhoids'}>{q.men.varicoseOptions.hemorrhoids}</option>
+              <option value={locale === 'ru' ? 'Оба' : 'Both'}>{q.men.varicoseOptions.both}</option>
             </select>
           </FormField>
-          <FormField label="Зубы" error={errors.teeth?.message}>
+          <FormField label={q.women.teeth} error={errors.teeth?.message}>
             <select {...register('teeth')}>
-              <option value="">Выберите...</option>
-              <option value="Нет проблем">Нет проблем</option>
-              <option value="Крошатся">Крошатся</option>
-              <option value="Часто портятся">Часто портятся</option>
-              <option value="Запах изо рта">Запах изо рта</option>
-              <option value="Кровоточивость">Кровоточивость</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.teethOptions.noProblems}</option>
+              <option value={locale === 'ru' ? 'Крошатся' : 'Crumbling'}>{q.men.teethOptions.crumbling}</option>
+              <option value={locale === 'ru' ? 'Часто портятся' : 'Deteriorating frequently'}>{q.men.teethOptions.deteriorating}</option>
+              <option value={locale === 'ru' ? 'Запах изо рта' : 'Bad breath'}>{q.men.teethOptions.badBreath}</option>
+              <option value={locale === 'ru' ? 'Кровоточивость' : 'Bleeding'}>{q.men.teethOptions.bleeding}</option>
             </select>
           </FormField>
-          <FormField label="Суставы" error={errors.joints?.message}>
+          <FormField label={q.women.joints} error={errors.joints?.message}>
             <select {...register('joints')}>
-              <option value="">Выберите...</option>
-              <option value="Нет проблем">Нет проблем</option>
-              <option value="Хруст">Хруст</option>
-              <option value="Скрип">Скрип</option>
-              <option value="Воспаление">Воспаление</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.jointsOptions.noProblems}</option>
+              <option value={locale === 'ru' ? 'Хруст' : 'Crunching'}>{q.men.jointsOptions.crunch}</option>
+              <option value={locale === 'ru' ? 'Скрип' : 'Creaking'}>{q.men.jointsOptions.creak}</option>
+              <option value={locale === 'ru' ? 'Воспаление' : 'Inflammation'}>{q.men.jointsOptions.inflammation}</option>
             </select>
           </FormField>
-          <FormField label="Руки-ноги холодные даже летом" error={errors.coldLimbs?.message}>
+          <FormField label={q.men.coldLimbs} error={errors.coldLimbs?.message}>
             <select {...register('coldLimbs')}>
-              <option value="">Выберите...</option>
-              <option value="Да">Да</option>
-              <option value="Нет">Нет</option>
+              <option value="">{q.select}</option>
+              <option value={q.yes}>{q.yes}</option>
+              <option value={q.no}>{q.no}</option>
             </select>
           </FormField>
         </div>
@@ -206,85 +208,85 @@ export default function MenQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.2 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">Здоровье (продолжение)</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.men.healthCont}</h2>
         <div className="space-y-4">
-          <FormField label="Головные боли, мигрени, травмы/сотрясение" error={errors.headaches?.message}>
+          <FormField label={q.men.headaches} error={errors.headaches?.message}>
             <select {...register('headaches')}>
-              <option value="">Выберите...</option>
-              <option value="Нет проблем">Нет проблем</option>
-              <option value="Головные боли">Головные боли</option>
-              <option value="Мигрени">Мигрени</option>
-              <option value="Травмы">Травмы</option>
-              <option value="Сотрясение">Сотрясение</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.headachesOptions.noProblems}</option>
+              <option value={locale === 'ru' ? 'Головные боли' : 'Headaches'}>{q.men.headachesOptions.headaches}</option>
+              <option value={locale === 'ru' ? 'Мигрени' : 'Migraines'}>{q.men.headachesOptions.migraines}</option>
+              <option value={locale === 'ru' ? 'Травмы' : 'Injuries'}>{q.men.headachesOptions.injuries}</option>
+              <option value={locale === 'ru' ? 'Сотрясение' : 'Concussion'}>{q.men.headachesOptions.concussion}</option>
             </select>
           </FormField>
-          <FormField label="Операции" error={errors.operations?.message}>
+          <FormField label={q.men.operations} error={errors.operations?.message}>
             <select {...register('operations')}>
-              <option value="">Выберите...</option>
-              <option value="Да">Да</option>
-              <option value="Нет">Нет</option>
+              <option value="">{q.select}</option>
+              <option value={q.yes}>{q.yes}</option>
+              <option value={q.no}>{q.no}</option>
             </select>
           </FormField>
-          <FormField label="Кисты, песок или камни в почках/желчном" error={errors.stones?.message}>
+          <FormField label={q.men.stones} error={errors.stones?.message}>
             <select {...register('stones')}>
-              <option value="">Выберите...</option>
-              <option value="Нет проблем">Нет проблем</option>
-              <option value="Кисты">Кисты</option>
-              <option value="Песок">Песок</option>
-              <option value="Камни в почках">Камни в почках</option>
-              <option value="Камни в желчном">Камни в желчном</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.stonesOptions.noProblems}</option>
+              <option value={locale === 'ru' ? 'Кисты' : 'Cysts'}>{q.men.stonesOptions.cysts}</option>
+              <option value={locale === 'ru' ? 'Песок' : 'Sand'}>{q.men.stonesOptions.sand}</option>
+              <option value={locale === 'ru' ? 'Камни в почках' : 'Kidney stones'}>{q.men.stonesOptions.kidneyStones}</option>
+              <option value={locale === 'ru' ? 'Камни в желчном' : 'Gallbladder stones'}>{q.men.stonesOptions.gallbladderStones}</option>
             </select>
           </FormField>
-          <FormField label="Давление. Пьете ли таблетки?" error={errors.pressure?.message}>
+          <FormField label={q.men.pressure} error={errors.pressure?.message}>
             <select {...register('pressure')}>
-              <option value="">Выберите...</option>
-              <option value="Низкое">Низкое</option>
-              <option value="Высокое">Высокое</option>
-              <option value="Нормальное">Нормальное</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Низкое' : 'Low'}>{q.men.pressureOptions.low}</option>
+              <option value={locale === 'ru' ? 'Высокое' : 'High'}>{q.men.pressureOptions.high}</option>
+              <option value={locale === 'ru' ? 'Нормальное' : 'Normal'}>{q.men.pressureOptions.normal}</option>
             </select>
           </FormField>
-          <FormField label="Сколько воды в день (литров)" error={errors.waterIntake?.message}>
+          <FormField label={q.men.waterIntake} error={errors.waterIntake?.message}>
             <select {...register('waterIntake')}>
-              <option value="">Выберите...</option>
-              <option value="1 литр">1 литр</option>
-              <option value="1.5 литра">1.5 литра</option>
-              <option value="2 литра">2 литра</option>
-              <option value="2.5 литра">2.5 литра</option>
-              <option value="3 литра">3 литра</option>
-              <option value="3.5 литра">3.5 литра</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? '1 литр' : '1 liter'}>{q.men.waterIntakeOptions.one}</option>
+              <option value={locale === 'ru' ? '1.5 литра' : '1.5 liters'}>{q.men.waterIntakeOptions.oneHalf}</option>
+              <option value={locale === 'ru' ? '2 литра' : '2 liters'}>{q.men.waterIntakeOptions.two}</option>
+              <option value={locale === 'ru' ? '2.5 литра' : '2.5 liters'}>{q.men.waterIntakeOptions.twoHalf}</option>
+              <option value={locale === 'ru' ? '3 литра' : '3 liters'}>{q.men.waterIntakeOptions.three}</option>
+              <option value={locale === 'ru' ? '3.5 литра' : '3.5 liters'}>{q.men.waterIntakeOptions.threeHalf}</option>
             </select>
           </FormField>
-          <FormField label="Родинки, бородавки, герпес" error={errors.moles?.message}>
+          <FormField label={q.men.moles} error={errors.moles?.message}>
             <select {...register('moles')}>
-              <option value="">Выберите...</option>
-              <option value="Нет проблем">Нет проблем</option>
-              <option value="Родинки">Родинки</option>
-              <option value="Папилломы">Папилломы</option>
-              <option value="Красные точки">Красные точки</option>
-              <option value="Герпес">Герпес</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.molesOptions.noProblems}</option>
+              <option value={locale === 'ru' ? 'Родинки' : 'Moles'}>{q.men.molesOptions.moles}</option>
+              <option value={locale === 'ru' ? 'Папилломы' : 'Papillomas'}>{q.men.molesOptions.papillomas}</option>
+              <option value={locale === 'ru' ? 'Красные точки' : 'Red spots'}>{q.men.molesOptions.redSpots}</option>
+              <option value={locale === 'ru' ? 'Герпес' : 'Herpes'}>{q.men.molesOptions.herpes}</option>
             </select>
           </FormField>
-          <FormField label="Аллергия" error={errors.allergies?.message}>
+          <FormField label={q.women.allergies} error={errors.allergies?.message}>
             <select {...register('allergies')}>
-              <option value="">Выберите...</option>
-              <option value="Нет проблем">Нет проблем</option>
-              <option value="Цветение">Цветение</option>
-              <option value="Животные">Животные</option>
-              <option value="Пыль">Пыль</option>
-              <option value="Еда">Еда</option>
-              <option value="Лекарства">Лекарства</option>
-              <option value="Другое">Другое</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.allergiesOptions.noProblems}</option>
+              <option value={locale === 'ru' ? 'Цветение' : 'Pollen'}>{q.men.allergiesOptions.pollen}</option>
+              <option value={locale === 'ru' ? 'Животные' : 'Animals'}>{q.men.allergiesOptions.animals}</option>
+              <option value={locale === 'ru' ? 'Пыль' : 'Dust'}>{q.men.allergiesOptions.dust}</option>
+              <option value={locale === 'ru' ? 'Еда' : 'Food'}>{q.men.allergiesOptions.food}</option>
+              <option value={locale === 'ru' ? 'Лекарства' : 'Medications'}>{q.men.allergiesOptions.medications}</option>
+              <option value={locale === 'ru' ? 'Другое' : 'Other'}>{q.men.allergiesOptions.other}</option>
             </select>
           </FormField>
-          <FormField label="Кожа" error={errors.skin?.message}>
+          <FormField label={q.women.skin} error={errors.skin?.message}>
             <select {...register('skin')}>
-              <option value="">Выберите...</option>
-              <option value="Нет проблем">Нет проблем</option>
-              <option value="Сухая">Сухая</option>
-              <option value="Высыпания">Высыпания</option>
-              <option value="Раздражение">Раздражение</option>
-              <option value="Прыщи">Прыщи</option>
-              <option value="Другое">Другое</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.skinOptions.noProblems}</option>
+              <option value={locale === 'ru' ? 'Сухая' : 'Dry'}>{q.men.skinOptions.dry}</option>
+              <option value={locale === 'ru' ? 'Высыпания' : 'Rashes'}>{q.men.skinOptions.rashes}</option>
+              <option value={locale === 'ru' ? 'Раздражение' : 'Irritation'}>{q.men.skinOptions.irritation}</option>
+              <option value={locale === 'ru' ? 'Прыщи' : 'Acne'}>{q.men.skinOptions.acne}</option>
+              <option value={locale === 'ru' ? 'Другое' : 'Other'}>{q.men.skinOptions.other}</option>
             </select>
           </FormField>
         </div>
@@ -297,59 +299,59 @@ export default function MenQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.3 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">Здоровье (продолжение)</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.men.healthCont}</h2>
         <div className="space-y-4">
-          <FormField label="Сон" error={errors.sleep?.message}>
+          <FormField label={q.women.sleep} error={errors.sleep?.message}>
             <select {...register('sleep')}>
-              <option value="">Выберите...</option>
-              <option value="Хороший">Хороший</option>
-              <option value="Трудно заснуть">Трудно заснуть</option>
-              <option value="Часто просыпаюсь">Часто просыпаюсь</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Хороший' : 'Good'}>{q.men.sleepOptions.good}</option>
+              <option value={locale === 'ru' ? 'Трудно заснуть' : 'Hard to fall asleep'}>{q.men.sleepOptions.hardToFallAsleep}</option>
+              <option value={locale === 'ru' ? 'Часто просыпаюсь' : 'Wake up often'}>{q.men.sleepOptions.wakeUpOften}</option>
             </select>
           </FormField>
-          <FormField label="Энергия" error={errors.energy?.message}>
+          <FormField label={q.women.energy} error={errors.energy?.message}>
             <select {...register('energy')}>
-              <option value="">Выберите...</option>
-              <option value="Нормальная">Нормальная</option>
-              <option value="Сниженная">Сниженная</option>
-              <option value="Очень низкая">Очень низкая</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Нормальная' : 'Normal'}>{q.men.energyOptions.normal}</option>
+              <option value={locale === 'ru' ? 'Сниженная' : 'Reduced'}>{q.men.energyOptions.reduced}</option>
+              <option value={locale === 'ru' ? 'Очень низкая' : 'Very low'}>{q.men.energyOptions.veryLow}</option>
             </select>
           </FormField>
-          <FormField label="Память и концентрация" error={errors.memory?.message}>
+          <FormField label={q.men.memory} error={errors.memory?.message}>
             <select {...register('memory')}>
-              <option value="">Выберите...</option>
-              <option value="Нет проблем">Нет проблем</option>
-              <option value="Плохая память">Плохая память</option>
-              <option value="Плохая концентрация">Плохая концентрация</option>
-              <option value="И память, и концентрация">И память, и концентрация</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.memoryOptions.noProblems}</option>
+              <option value={locale === 'ru' ? 'Плохая память' : 'Bad memory'}>{q.men.memoryOptions.badMemory}</option>
+              <option value={locale === 'ru' ? 'Плохая концентрация' : 'Bad concentration'}>{q.men.memoryOptions.badConcentration}</option>
+              <option value={locale === 'ru' ? 'И память, и концентрация' : 'Both memory and concentration'}>{q.men.memoryOptions.both}</option>
             </select>
           </FormField>
-          <FormField label="Делали ли вы ранее что-то для очищения организма?" error={errors.cleansing?.message}>
-            <textarea {...register('cleansing')} placeholder="Если да, то что?" rows={3} />
+          <FormField label={q.men.cleansing} error={errors.cleansing?.message}>
+            <textarea {...register('cleansing')} placeholder={q.men.cleansingPlaceholder} rows={3} />
           </FormField>
-          <FormField label="Ваша основная проблема, которую хотелось бы решить?" error={errors.mainProblem?.message}>
+          <FormField label={q.men.mainProblem} error={errors.mainProblem?.message}>
             <textarea {...register('mainProblem')} rows={3} />
           </FormField>
-          <FormField label="Что ещё нужно знать о вашем здоровье" error={errors.additional?.message}>
+          <FormField label={q.men.additional} error={errors.additional?.message}>
             <textarea {...register('additional')} rows={4} />
           </FormField>
-          <FormField label="Как вы обо мне узнали?" error={errors.source?.message}>
+          <FormField label={q.men.source} error={errors.source?.message}>
             <select {...register('source')}>
-              <option value="">Выберите...</option>
-              <option value="Инстаграм">Инстаграм</option>
-              <option value="Телеграмм канал">Телеграмм канал</option>
-              <option value="По рекомендации">По рекомендации</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Инстаграм' : 'Instagram'}>{q.men.sourceOptions.instagram}</option>
+              <option value={locale === 'ru' ? 'Телеграмм канал' : 'Telegram channel'}>{q.men.sourceOptions.telegram}</option>
+              <option value={locale === 'ru' ? 'По рекомендации' : 'By recommendation'}>{q.men.sourceOptions.recommendation}</option>
             </select>
           </FormField>
-          <FormField label="Если есть анализы и узи за последние 3 месяца - приложите" error={errors.hasTests?.message}>
+          <FormField label={q.men.hasTests} error={errors.hasTests?.message}>
             <select {...register('hasTests')}>
-              <option value="">Выберите...</option>
-              <option value="Да, есть анализы / УЗИ за последние 2–3 месяца">Да, есть анализы / УЗИ за последние 2–3 месяца</option>
-              <option value="Нет">Нет</option>
+              <option value="">{q.select}</option>
+              <option value={locale === 'ru' ? 'Да, есть анализы / УЗИ за последние 2–3 месяца' : 'Yes, I have tests / ultrasound from the last 2-3 months'}>{q.men.hasTestsOptions.yes}</option>
+              <option value={q.no}>{q.no}</option>
             </select>
           </FormField>
 
-          {hasTests === 'Да, есть анализы / УЗИ за последние 2–3 месяца' && (
+          {hasTests === (locale === 'ru' ? 'Да, есть анализы / УЗИ за последние 2–3 месяца' : 'Yes, I have tests / ultrasound from the last 2-3 months') && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
@@ -358,14 +360,36 @@ export default function MenQuestionnairePage() {
               <FileUpload
                 files={files}
                 onChange={(newFiles) => setValue('files', newFiles)}
-                label="Приложите файлы"
+                label={q.attachFiles}
               />
             </motion.div>
           )}
 
           <div className="mt-6 p-4 bg-primary-50 border border-primary-200 rounded-lg">
-            <p className="text-sm text-medical-700">
-              <strong>Конфиденциальность:</strong> Ваши данные будут отправлены в защищённую группу Telegram. Мы не храним ваши персональные данные на сервере.
+            <h3 className="text-base font-semibold text-medical-900 mb-3">
+              {t.common.gdprTitle}
+            </h3>
+            <p className="text-sm text-medical-700 mb-4 leading-relaxed">
+              {t.common.gdprText}
+            </p>
+            <div className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                id="gdprConsent"
+                {...register('gdprConsent')}
+                className="mt-1 w-5 h-5 border-medical-300 rounded text-primary-600 focus:ring-primary-500 focus:ring-2 cursor-pointer"
+              />
+              <label htmlFor="gdprConsent" className="text-sm text-medical-900 cursor-pointer flex-1">
+                {t.common.gdprConsent} <span className="text-red-500">*</span>
+              </label>
+            </div>
+            {errors.gdprConsent && (
+              <p className="text-sm text-red-600 mt-2">
+                {t.common.gdprRequired}
+              </p>
+            )}
+            <p className="text-xs text-medical-600 mt-4 leading-relaxed">
+              <strong>{q.privacy}:</strong> {q.privacyText}
             </p>
           </div>
         </div>
@@ -376,11 +400,11 @@ export default function MenQuestionnairePage() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.4 }}
-        className="sticky bottom-4 z-10"
+        className="sticky bottom-4 z-10 px-4 sm:px-0"
       >
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !watch('gdprConsent')}
           className="w-full px-6 py-3 bg-primary-600 text-white rounded-lg font-medium shadow-sm hover:bg-primary-700 hover:shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {isSubmitting ? (

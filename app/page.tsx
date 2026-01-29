@@ -28,10 +28,10 @@ export default function HomePage() {
           {t.common.title}
         </h1>
         <p className="text-lg text-medical-700 max-w-2xl mx-auto font-medium mb-2">
-          Дженни, ваш wellness-консультант
+          {t.common.consultant}
         </p>
         <p className="text-base text-medical-600 max-w-2xl mx-auto">
-          Пройдите опрос и узнайте больше о своём здоровье
+          {t.common.subtitle}
         </p>
       </motion.div>
 
@@ -55,7 +55,7 @@ export default function HomePage() {
                   </h2>
                 </div>
                 <p className="text-sm text-medical-600">
-                  Пройти анкету →
+                  {t.common.takeQuestionnaire} →
                 </p>
               </div>
             </Link>

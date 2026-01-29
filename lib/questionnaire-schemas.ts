@@ -8,6 +8,9 @@ const personalDataSchema = z.object({
   weight: z.string().min(1, 'Вес обязателен'),
   country: z.string().min(1, 'Страна обязательна'),
   city: z.string().min(1, 'Город обязателен'),
+  gdprConsent: z.boolean().refine((val) => val === true, {
+    message: 'Необходимо дать согласие на обработку персональных данных',
+  }),
 });
 
 // Women's questionnaire schema
@@ -81,6 +84,9 @@ export const infantQuestionnaireSchema = z.object({
   weight: z.string().min(1, 'Вес обязателен'),
   country: z.string().min(1, 'Страна обязательна'),
   city: z.string().min(1, 'Город обязателен'),
+  gdprConsent: z.boolean().refine((val) => val === true, {
+    message: 'Необходимо дать согласие на обработку персональных данных',
+  }),
   digestion: z.string().optional(),
   nightSweating: z.string().optional(),
   badBreath: z.string().optional(),
@@ -109,6 +115,9 @@ export const infantQuestionnaireSchema = z.object({
 export const childQuestionnaireSchema = z.object({
   age: z.string().min(1, 'Возраст обязателен'),
   weight: z.string().min(1, 'Вес обязателен'),
+  gdprConsent: z.boolean().refine((val) => val === true, {
+    message: 'Необходимо дать согласие на обработку персональных данных',
+  }),
   digestion: z.string().optional(),
   teeth: z.string().optional(),
   nightSweating: z.string().optional(),
