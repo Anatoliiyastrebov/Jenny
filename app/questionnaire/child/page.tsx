@@ -137,10 +137,23 @@ export default function ChildQuestionnairePage() {
         <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.infant.health}</h2>
         <div className="space-y-4">
           <FormField label={q.women.digestion} required error={errors.digestion?.message}>
-            <textarea {...register('digestion')} placeholder={q.child.digestionPlaceholder} rows={3} />
+            <select {...register('digestion')}>
+              <option value="">{q.select}</option>
+              <option value={q.child.digestionOptions.noProblems}>{q.child.digestionOptions.noProblems}</option>
+              <option value={q.child.digestionOptions.stomachPain}>{q.child.digestionOptions.stomachPain}</option>
+              <option value={q.child.digestionOptions.diarrhea}>{q.child.digestionOptions.diarrhea}</option>
+              <option value={q.child.digestionOptions.constipation}>{q.child.digestionOptions.constipation}</option>
+              <option value={q.child.digestionOptions.other}>{q.child.digestionOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.teeth} required error={errors.teeth?.message}>
-            <textarea {...register('teeth')} placeholder={q.child.teethPlaceholder} rows={2} />
+            <select {...register('teeth')}>
+              <option value="">{q.select}</option>
+              <option value={q.child.teethOptions.noProblems}>{q.child.teethOptions.noProblems}</option>
+              <option value={q.child.teethOptions.deteriorating}>{q.child.teethOptions.deteriorating}</option>
+              <option value={q.child.teethOptions.badBreath}>{q.child.teethOptions.badBreath}</option>
+              <option value={q.child.teethOptions.other}>{q.child.teethOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.child.nightSweating} required error={errors.nightSweating?.message}>
             <select {...register('nightSweating')}>
@@ -179,7 +192,16 @@ export default function ChildQuestionnairePage() {
             </select>
           </FormField>
           <FormField label={q.women.allergies} required error={errors.allergies?.message}>
-            <textarea {...register('allergies')} placeholder={q.child.allergiesPlaceholder} rows={2} />
+            <select {...register('allergies')}>
+              <option value="">{q.select}</option>
+              <option value={q.child.allergiesOptions.no}>{q.child.allergiesOptions.no}</option>
+              <option value={q.child.allergiesOptions.pollen}>{q.child.allergiesOptions.pollen}</option>
+              <option value={q.child.allergiesOptions.animals}>{q.child.allergiesOptions.animals}</option>
+              <option value={q.child.allergiesOptions.dust}>{q.child.allergiesOptions.dust}</option>
+              <option value={q.child.allergiesOptions.food}>{q.child.allergiesOptions.food}</option>
+              <option value={q.child.allergiesOptions.medications}>{q.child.allergiesOptions.medications}</option>
+              <option value={q.child.allergiesOptions.other}>{q.child.allergiesOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.child.hyperactivity} required error={errors.hyperactivity?.message}>
             <select {...register('hyperactivity')}>
@@ -190,7 +212,15 @@ export default function ChildQuestionnairePage() {
             </select>
           </FormField>
           <FormField label={q.child.waterIntake} required error={errors.waterIntake?.message}>
-            <input type="number" {...register('waterIntake')} placeholder={q.child.waterIntakePlaceholder} />
+            <select {...register('waterIntake')}>
+              <option value="">{q.select}</option>
+              <option value={q.child.waterIntakeOptions.lessThan200}>{q.child.waterIntakeOptions.lessThan200}</option>
+              <option value={q.child.waterIntakeOptions.twoHundred}>{q.child.waterIntakeOptions.twoHundred}</option>
+              <option value={q.child.waterIntakeOptions.threeHundred}>{q.child.waterIntakeOptions.threeHundred}</option>
+              <option value={q.child.waterIntakeOptions.fiveHundred}>{q.child.waterIntakeOptions.fiveHundred}</option>
+              <option value={q.child.waterIntakeOptions.sevenHundred}>{q.child.waterIntakeOptions.sevenHundred}</option>
+              <option value={q.child.waterIntakeOptions.moreThanThousand}>{q.child.waterIntakeOptions.moreThanThousand}</option>
+            </select>
           </FormField>
         </div>
       </motion.section>
@@ -205,7 +235,16 @@ export default function ChildQuestionnairePage() {
         <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.child.injuries}</h2>
         <div className="space-y-4">
           <FormField label={q.child.injuriesLabel} required error={errors.injuries?.message}>
-            <textarea {...register('injuries')} rows={3} />
+            <select {...register('injuries')}>
+              <option value="">{q.select}</option>
+              <option value={q.child.injuriesOptions.no}>{q.child.injuriesOptions.no}</option>
+              <option value={q.child.injuriesOptions.injuries}>{q.child.injuriesOptions.injuries}</option>
+              <option value={q.child.injuriesOptions.operations}>{q.child.injuriesOptions.operations}</option>
+              <option value={q.child.injuriesOptions.headInjuries}>{q.child.injuriesOptions.headInjuries}</option>
+              <option value={q.child.injuriesOptions.falls}>{q.child.injuriesOptions.falls}</option>
+              <option value={q.child.injuriesOptions.fractures}>{q.child.injuriesOptions.fractures}</option>
+              <option value={q.child.injuriesOptions.other}>{q.child.injuriesOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.child.headaches} required error={errors.headaches?.message}>
             <select {...register('headaches')}>
@@ -217,10 +256,27 @@ export default function ChildQuestionnairePage() {
             </select>
           </FormField>
           <FormField label={q.child.illnesses} required error={errors.illnesses?.message}>
-            <textarea {...register('illnesses')} rows={3} />
+            <select {...register('illnesses')}>
+              <option value="">{q.select}</option>
+              <option value={q.child.illnessesOptions.rarely}>{q.child.illnessesOptions.rarely}</option>
+              <option value={q.child.illnessesOptions.sometimes}>{q.child.illnessesOptions.sometimes}</option>
+              <option value={q.child.illnessesOptions.often}>{q.child.illnessesOptions.often}</option>
+              <option value={q.child.illnessesOptions.veryOften}>{q.child.illnessesOptions.veryOften}</option>
+              <option value={q.child.illnessesOptions.antibiotics}>{q.child.illnessesOptions.antibiotics}</option>
+              <option value={q.child.illnessesOptions.medications}>{q.child.illnessesOptions.medications}</option>
+              <option value={q.child.illnessesOptions.both}>{q.child.illnessesOptions.both}</option>
+              <option value={q.child.illnessesOptions.other}>{q.child.illnessesOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.joints} required error={errors.joints?.message}>
-            <textarea {...register('joints')} placeholder={q.child.jointsPlaceholder} rows={3} />
+            <select {...register('joints')}>
+              <option value="">{q.select}</option>
+              <option value={q.child.jointsOptions.noProblems}>{q.child.jointsOptions.noProblems}</option>
+              <option value={q.child.jointsOptions.legPain}>{q.child.jointsOptions.legPain}</option>
+              <option value={q.child.jointsOptions.massage}>{q.child.jointsOptions.massage}</option>
+              <option value={q.child.jointsOptions.wantsToBeCarried}>{q.child.jointsOptions.wantsToBeCarried}</option>
+              <option value={q.child.jointsOptions.other}>{q.child.jointsOptions.other}</option>
+            </select>
           </FormField>
         </div>
       </motion.section>

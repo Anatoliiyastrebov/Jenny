@@ -180,7 +180,15 @@ export default function InfantQuestionnairePage() {
             </select>
           </FormField>
           <FormField label={q.infant.waterIntake} required error={errors.waterIntake?.message}>
-            <input type="number" {...register('waterIntake')} placeholder={q.infant.waterIntakePlaceholder} />
+            <select {...register('waterIntake')}>
+              <option value="">{q.select}</option>
+              <option value={q.infant.waterIntakeOptions.lessThan200}>{q.infant.waterIntakeOptions.lessThan200}</option>
+              <option value={q.infant.waterIntakeOptions.twoHundred}>{q.infant.waterIntakeOptions.twoHundred}</option>
+              <option value={q.infant.waterIntakeOptions.threeHundred}>{q.infant.waterIntakeOptions.threeHundred}</option>
+              <option value={q.infant.waterIntakeOptions.fiveHundred}>{q.infant.waterIntakeOptions.fiveHundred}</option>
+              <option value={q.infant.waterIntakeOptions.sevenHundred}>{q.infant.waterIntakeOptions.sevenHundred}</option>
+              <option value={q.infant.waterIntakeOptions.moreThanThousand}>{q.infant.waterIntakeOptions.moreThanThousand}</option>
+            </select>
           </FormField>
         </div>
       </motion.section>
@@ -206,7 +214,11 @@ export default function InfantQuestionnairePage() {
             </select>
           </FormField>
           <FormField label={q.infant.injuriesDetails} required error={errors.injuriesDetails?.message}>
-            <textarea {...register('injuriesDetails')} rows={3} />
+            <select {...register('injuriesDetails')}>
+              <option value="">{q.select}</option>
+              <option value={q.infant.injuriesDetailsOptions.no}>{q.infant.injuriesDetailsOptions.no}</option>
+              <option value={q.infant.injuriesDetailsOptions.yes}>{q.infant.injuriesDetailsOptions.yes}</option>
+            </select>
           </FormField>
           <FormField label={q.infant.sleep} required error={errors.sleep?.message}>
             <select {...register('sleep')}>

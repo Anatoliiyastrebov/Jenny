@@ -334,7 +334,16 @@ export default function MenQuestionnairePage() {
             </select>
           </FormField>
           <FormField label={q.men.cleansing} required error={errors.cleansing?.message}>
-            <textarea {...register('cleansing')} placeholder={q.men.cleansingPlaceholder} rows={3} />
+            <select {...register('cleansing')}>
+              <option value="">{q.select}</option>
+              <option value={q.men.cleansingOptions.no}>{q.men.cleansingOptions.no}</option>
+              <option value={q.men.cleansingOptions.yes}>{q.men.cleansingOptions.yes}</option>
+              <option value={q.men.cleansingOptions.detox}>{q.men.cleansingOptions.detox}</option>
+              <option value={q.men.cleansingOptions.fasting}>{q.men.cleansingOptions.fasting}</option>
+              <option value={q.men.cleansingOptions.enemas}>{q.men.cleansingOptions.enemas}</option>
+              <option value={q.men.cleansingOptions.herbs}>{q.men.cleansingOptions.herbs}</option>
+              <option value={q.men.cleansingOptions.other}>{q.men.cleansingOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.men.mainProblem} required error={errors.mainProblem?.message}>
             <textarea {...register('mainProblem')} rows={3} />

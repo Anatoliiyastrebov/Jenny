@@ -136,7 +136,16 @@ export default function WomenQuestionnairePage() {
         </h2>
         <div className="space-y-4">
           <FormField label={q.women.waterIntake} required error={errors.waterIntake?.message}>
-            <input {...register('waterIntake')} placeholder={q.women.waterIntakePlaceholder} />
+            <select {...register('waterIntake')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.waterIntakeOptions.lessThanOne}>{q.women.waterIntakeOptions.lessThanOne}</option>
+              <option value={q.women.waterIntakeOptions.one}>{q.women.waterIntakeOptions.one}</option>
+              <option value={q.women.waterIntakeOptions.oneHalf}>{q.women.waterIntakeOptions.oneHalf}</option>
+              <option value={q.women.waterIntakeOptions.two}>{q.women.waterIntakeOptions.two}</option>
+              <option value={q.women.waterIntakeOptions.twoHalf}>{q.women.waterIntakeOptions.twoHalf}</option>
+              <option value={q.women.waterIntakeOptions.three}>{q.women.waterIntakeOptions.three}</option>
+              <option value={q.women.waterIntakeOptions.moreThanThree}>{q.women.waterIntakeOptions.moreThanThree}</option>
+            </select>
           </FormField>
           <FormField label={q.women.covid} required error={errors.covid?.message}>
             <select {...register('covid')}>
@@ -148,7 +157,17 @@ export default function WomenQuestionnairePage() {
             </select>
           </FormField>
           <FormField label={q.women.covidComplications} required error={errors.covidComplications?.message}>
-            <textarea {...register('covidComplications')} placeholder={q.women.covidComplicationsPlaceholder} rows={3} />
+            <select {...register('covidComplications')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.covidComplicationsOptions.no}>{q.women.covidComplicationsOptions.no}</option>
+              <option value={q.women.covidComplicationsOptions.hairLoss}>{q.women.covidComplicationsOptions.hairLoss}</option>
+              <option value={q.women.covidComplicationsOptions.heartProblems}>{q.women.covidComplicationsOptions.heartProblems}</option>
+              <option value={q.women.covidComplicationsOptions.joints}>{q.women.covidComplicationsOptions.joints}</option>
+              <option value={q.women.covidComplicationsOptions.memoryLoss}>{q.women.covidComplicationsOptions.memoryLoss}</option>
+              <option value={q.women.covidComplicationsOptions.panicAttacks}>{q.women.covidComplicationsOptions.panicAttacks}</option>
+              <option value={q.women.covidComplicationsOptions.sleepProblems}>{q.women.covidComplicationsOptions.sleepProblems}</option>
+              <option value={q.women.covidComplicationsOptions.other}>{q.women.covidComplicationsOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.hair} required error={errors.hair?.message}>
             <select {...register('hair')}>
@@ -171,7 +190,19 @@ export default function WomenQuestionnairePage() {
             </select>
           </FormField>
           <FormField label={q.women.digestion} required error={errors.digestion?.message}>
-            <textarea {...register('digestion')} placeholder={q.women.digestionPlaceholder} rows={3} />
+            <select {...register('digestion')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.digestionOptions.noProblems}>{q.women.digestionOptions.noProblems}</option>
+              <option value={q.women.digestionOptions.heartburn}>{q.women.digestionOptions.heartburn}</option>
+              <option value={q.women.digestionOptions.bitterness}>{q.women.digestionOptions.bitterness}</option>
+              <option value={q.women.digestionOptions.bloating}>{q.women.digestionOptions.bloating}</option>
+              <option value={q.women.digestionOptions.heaviness}>{q.women.digestionOptions.heaviness}</option>
+              <option value={q.women.digestionOptions.gas}>{q.women.digestionOptions.gas}</option>
+              <option value={q.women.digestionOptions.diarrhea}>{q.women.digestionOptions.diarrhea}</option>
+              <option value={q.women.digestionOptions.constipation}>{q.women.digestionOptions.constipation}</option>
+              <option value={q.women.digestionOptions.pancreatitis}>{q.women.digestionOptions.pancreatitis}</option>
+              <option value={q.women.digestionOptions.other}>{q.women.digestionOptions.other}</option>
+            </select>
           </FormField>
         </div>
       </motion.section>
@@ -188,19 +219,62 @@ export default function WomenQuestionnairePage() {
         </h2>
         <div className="space-y-4">
           <FormField label={q.women.stones} required error={errors.stones?.message}>
-            <textarea {...register('stones')} placeholder={q.women.stonesPlaceholder} rows={2} />
+            <select {...register('stones')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.stonesOptions.no}>{q.women.stonesOptions.no}</option>
+              <option value={q.women.stonesOptions.sand}>{q.women.stonesOptions.sand}</option>
+              <option value={q.women.stonesOptions.smallStones}>{q.women.stonesOptions.smallStones}</option>
+              <option value={q.women.stonesOptions.mediumStones}>{q.women.stonesOptions.mediumStones}</option>
+              <option value={q.women.stonesOptions.largeStones}>{q.women.stonesOptions.largeStones}</option>
+              <option value={q.women.stonesOptions.other}>{q.women.stonesOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.operations} required error={errors.operations?.message}>
-            <textarea {...register('operations')} placeholder={q.women.operationsPlaceholder} rows={3} />
+            <select {...register('operations')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.operationsOptions.no}>{q.women.operationsOptions.no}</option>
+              <option value={q.women.operationsOptions.yes}>{q.women.operationsOptions.yes}</option>
+              <option value={q.women.operationsOptions.organRemoved}>{q.women.operationsOptions.organRemoved}</option>
+              <option value={q.women.operationsOptions.injuries}>{q.women.operationsOptions.injuries}</option>
+              <option value={q.women.operationsOptions.other}>{q.women.operationsOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.pressure} required error={errors.pressure?.message}>
-            <textarea {...register('pressure')} placeholder={q.women.pressurePlaceholder} rows={2} />
+            <select {...register('pressure')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.pressureOptions.normal}>{q.women.pressureOptions.normal}</option>
+              <option value={q.women.pressureOptions.low}>{q.women.pressureOptions.low}</option>
+              <option value={q.women.pressureOptions.high}>{q.women.pressureOptions.high}</option>
+              <option value={q.women.pressureOptions.highWithMedication}>{q.women.pressureOptions.highWithMedication}</option>
+              <option value={q.women.pressureOptions.highWithoutMedication}>{q.women.pressureOptions.highWithoutMedication}</option>
+              <option value={q.women.pressureOptions.other}>{q.women.pressureOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.chronicDiseases} required error={errors.chronicDiseases?.message}>
-            <textarea {...register('chronicDiseases')} placeholder={q.women.chronicDiseasesPlaceholder} rows={2} />
+            <select {...register('chronicDiseases')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.chronicDiseasesOptions.no}>{q.women.chronicDiseasesOptions.no}</option>
+              <option value={q.women.chronicDiseasesOptions.diabetes}>{q.women.chronicDiseasesOptions.diabetes}</option>
+              <option value={q.women.chronicDiseasesOptions.thyroiditis}>{q.women.chronicDiseasesOptions.thyroiditis}</option>
+              <option value={q.women.chronicDiseasesOptions.arthritis}>{q.women.chronicDiseasesOptions.arthritis}</option>
+              <option value={q.women.chronicDiseasesOptions.psoriasis}>{q.women.chronicDiseasesOptions.psoriasis}</option>
+              <option value={q.women.chronicDiseasesOptions.other}>{q.women.chronicDiseasesOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.headaches} required error={errors.headaches?.message}>
-            <textarea {...register('headaches')} placeholder={q.women.headachesPlaceholder} rows={3} />
+            <select {...register('headaches')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.headachesOptions.no}>{q.women.headachesOptions.no}</option>
+              <option value={q.women.headachesOptions.headaches}>{q.women.headachesOptions.headaches}</option>
+              <option value={q.women.headachesOptions.migraines}>{q.women.headachesOptions.migraines}</option>
+              <option value={q.women.headachesOptions.weatherDependent}>{q.women.headachesOptions.weatherDependent}</option>
+              <option value={q.women.headachesOptions.concussion}>{q.women.headachesOptions.concussion}</option>
+              <option value={q.women.headachesOptions.headInjuries}>{q.women.headachesOptions.headInjuries}</option>
+              <option value={q.women.headachesOptions.tinnitus}>{q.women.headachesOptions.tinnitus}</option>
+              <option value={q.women.headachesOptions.floaters}>{q.women.headachesOptions.floaters}</option>
+              <option value={q.women.headachesOptions.dizziness}>{q.women.headachesOptions.dizziness}</option>
+              <option value={q.women.headachesOptions.other}>{q.women.headachesOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.numbness} required error={errors.numbness?.message}>
             <select {...register('numbness')}>
@@ -236,13 +310,46 @@ export default function WomenQuestionnairePage() {
             </select>
           </FormField>
           <FormField label={q.women.joints} required error={errors.joints?.message}>
-            <textarea {...register('joints')} placeholder={q.women.jointsPlaceholder} rows={3} />
+            <select {...register('joints')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.jointsOptions.noProblems}>{q.women.jointsOptions.noProblems}</option>
+              <option value={q.women.jointsOptions.creaking}>{q.women.jointsOptions.creaking}</option>
+              <option value={q.women.jointsOptions.crunching}>{q.women.jointsOptions.crunching}</option>
+              <option value={q.women.jointsOptions.inflammation}>{q.women.jointsOptions.inflammation}</option>
+              <option value={q.women.jointsOptions.arthrosis1}>{q.women.jointsOptions.arthrosis1}</option>
+              <option value={q.women.jointsOptions.arthrosis2}>{q.women.jointsOptions.arthrosis2}</option>
+              <option value={q.women.jointsOptions.arthrosis3}>{q.women.jointsOptions.arthrosis3}</option>
+              <option value={q.women.jointsOptions.backPain}>{q.women.jointsOptions.backPain}</option>
+              <option value={q.women.jointsOptions.lowerBackPain}>{q.women.jointsOptions.lowerBackPain}</option>
+              <option value={q.women.jointsOptions.kneePain}>{q.women.jointsOptions.kneePain}</option>
+              <option value={q.women.jointsOptions.other}>{q.women.jointsOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.cysts} required error={errors.cysts?.message}>
-            <textarea {...register('cysts')} placeholder={q.women.cystsPlaceholder} rows={2} />
+            <select {...register('cysts')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.cystsOptions.no}>{q.women.cystsOptions.no}</option>
+              <option value={q.women.cystsOptions.cysts}>{q.women.cystsOptions.cysts}</option>
+              <option value={q.women.cystsOptions.polyps}>{q.women.cystsOptions.polyps}</option>
+              <option value={q.women.cystsOptions.fibroids}>{q.women.cystsOptions.fibroids}</option>
+              <option value={q.women.cystsOptions.tumors}>{q.women.cystsOptions.tumors}</option>
+              <option value={q.women.cystsOptions.hernias}>{q.women.cystsOptions.hernias}</option>
+              <option value={q.women.cystsOptions.other}>{q.women.cystsOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.herpes} required error={errors.herpes?.message}>
-            <textarea {...register('herpes')} placeholder={q.women.herpesPlaceholder} rows={2} />
+            <select {...register('herpes')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.herpesOptions.no}>{q.women.herpesOptions.no}</option>
+              <option value={q.women.herpesOptions.herpes}>{q.women.herpesOptions.herpes}</option>
+              <option value={q.women.herpesOptions.papillomas}>{q.women.herpesOptions.papillomas}</option>
+              <option value={q.women.herpesOptions.moles}>{q.women.herpesOptions.moles}</option>
+              <option value={q.women.herpesOptions.warts}>{q.women.herpesOptions.warts}</option>
+              <option value={q.women.herpesOptions.redSpots}>{q.women.herpesOptions.redSpots}</option>
+              <option value={q.women.herpesOptions.discharge}>{q.women.herpesOptions.discharge}</option>
+              <option value={q.women.herpesOptions.cystitis}>{q.women.herpesOptions.cystitis}</option>
+              <option value={q.women.herpesOptions.other}>{q.women.herpesOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.menstruation} required error={errors.menstruation?.message}>
             <select {...register('menstruation')}>
@@ -255,7 +362,17 @@ export default function WomenQuestionnairePage() {
             </select>
           </FormField>
           <FormField label={q.women.lifestyle} required error={errors.lifestyle?.message}>
-            <textarea {...register('lifestyle')} placeholder={q.women.lifestylePlaceholder} rows={3} />
+            <select {...register('lifestyle')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.lifestyleOptions.sedentary}>{q.women.lifestyleOptions.sedentary}</option>
+              <option value={q.women.lifestyleOptions.regularSport}>{q.women.lifestyleOptions.regularSport}</option>
+              <option value={q.women.lifestyleOptions.homeGymnastics}>{q.women.lifestyleOptions.homeGymnastics}</option>
+              <option value={q.women.lifestyleOptions.coldWater}>{q.women.lifestyleOptions.coldWater}</option>
+              <option value={q.women.lifestyleOptions.stressfulWork}>{q.women.lifestyleOptions.stressfulWork}</option>
+              <option value={q.women.lifestyleOptions.physicalWork}>{q.women.lifestyleOptions.physicalWork}</option>
+              <option value={q.women.lifestyleOptions.toxicSubstances}>{q.women.lifestyleOptions.toxicSubstances}</option>
+              <option value={q.women.lifestyleOptions.other}>{q.women.lifestyleOptions.other}</option>
+            </select>
           </FormField>
         </div>
       </motion.section>
@@ -272,13 +389,44 @@ export default function WomenQuestionnairePage() {
         </h2>
         <div className="space-y-4">
           <FormField label={q.women.skin} required error={errors.skin?.message}>
-            <textarea {...register('skin')} placeholder={q.women.skinPlaceholder} rows={2} />
+            <select {...register('skin')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.skinOptions.noProblems}>{q.women.skinOptions.noProblems}</option>
+              <option value={q.women.skinOptions.acne}>{q.women.skinOptions.acne}</option>
+              <option value={q.women.skinOptions.boils}>{q.women.skinOptions.boils}</option>
+              <option value={q.women.skinOptions.acneCondition}>{q.women.skinOptions.acneCondition}</option>
+              <option value={q.women.skinOptions.irritation}>{q.women.skinOptions.irritation}</option>
+              <option value={q.women.skinOptions.rosacea}>{q.women.skinOptions.rosacea}</option>
+              <option value={q.women.skinOptions.psoriasis}>{q.women.skinOptions.psoriasis}</option>
+              <option value={q.women.skinOptions.dermatitis}>{q.women.skinOptions.dermatitis}</option>
+              <option value={q.women.skinOptions.eczema}>{q.women.skinOptions.eczema}</option>
+              <option value={q.women.skinOptions.other}>{q.women.skinOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.allergies} required error={errors.allergies?.message}>
-            <textarea {...register('allergies')} placeholder={q.women.allergiesPlaceholder} rows={2} />
+            <select {...register('allergies')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.allergiesOptions.no}>{q.women.allergiesOptions.no}</option>
+              <option value={q.women.allergiesOptions.pollen}>{q.women.allergiesOptions.pollen}</option>
+              <option value={q.women.allergiesOptions.food}>{q.women.allergiesOptions.food}</option>
+              <option value={q.women.allergiesOptions.animals}>{q.women.allergiesOptions.animals}</option>
+              <option value={q.women.allergiesOptions.dust}>{q.women.allergiesOptions.dust}</option>
+              <option value={q.women.allergiesOptions.medications}>{q.women.allergiesOptions.medications}</option>
+              <option value={q.women.allergiesOptions.other}>{q.women.allergiesOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.colds} required error={errors.colds?.message}>
-            <textarea {...register('colds')} placeholder={q.women.coldsPlaceholder} rows={2} />
+            <select {...register('colds')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.coldsOptions.rarely}>{q.women.coldsOptions.rarely}</option>
+              <option value={q.women.coldsOptions.sometimes}>{q.women.coldsOptions.sometimes}</option>
+              <option value={q.women.coldsOptions.often}>{q.women.coldsOptions.often}</option>
+              <option value={q.women.coldsOptions.veryOften}>{q.women.coldsOptions.veryOften}</option>
+              <option value={q.women.coldsOptions.antibiotics}>{q.women.coldsOptions.antibiotics}</option>
+              <option value={q.women.coldsOptions.antipyretics}>{q.women.coldsOptions.antipyretics}</option>
+              <option value={q.women.coldsOptions.both}>{q.women.coldsOptions.both}</option>
+              <option value={q.women.coldsOptions.other}>{q.women.coldsOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.sleep} required error={errors.sleep?.message}>
             <select {...register('sleep')}>
@@ -299,13 +447,37 @@ export default function WomenQuestionnairePage() {
             </select>
           </FormField>
           <FormField label={q.women.memory} required error={errors.memory?.message}>
-            <textarea {...register('memory')} placeholder={q.women.memoryPlaceholder} rows={3} />
+            <select {...register('memory')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.memoryOptions.noProblems}>{q.women.memoryOptions.noProblems}</option>
+              <option value={q.women.memoryOptions.slowing}>{q.women.memoryOptions.slowing}</option>
+              <option value={q.women.memoryOptions.concentration}>{q.women.memoryOptions.concentration}</option>
+              <option value={q.women.memoryOptions.rememberNames}>{q.women.memoryOptions.rememberNames}</option>
+              <option value={q.women.memoryOptions.rememberEvents}>{q.women.memoryOptions.rememberEvents}</option>
+              <option value={q.women.memoryOptions.rememberInfo}>{q.women.memoryOptions.rememberInfo}</option>
+              <option value={q.women.memoryOptions.other}>{q.women.memoryOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.medications} required error={errors.medications?.message}>
-            <textarea {...register('medications')} placeholder={q.women.medicationsPlaceholder} rows={2} />
+            <select {...register('medications')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.medicationsOptions.no}>{q.women.medicationsOptions.no}</option>
+              <option value={q.women.medicationsOptions.yes}>{q.women.medicationsOptions.yes}</option>
+              <option value={q.women.medicationsOptions.specify}>{q.women.medicationsOptions.specify}</option>
+              <option value={q.women.medicationsOptions.other}>{q.women.medicationsOptions.other}</option>
+            </select>
           </FormField>
           <FormField label={q.women.cleansing} required error={errors.cleansing?.message}>
-            <textarea {...register('cleansing')} placeholder={q.women.cleansingPlaceholder} rows={2} />
+            <select {...register('cleansing')}>
+              <option value="">{q.select}</option>
+              <option value={q.women.cleansingOptions.no}>{q.women.cleansingOptions.no}</option>
+              <option value={q.women.cleansingOptions.yes}>{q.women.cleansingOptions.yes}</option>
+              <option value={q.women.cleansingOptions.detox}>{q.women.cleansingOptions.detox}</option>
+              <option value={q.women.cleansingOptions.fasting}>{q.women.cleansingOptions.fasting}</option>
+              <option value={q.women.cleansingOptions.enemas}>{q.women.cleansingOptions.enemas}</option>
+              <option value={q.women.cleansingOptions.herbs}>{q.women.cleansingOptions.herbs}</option>
+              <option value={q.women.cleansingOptions.other}>{q.women.cleansingOptions.other}</option>
+            </select>
           </FormField>
         </div>
       </motion.section>
