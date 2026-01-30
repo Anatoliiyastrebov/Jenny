@@ -80,6 +80,7 @@ export const menQuestionnaireSchema = personalDataSchema.extend({
 // Infant questionnaire schema
 export const infantQuestionnaireSchema = z.object({
   firstName: z.string().min(1, 'Имя обязательно'),
+  lastName: z.string().min(1, 'Фамилия обязательна'),
   ageMonths: z.string().min(1, 'Возраст обязателен'),
   weight: z.string().min(1, 'Вес обязателен'),
   country: z.string().min(1, 'Страна обязательна'),

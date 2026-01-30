@@ -109,6 +109,9 @@ export default function InfantQuestionnairePage() {
           <FormField label={q.firstName} required error={errors.firstName?.message}>
             <input {...register('firstName')} />
           </FormField>
+          <FormField label={q.lastName} required error={errors.lastName?.message}>
+            <input {...register('lastName')} />
+          </FormField>
           <FormField label={q.infant.ageMonths} required error={errors.ageMonths?.message}>
             <input type="number" {...register('ageMonths')} />
           </FormField>
