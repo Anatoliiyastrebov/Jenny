@@ -82,26 +82,21 @@ export async function POST(request: NextRequest) {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        // Use form-data package (already installed) for proper multipart/form-data encoding
-        // This is required for Telegram API compatibility
-        const FormDataModule = await import('form-data');
-        const FormData = FormDataModule.default;
-        const telegramFormData = new FormData();
+        // Create FormData using built-in FormData (Node.js 18+)
+        // Convert buffer to Blob for FormData
+        const fileBlob = new Blob([buffer], { type: file.type || 'application/octet-stream' });
+        const fileForFormData = new File([fileBlob], file.name, { type: file.type || 'application/octet-stream' });
         
+        const telegramFormData = new FormData();
         telegramFormData.append('chat_id', chatId);
-        telegramFormData.append('document', buffer, {
-          filename: file.name,
-          contentType: file.type || 'application/octet-stream',
-        });
+        telegramFormData.append('document', fileForFormData);
 
         // Send file to Telegram
         const fileResponse = await fetch(
           `https://api.telegram.org/bot${botToken}/sendDocument`,
           {
             method: 'POST',
-            // @ts-ignore - form-data sets headers automatically
-            body: telegramFormData as any,
-            headers: telegramFormData.getHeaders(),
+            body: telegramFormData,
           }
         );
 
