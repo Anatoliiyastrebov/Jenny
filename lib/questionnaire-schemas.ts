@@ -113,8 +113,12 @@ export const infantQuestionnaireSchema = z.object({
 
 // Child questionnaire schema
 export const childQuestionnaireSchema = z.object({
+  firstName: z.string().min(1, 'Имя обязательно'),
+  lastName: z.string().optional(),
   age: z.string().min(1, 'Возраст обязателен'),
   weight: z.string().min(1, 'Вес обязателен'),
+  country: z.string().min(1, 'Страна обязательна'),
+  city: z.string().min(1, 'Город обязателен'),
   gdprConsent: z.boolean().refine((val) => val === true, {
     message: 'Необходимо дать согласие на обработку персональных данных',
   }),
@@ -130,6 +134,7 @@ export const childQuestionnaireSchema = z.object({
   headaches: z.string().optional(),
   illnesses: z.string().optional(),
   joints: z.string().optional(),
+  mainProblem: z.string().optional(),
   additional: z.string().optional(),
   source: z.string().optional(),
   hasTests: z.string().optional(),

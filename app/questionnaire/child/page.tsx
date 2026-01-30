@@ -90,20 +90,32 @@ export default function ChildQuestionnairePage() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-      {/* Основная информация */}
+      {/* Личные данные */}
       <motion.section
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.child.mainInfo}</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.infant.personalData}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <FormField label={q.firstName} required error={errors.firstName?.message}>
+            <input {...register('firstName')} />
+          </FormField>
+          <FormField label={q.lastName} error={errors.lastName?.message}>
+            <input {...register('lastName')} />
+          </FormField>
           <FormField label={q.child.childAge} required error={errors.age?.message}>
             <input type="number" {...register('age')} />
           </FormField>
           <FormField label={q.child.childWeight} required error={errors.weight?.message}>
             <input type="number" step="0.1" {...register('weight')} />
+          </FormField>
+          <FormField label={q.country} required error={errors.country?.message}>
+            <input {...register('country')} />
+          </FormField>
+          <FormField label={q.city} required error={errors.city?.message}>
+            <input {...register('city')} />
           </FormField>
         </div>
         <div className="space-y-4 mt-4">
@@ -205,6 +217,9 @@ export default function ChildQuestionnairePage() {
       >
         <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.child.completion}</h2>
         <div className="space-y-4">
+          <FormField label={q.men.mainProblem} error={errors.mainProblem?.message}>
+            <textarea {...register('mainProblem')} rows={3} />
+          </FormField>
           <FormField label={q.child.additional} error={errors.additional?.message}>
             <textarea {...register('additional')} rows={4} />
           </FormField>
