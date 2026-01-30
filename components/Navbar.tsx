@@ -42,8 +42,9 @@ export function Navbar() {
         
         const logoWidth = logoElement?.getBoundingClientRect().width || 200;
         const languageSwitcherWidth = languageSwitcherElement?.getBoundingClientRect().width || 80;
-        const gaps = 60; // отступы между элементами (gap-3 sm:gap-6)
-        const availableWidth = containerWidth - logoWidth - languageSwitcherWidth - gaps;
+        const gaps = 80; // отступы между элементами (gap-2 sm:gap-3 lg:gap-6 + ml-4)
+        const padding = 32; // дополнительные отступы для безопасности
+        const availableWidth = containerWidth - logoWidth - languageSwitcherWidth - gaps - padding;
 
         const allItems = Array.from(itemsContainer.children) as HTMLElement[];
         if (allItems.length === 0) {
@@ -133,21 +134,21 @@ export function Navbar() {
     <nav className="bg-white shadow-sm border-b border-medical-200 sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
         <div className="flex items-center justify-between gap-3 sm:gap-6" ref={navContainerRef}>
-          <Link href="/" className="flex items-center gap-2 sm:gap-3 group flex-shrink-0">
-            <div className="text-xl sm:text-2xl">✨</div>
-            <div>
-              <div className="text-lg sm:text-xl font-semibold text-medical-900">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 group flex-shrink-0 min-w-0">
+            <div className="text-xl sm:text-2xl flex-shrink-0">✨</div>
+            <div className="min-w-0">
+              <div className="text-lg sm:text-xl font-semibold text-medical-900 truncate">
                 Дженни
               </div>
-              <div className="text-xs text-medical-600 hidden sm:block">ваш wellness-консультант</div>
+              <div className="text-xs text-medical-600 hidden sm:block truncate">ваш wellness-консультант</div>
             </div>
           </Link>
           
-          <div className="flex items-center gap-3 sm:gap-6 flex-1 min-w-0 justify-end">
+          <div className="flex items-center gap-2 sm:gap-3 lg:gap-6 flex-1 min-w-0 justify-end ml-4">
             {pathname !== '/' && (
               <div 
                 ref={navItemsRef}
-                className="hidden md:flex items-center gap-2 lg:gap-4 flex-shrink-0"
+                className="hidden md:flex items-center gap-2 lg:gap-4 flex-shrink-0 overflow-hidden"
               >
                 {(() => {
                   const items = navItems.slice(1);
