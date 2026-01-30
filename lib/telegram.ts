@@ -38,9 +38,19 @@ export async function sendToTelegram(submission: QuestionnaireSubmission): Promi
 
     // Send files if any
     if (submission.files && submission.files.length > 0) {
-      for (const file of submission.files) {
+      console.log(`Sending ${submission.files.length} file(s) to Telegram...`);
+      for (let i = 0; i < submission.files.length; i++) {
+        const file = submission.files[i];
+        console.log(`Sending file ${i + 1}/${submission.files.length}: ${file.name}`);
         await sendFileToTelegram(botToken, chatId, file);
+        // Small delay between files to avoid rate limiting
+        if (i < submission.files.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
       }
+      console.log('All files sent successfully');
+    } else {
+      console.log('No files to send');
     }
 
     return true;
@@ -165,6 +175,8 @@ async function sendFileToTelegram(
   file: File
 ): Promise<void> {
   try {
+    console.log(`Sending file: ${file.name}, size: ${file.size}, type: ${file.type}`);
+    
     // Convert File to Buffer for serverless environment
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
@@ -174,13 +186,37 @@ async function sendFileToTelegram(
     const FormData = FormDataModule.default;
     const formData = new FormData();
     formData.append('chat_id', chatId);
-    formData.append('document', buffer, {
+    
+    // Determine file type and use appropriate Telegram API method
+    const fileType = file.type || '';
+    const fileName = file.name.toLowerCase();
+    const isImage = fileType.startsWith('image/') || 
+                    /\.(jpg|jpeg|png|gif|webp)$/i.test(fileName);
+    const isVideo = fileType.startsWith('video/') || 
+                    /\.(mp4|avi|mov|wmv|flv|webm)$/i.test(fileName);
+    
+    let apiMethod = 'sendDocument';
+    let fieldName = 'document';
+    
+    if (isImage) {
+      apiMethod = 'sendPhoto';
+      fieldName = 'photo';
+    } else if (isVideo) {
+      apiMethod = 'sendVideo';
+      fieldName = 'video';
+    }
+    
+    // Append file with proper field name
+    formData.append(fieldName, buffer, {
       filename: file.name,
       contentType: file.type || 'application/octet-stream',
     });
 
+    // Add caption with file name
+    formData.append('caption', `📎 ${file.name}`);
+
     const response = await fetch(
-      `https://api.telegram.org/bot${botToken}/sendDocument`,
+      `https://api.telegram.org/bot${botToken}/${apiMethod}`,
       {
         method: 'POST',
         // @ts-ignore - form-data sets headers automatically
@@ -195,11 +231,16 @@ async function sendFileToTelegram(
       try {
         const errorJson = JSON.parse(errorText);
         errorMessage = errorJson.description || errorMessage;
+        console.error('Telegram API error:', errorJson);
       } catch {
         errorMessage = errorText || errorMessage;
+        console.error('Telegram API error (text):', errorText);
       }
       throw new Error(errorMessage);
     }
+    
+    const result = await response.json();
+    console.log(`File ${file.name} sent successfully:`, result.ok);
   } catch (error) {
     console.error(`Error sending file ${file.name}:`, error);
     throw error;

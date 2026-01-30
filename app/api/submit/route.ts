@@ -31,12 +31,19 @@ export async function POST(request: NextRequest) {
     const files: File[] = [];
     const fileCount = parseInt(formData.get('fileCount') as string) || 0;
     
+    console.log(`Received fileCount: ${fileCount}`);
+    
     for (let i = 0; i < fileCount; i++) {
-      const file = formData.get(`file_${i}`) as File;
+      const file = formData.get(`file_${i}`) as File | null;
       if (file && file.size > 0) {
+        console.log(`File ${i}: ${file.name}, size: ${file.size}, type: ${file.type}`);
         files.push(file);
+      } else {
+        console.log(`File ${i}: missing or empty`);
       }
     }
+    
+    console.log(`Total files collected: ${files.length}`);
 
     // Check Telegram credentials
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
