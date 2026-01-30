@@ -41,8 +41,10 @@ export default function MenQuestionnairePage() {
       formData.append('data', JSON.stringify(data));
       formData.append('fileCount', files.length.toString());
 
+      console.log(`Preparing to send ${files.length} file(s)`);
       files.forEach((file, index) => {
-        formData.append(`file_${index}`, file);
+        console.log(`Adding file ${index}: ${file.name}, size: ${file.size}, type: ${file.type}`);
+        formData.append(`file_${index}`, file, file.name);
       });
 
       const response = await fetch('/api/submit', {
