@@ -27,32 +27,34 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Collect files - iterate through all formData entries to find files
+    // Collect files
     const files: File[] = [];
     const fileCount = parseInt(formData.get('fileCount') as string) || 0;
     
     console.log(`Received fileCount: ${fileCount}`);
     console.log(`FormData entries:`, Array.from(formData.keys()));
     
-    // Try to get files by index first
     for (let i = 0; i < fileCount; i++) {
       const fileEntry = formData.get(`file_${i}`);
+      
       if (fileEntry instanceof File) {
-        const file = fileEntry as File;
+        const file = fileEntry;
         if (file.size > 0) {
           console.log(`File ${i}: ${file.name}, size: ${file.size}, type: ${file.type}`);
           files.push(file);
         } else {
           console.log(`File ${i}: empty (size: ${file.size})`);
         }
-      } else if (fileEntry) {
-        // If it's a Blob, convert to File
-        const blob = fileEntry as Blob;
+      } else if (fileEntry instanceof Blob && !(fileEntry instanceof File)) {
+        // If it's a Blob (but not File), convert to File
+        const blob = fileEntry;
         const file = new File([blob], `file_${i}`, { type: blob.type });
         if (file.size > 0) {
-          console.log(`File ${i} (from Blob): ${file.name}, size: ${file.size}, type: ${file.type}`);
+          console.log(`File ${i} (from Blob): size: ${file.size}, type: ${file.type}`);
           files.push(file);
         }
+      } else if (fileEntry) {
+        console.log(`File ${i}: unexpected type: ${typeof fileEntry}, value:`, fileEntry);
       } else {
         console.log(`File ${i}: not found`);
       }
