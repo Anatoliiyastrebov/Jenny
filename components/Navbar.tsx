@@ -36,7 +36,7 @@ export function Navbar() {
           
           <div className="flex items-center gap-3 sm:gap-6">
             <div className="hidden md:flex items-center gap-2 lg:gap-4">
-              {navItems.slice(1, 4).map((item) => (
+              {navItems.slice(1).map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
