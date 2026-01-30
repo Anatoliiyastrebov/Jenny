@@ -965,6 +965,15 @@ export const questionnaireTranslations = {
       },
       cleansing: 'Have you done anything for body cleansing before?',
       cleansingPlaceholder: 'If yes, what?',
+      cleansingOptions: {
+        no: 'No',
+        yes: 'Yes, I have',
+        detox: 'Detox programs',
+        fasting: 'Fasting',
+        enemas: 'Enemas',
+        herbs: 'Herbs',
+        other: 'Other',
+      },
       hasTests: 'Do you have blood tests from the last 2-3 months? Ultrasound?',
       hasTestsOptions: {
         yes: 'Yes, I have tests / ultrasound from the last 2-3 months',
