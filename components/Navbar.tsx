@@ -25,6 +25,7 @@ export function Navbar() {
 
   useEffect(() => {
     if (pathname === '/' || !navContainerRef.current || !navItemsRef.current) {
+      setVisibleItems(4);
       return;
     }
 
@@ -33,35 +34,50 @@ export function Navbar() {
       const itemsContainer = navItemsRef.current;
       if (!container || !itemsContainer) return;
 
-      const containerWidth = container.offsetWidth;
-      const itemsWidth = itemsContainer.scrollWidth;
-      const languageSwitcherWidth = 80; // примерная ширина переключателя языка
-      const availableWidth = containerWidth - languageSwitcherWidth - 20; // 20px для отступов
+      // Ждем, пока элементы отрендерятся
+      setTimeout(() => {
+        const containerWidth = container.offsetWidth;
+        const logoWidth = container.querySelector('a[href="/"]')?.getBoundingClientRect().width || 200;
+        const languageSwitcher = container.querySelector('[data-language-switcher]')?.getBoundingClientRect().width || 80;
+        const gaps = 48; // отступы между элементами
+        const availableWidth = containerWidth - logoWidth - languageSwitcher - gaps;
 
-      if (itemsWidth > availableWidth) {
-        // Скрываем кнопки по одной, пока не поместятся
-        let count = navItems.slice(1).length;
-        while (count > 0) {
-          const testWidth = Array.from(itemsContainer.children)
-            .slice(0, count)
-            .reduce((sum, child) => sum + (child as HTMLElement).offsetWidth + 8, 0); // 8px для gap
-          
-          if (testWidth <= availableWidth) {
-            setVisibleItems(count);
+        const allItems = Array.from(itemsContainer.children) as HTMLElement[];
+        if (allItems.length === 0) return;
+
+        let totalWidth = 0;
+        let visibleCount = 0;
+
+        for (let i = 0; i < allItems.length; i++) {
+          const itemWidth = allItems[i].offsetWidth;
+          const gap = i > 0 ? 8 : 0; // gap между элементами
+          if (totalWidth + itemWidth + gap <= availableWidth) {
+            totalWidth += itemWidth + gap;
+            visibleCount++;
+          } else {
             break;
           }
-          count--;
         }
-        if (count === 0) setVisibleItems(0);
-      } else {
-        setVisibleItems(navItems.slice(1).length);
-      }
+
+        setVisibleItems(visibleCount);
+      }, 0);
     };
 
+    // Проверяем сразу и при изменении размера
     checkVisibility();
     window.addEventListener('resize', checkVisibility);
-    return () => window.removeEventListener('resize', checkVisibility);
-  }, [pathname, locale]);
+    
+    // Используем ResizeObserver для более точного отслеживания
+    const resizeObserver = new ResizeObserver(checkVisibility);
+    if (navContainerRef.current) {
+      resizeObserver.observe(navContainerRef.current);
+    }
+
+    return () => {
+      window.removeEventListener('resize', checkVisibility);
+      resizeObserver.disconnect();
+    };
+  }, [pathname, locale, navItems]);
 
   return (
     <nav className="bg-white shadow-sm border-b border-medical-200 sticky top-0 z-50">
@@ -98,7 +114,7 @@ export function Navbar() {
                 ))}
               </div>
             )}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0" data-language-switcher>
               <LanguageSwitcher />
             </div>
           </div>
