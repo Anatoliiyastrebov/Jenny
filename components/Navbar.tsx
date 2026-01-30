@@ -23,8 +23,8 @@ export function Navbar() {
   return (
     <nav className="bg-white shadow-sm border-b border-medical-200 sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <Link href="/" className="flex items-center gap-2 sm:gap-3 group">
+        <div className="flex items-center justify-between gap-3 sm:gap-6">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 group flex-shrink-0">
             <div className="text-xl sm:text-2xl">✨</div>
             <div>
               <div className="text-lg sm:text-xl font-semibold text-medical-900">
@@ -34,14 +34,14 @@ export function Navbar() {
             </div>
           </Link>
           
-          <div className="flex items-center gap-3 sm:gap-6">
+          <div className="flex items-center gap-3 sm:gap-6 flex-1 min-w-0 justify-end">
             {pathname !== '/' && (
-              <div className="hidden md:flex items-center gap-2 lg:gap-4">
+              <div className="hidden md:flex items-center gap-2 lg:gap-4 flex-shrink-0 overflow-hidden">
                 {navItems.slice(1).map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`text-xs sm:text-sm font-medium transition-colors px-2 sm:px-3 py-1.5 rounded-md ${
+                    className={`text-xs sm:text-sm font-medium transition-colors px-2 sm:px-3 py-1.5 rounded-md whitespace-nowrap flex-shrink-0 ${
                       pathname === item.href
                         ? 'bg-primary-600 text-white'
                         : 'text-medical-700 hover:bg-medical-100 hover:text-primary-600'
@@ -52,7 +52,9 @@ export function Navbar() {
                 ))}
               </div>
             )}
-            <LanguageSwitcher />
+            <div className="flex-shrink-0">
+              <LanguageSwitcher />
+            </div>
           </div>
         </div>
       </div>
