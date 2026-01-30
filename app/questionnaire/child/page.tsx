@@ -323,34 +323,6 @@ export default function ChildQuestionnairePage() {
               />
             </motion.div>
           )}
-
-          <div className="mt-6 p-4 bg-primary-50 border border-primary-200 rounded-lg">
-            <h3 className="text-base font-semibold text-medical-900 mb-3">
-              {t.common.gdprTitle}
-            </h3>
-            <p className="text-sm text-medical-700 mb-4 leading-relaxed">
-              {t.common.gdprText}
-            </p>
-            <div className="flex items-start gap-3">
-              <input
-                type="checkbox"
-                id="gdprConsent"
-                {...register('gdprConsent')}
-                className="mt-1 w-5 h-5 border-medical-300 rounded text-primary-600 focus:ring-primary-500 focus:ring-2 cursor-pointer"
-              />
-              <label htmlFor="gdprConsent" className="text-sm text-medical-900 cursor-pointer flex-1">
-                {t.common.gdprConsent} <span className="text-red-500">*</span>
-              </label>
-            </div>
-            {errors.gdprConsent && (
-              <p className="text-sm text-red-600 mt-2">
-                {t.common.gdprRequired}
-              </p>
-            )}
-            <p className="text-xs text-medical-600 mt-4 leading-relaxed">
-              <strong>{q.privacy}:</strong> {q.privacyText}
-            </p>
-          </div>
         </div>
       </motion.section>
 
@@ -376,6 +348,42 @@ export default function ChildQuestionnairePage() {
               placeholder={q.child.contactPlaceholder}
             />
           </FormField>
+        </div>
+      </motion.section>
+
+      {/* Согласие на обработку персональных данных */}
+      <motion.section
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.38 }}
+        className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
+      >
+        <div className="p-4 bg-primary-50 border border-primary-200 rounded-lg">
+          <h3 className="text-base font-semibold text-medical-900 mb-3">
+            {t.common.gdprTitle}
+          </h3>
+          <p className="text-sm text-medical-700 mb-4 leading-relaxed">
+            {t.common.gdprText}
+          </p>
+          <div className="flex items-start gap-3">
+            <input
+              type="checkbox"
+              id="gdprConsent"
+              {...register('gdprConsent')}
+              className="mt-1 w-5 h-5 border-medical-300 rounded text-primary-600 focus:ring-primary-500 focus:ring-2 cursor-pointer"
+            />
+            <label htmlFor="gdprConsent" className="text-sm text-medical-900 cursor-pointer flex-1">
+              {t.common.gdprConsent} <span className="text-red-500">*</span>
+            </label>
+          </div>
+          {errors.gdprConsent && (
+            <p className="text-sm text-red-600 mt-2">
+              {t.common.gdprRequired}
+            </p>
+          )}
+          <p className="text-xs text-medical-600 mt-4 leading-relaxed">
+            <strong>{q.privacy}:</strong> {q.privacyText}
+          </p>
         </div>
       </motion.section>
 
