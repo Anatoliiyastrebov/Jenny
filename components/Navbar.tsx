@@ -35,21 +35,23 @@ export function Navbar() {
           </Link>
           
           <div className="flex items-center gap-3 sm:gap-6">
-            <div className="hidden md:flex items-center gap-2 lg:gap-4">
-              {navItems.slice(1).map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`text-xs sm:text-sm font-medium transition-colors px-2 sm:px-3 py-1.5 rounded-md ${
-                    pathname === item.href
-                      ? 'bg-primary-600 text-white'
-                      : 'text-medical-700 hover:bg-medical-100 hover:text-primary-600'
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
+            {pathname !== '/' && (
+              <div className="hidden md:flex items-center gap-2 lg:gap-4">
+                {navItems.slice(1).map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`text-xs sm:text-sm font-medium transition-colors px-2 sm:px-3 py-1.5 rounded-md ${
+                      pathname === item.href
+                        ? 'bg-primary-600 text-white'
+                        : 'text-medical-700 hover:bg-medical-100 hover:text-primary-600'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            )}
             <LanguageSwitcher />
           </div>
         </div>
