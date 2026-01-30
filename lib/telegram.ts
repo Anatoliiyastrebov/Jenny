@@ -175,11 +175,22 @@ async function sendFileToTelegram(
   file: File
 ): Promise<void> {
   try {
-    console.log(`Sending file: ${file.name}, size: ${file.size}, type: ${file.type}`);
+    console.log(`Sending file: ${file.name}, size: ${file.size} bytes, type: ${file.type}`);
     
     // Convert File to Buffer for serverless environment
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    let buffer: Buffer;
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      buffer = Buffer.from(arrayBuffer);
+      console.log(`File converted to buffer: ${buffer.length} bytes`);
+    } catch (error) {
+      console.error(`Error converting file to buffer:`, error);
+      throw new Error(`Failed to read file ${file.name}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+    
+    if (buffer.length === 0) {
+      throw new Error(`File ${file.name} is empty`);
+    }
     
     // Use form-data package for proper multipart/form-data encoding
     const FormDataModule = await import('form-data');
@@ -191,9 +202,9 @@ async function sendFileToTelegram(
     const fileType = file.type || '';
     const fileName = file.name.toLowerCase();
     const isImage = fileType.startsWith('image/') || 
-                    /\.(jpg|jpeg|png|gif|webp)$/i.test(fileName);
+                    /\.(jpg|jpeg|png|gif|webp|bmp)$/i.test(fileName);
     const isVideo = fileType.startsWith('video/') || 
-                    /\.(mp4|avi|mov|wmv|flv|webm)$/i.test(fileName);
+                    /\.(mp4|avi|mov|wmv|flv|webm|mkv)$/i.test(fileName);
     
     let apiMethod = 'sendDocument';
     let fieldName = 'document';
@@ -201,19 +212,37 @@ async function sendFileToTelegram(
     if (isImage) {
       apiMethod = 'sendPhoto';
       fieldName = 'photo';
+      console.log(`Using sendPhoto for image file`);
     } else if (isVideo) {
       apiMethod = 'sendVideo';
       fieldName = 'video';
+      console.log(`Using sendVideo for video file`);
+    } else {
+      console.log(`Using sendDocument for file`);
     }
     
     // Append file with proper field name
-    formData.append(fieldName, buffer, {
-      filename: file.name,
-      contentType: file.type || 'application/octet-stream',
-    });
+    // For images, Telegram accepts photo as Buffer directly
+    // For documents, we need to specify filename
+    if (isImage) {
+      formData.append(fieldName, buffer, {
+        filename: file.name,
+        contentType: file.type || 'image/jpeg',
+      });
+    } else {
+      formData.append(fieldName, buffer, {
+        filename: file.name,
+        contentType: file.type || 'application/octet-stream',
+      });
+    }
 
-    // Add caption with file name
-    formData.append('caption', `📎 ${file.name}`);
+    // Add caption with file name (only for documents and videos)
+    if (!isImage) {
+      formData.append('caption', `📎 ${file.name}`);
+    }
+
+    const headers = formData.getHeaders();
+    console.log(`Sending to Telegram API: ${apiMethod}, headers:`, Object.keys(headers));
 
     const response = await fetch(
       `https://api.telegram.org/bot${botToken}/${apiMethod}`,
@@ -221,28 +250,35 @@ async function sendFileToTelegram(
         method: 'POST',
         // @ts-ignore - form-data sets headers automatically
         body: formData as any,
-        headers: formData.getHeaders(),
+        headers: headers,
       }
     );
 
+    const responseText = await response.text();
+    console.log(`Telegram API response status: ${response.status}`);
+    console.log(`Telegram API response:`, responseText.substring(0, 200));
+
     if (!response.ok) {
-      const errorText = await response.text();
       let errorMessage = `Failed to send file ${file.name}`;
       try {
-        const errorJson = JSON.parse(errorText);
+        const errorJson = JSON.parse(responseText);
         errorMessage = errorJson.description || errorMessage;
         console.error('Telegram API error:', errorJson);
       } catch {
-        errorMessage = errorText || errorMessage;
-        console.error('Telegram API error (text):', errorText);
+        errorMessage = responseText || errorMessage;
+        console.error('Telegram API error (text):', responseText);
       }
       throw new Error(errorMessage);
     }
     
-    const result = await response.json();
-    console.log(`File ${file.name} sent successfully:`, result.ok);
+    const result = JSON.parse(responseText);
+    if (result.ok) {
+      console.log(`✅ File ${file.name} sent successfully`);
+    } else {
+      throw new Error(`Telegram API returned ok=false: ${result.description || 'Unknown error'}`);
+    }
   } catch (error) {
-    console.error(`Error sending file ${file.name}:`, error);
+    console.error(`❌ Error sending file ${file.name}:`, error);
     throw error;
   }
 }
