@@ -82,21 +82,35 @@ export async function POST(request: NextRequest) {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        // Create FormData using built-in FormData (Node.js 18+)
-        // Convert buffer to Blob for FormData
-        const fileBlob = new Blob([buffer], { type: file.type || 'application/octet-stream' });
-        const fileForFormData = new File([fileBlob], file.name, { type: file.type || 'application/octet-stream' });
+        // Create multipart/form-data manually for Telegram API
+        // This ensures compatibility with Vercel serverless functions
+        const boundary = `----WebKitFormBoundary${Date.now()}${Math.random().toString(36).substring(2, 15)}`;
+        const parts: Buffer[] = [];
         
-        const telegramFormData = new FormData();
-        telegramFormData.append('chat_id', chatId);
-        telegramFormData.append('document', fileForFormData);
+        // Add chat_id field
+        parts.push(Buffer.from(`--${boundary}\r\n`));
+        parts.push(Buffer.from(`Content-Disposition: form-data; name="chat_id"\r\n\r\n`));
+        parts.push(Buffer.from(`${chatId}\r\n`));
+        
+        // Add document file
+        parts.push(Buffer.from(`--${boundary}\r\n`));
+        parts.push(Buffer.from(`Content-Disposition: form-data; name="document"; filename="${file.name}"\r\n`));
+        parts.push(Buffer.from(`Content-Type: ${file.type || 'application/octet-stream'}\r\n\r\n`));
+        parts.push(buffer);
+        parts.push(Buffer.from(`\r\n--${boundary}--\r\n`));
+        
+        // Combine all parts
+        const body = Buffer.concat(parts);
 
         // Send file to Telegram
         const fileResponse = await fetch(
           `https://api.telegram.org/bot${botToken}/sendDocument`,
           {
             method: 'POST',
-            body: telegramFormData,
+            headers: {
+              'Content-Type': `multipart/form-data; boundary=${boundary}`,
+            },
+            body: body,
           }
         );
 
@@ -106,13 +120,18 @@ export async function POST(request: NextRequest) {
           try {
             const errorJson = JSON.parse(errorText);
             errorMessage = errorJson.description || errorMessage;
+            console.error(`Telegram API error for ${file.name}:`, errorJson);
           } catch {
             errorMessage = errorText || errorMessage;
+            console.error(`Telegram API error (text) for ${file.name}:`, errorText);
           }
           fileErrors.push(errorMessage);
+        } else {
+          console.log(`✅ File ${file.name} sent successfully`);
         }
       } catch (fileError) {
         const errorMessage = fileError instanceof Error ? fileError.message : 'Unknown error';
+        console.error(`Error processing file ${file.name}:`, errorMessage);
         fileErrors.push(`Failed to send file ${file.name}: ${errorMessage}`);
       }
     }
