@@ -37,43 +37,93 @@ export function Navbar() {
       // Ждем, пока элементы отрендерятся
       setTimeout(() => {
         const containerWidth = container.offsetWidth;
-        const logoWidth = container.querySelector('a[href="/"]')?.getBoundingClientRect().width || 200;
-        const languageSwitcher = container.querySelector('[data-language-switcher]')?.getBoundingClientRect().width || 80;
-        const gaps = 48; // отступы между элементами
-        const availableWidth = containerWidth - logoWidth - languageSwitcher - gaps;
+        const logoElement = container.querySelector('a[href="/"]') as HTMLElement;
+        const languageSwitcherElement = container.querySelector('[data-language-switcher]') as HTMLElement;
+        
+        const logoWidth = logoElement?.getBoundingClientRect().width || 200;
+        const languageSwitcherWidth = languageSwitcherElement?.getBoundingClientRect().width || 80;
+        const gaps = 60; // отступы между элементами (gap-3 sm:gap-6)
+        const availableWidth = containerWidth - logoWidth - languageSwitcherWidth - gaps;
 
         const allItems = Array.from(itemsContainer.children) as HTMLElement[];
-        if (allItems.length === 0) return;
+        if (allItems.length === 0) {
+          setVisibleItems(4);
+          return;
+        }
 
+        // Находим индекс активной анкеты
+        const activeIndex = navItems.slice(1).findIndex(item => pathname === item.href);
+        const activeItemIndex = activeIndex >= 0 ? activeIndex : -1;
+
+        // Сначала проверяем, помещаются ли все элементы
         let totalWidth = 0;
-        let visibleCount = 0;
-
         for (let i = 0; i < allItems.length; i++) {
           const itemWidth = allItems[i].offsetWidth;
-          const gap = i > 0 ? 8 : 0; // gap между элементами
-          if (totalWidth + itemWidth + gap <= availableWidth) {
-            totalWidth += itemWidth + gap;
+          const gap = i > 0 ? 8 : 0; // gap между элементами (gap-2 lg:gap-4)
+          totalWidth += itemWidth + gap;
+        }
+
+        // Если все помещаются, показываем все
+        if (totalWidth <= availableWidth) {
+          setVisibleItems(4);
+          return;
+        }
+
+        // Если не все помещаются, всегда показываем активную анкету
+        // и добавляем остальные, если помещаются
+        let visibleCount = 0;
+        let currentWidth = 0;
+        const gapSize = 8;
+
+        // Сначала добавляем активную анкету, если она есть
+        if (activeItemIndex >= 0) {
+          const activeItem = allItems[activeItemIndex];
+          if (activeItem) {
+            currentWidth += activeItem.offsetWidth;
+            visibleCount = 1;
+          }
+        }
+
+        // Затем добавляем остальные анкеты по порядку
+        for (let i = 0; i < allItems.length; i++) {
+          if (i === activeItemIndex) continue; // Пропускаем активную, она уже добавлена
+          
+          const itemWidth = allItems[i].offsetWidth;
+          const gap = visibleCount > 0 ? gapSize : 0;
+          
+          if (currentWidth + itemWidth + gap <= availableWidth) {
+            currentWidth += itemWidth + gap;
             visibleCount++;
           } else {
             break;
           }
         }
 
-        setVisibleItems(visibleCount);
-      }, 0);
+        // Если активная анкета не была добавлена (не поместилась), добавляем её принудительно
+        if (activeItemIndex >= 0 && visibleCount === 0) {
+          visibleCount = 1;
+        }
+
+        setVisibleItems(Math.max(visibleCount, activeItemIndex >= 0 ? 1 : 0));
+      }, 50);
     };
 
     // Проверяем сразу и при изменении размера
     checkVisibility();
+    const resizeTimeout = setTimeout(checkVisibility, 100);
     window.addEventListener('resize', checkVisibility);
     
     // Используем ResizeObserver для более точного отслеживания
-    const resizeObserver = new ResizeObserver(checkVisibility);
+    const resizeObserver = new ResizeObserver(() => {
+      clearTimeout(resizeTimeout);
+      setTimeout(checkVisibility, 50);
+    });
     if (navContainerRef.current) {
       resizeObserver.observe(navContainerRef.current);
     }
 
     return () => {
+      clearTimeout(resizeTimeout);
       window.removeEventListener('resize', checkVisibility);
       resizeObserver.disconnect();
     };
@@ -99,19 +149,47 @@ export function Navbar() {
                 ref={navItemsRef}
                 className="hidden md:flex items-center gap-2 lg:gap-4 flex-shrink-0"
               >
-                {navItems.slice(1).slice(0, visibleItems).map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`text-xs sm:text-sm font-medium transition-colors px-2 sm:px-3 py-1.5 rounded-md whitespace-nowrap flex-shrink-0 ${
-                      pathname === item.href
-                        ? 'bg-primary-600 text-white'
-                        : 'text-medical-700 hover:bg-medical-100 hover:text-primary-600'
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+                {(() => {
+                  const items = navItems.slice(1);
+                  const activeIndex = items.findIndex(item => pathname === item.href);
+                  
+                  // Если есть активная анкета, показываем её первой
+                  if (activeIndex >= 0) {
+                    const activeItem = items[activeIndex];
+                    const otherItems = items.filter((_, i) => i !== activeIndex);
+                    const visibleOtherItems = otherItems.slice(0, Math.max(0, visibleItems - 1));
+                    
+                    return [
+                      <Link
+                        key={activeItem.href}
+                        href={activeItem.href}
+                        className="text-xs sm:text-sm font-medium transition-colors px-2 sm:px-3 py-1.5 rounded-md whitespace-nowrap flex-shrink-0 bg-primary-600 text-white"
+                      >
+                        {activeItem.label}
+                      </Link>,
+                      ...visibleOtherItems.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className="text-xs sm:text-sm font-medium transition-colors px-2 sm:px-3 py-1.5 rounded-md whitespace-nowrap flex-shrink-0 text-medical-700 hover:bg-medical-100 hover:text-primary-600"
+                        >
+                          {item.label}
+                        </Link>
+                      ))
+                    ];
+                  }
+                  
+                  // Если активной анкеты нет, показываем первые visibleItems
+                  return items.slice(0, visibleItems).map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="text-xs sm:text-sm font-medium transition-colors px-2 sm:px-3 py-1.5 rounded-md whitespace-nowrap flex-shrink-0 text-medical-700 hover:bg-medical-100 hover:text-primary-600"
+                    >
+                      {item.label}
+                    </Link>
+                  ));
+                })()}
               </div>
             )}
             <div className="flex-shrink-0" data-language-switcher>
