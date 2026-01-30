@@ -166,16 +166,16 @@ export default function ChildQuestionnairePage() {
               <option value="">{q.select}</option>
               <option value={q.yes}>{q.yes}</option>
               <option value={q.no}>{q.no}</option>
-              <option value={locale === 'ru' ? 'Иногда' : 'Sometimes'}>{q.child.sweetsOptions.sometimes}</option>
+              <option value={q.child.sweetsOptions.sometimes}>{q.child.sweetsOptions.sometimes}</option>
             </select>
           </FormField>
           <FormField label={q.child.skinIssues} required error={errors.skinIssues?.message}>
             <select {...register('skinIssues')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.child.skinIssuesOptions.noProblems}</option>
-              <option value={locale === 'ru' ? 'Высыпания' : 'Rashes'}>{q.child.skinIssuesOptions.rashes}</option>
-              <option value={locale === 'ru' ? 'Экзема' : 'Eczema'}>{q.child.skinIssuesOptions.eczema}</option>
-              <option value={locale === 'ru' ? 'Дерматит' : 'Dermatitis'}>{q.child.skinIssuesOptions.dermatitis}</option>
+              <option value={q.child.skinIssuesOptions.noProblems}>{q.child.skinIssuesOptions.noProblems}</option>
+              <option value={q.child.skinIssuesOptions.rashes}>{q.child.skinIssuesOptions.rashes}</option>
+              <option value={q.child.skinIssuesOptions.eczema}>{q.child.skinIssuesOptions.eczema}</option>
+              <option value={q.child.skinIssuesOptions.dermatitis}>{q.child.skinIssuesOptions.dermatitis}</option>
             </select>
           </FormField>
           <FormField label={q.women.allergies} required error={errors.allergies?.message}>
@@ -184,9 +184,9 @@ export default function ChildQuestionnairePage() {
           <FormField label={q.child.hyperactivity} required error={errors.hyperactivity?.message}>
             <select {...register('hyperactivity')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Гиперактивный' : 'Hyperactive'}>{q.child.hyperactivityOptions.hyperactive}</option>
-              <option value={locale === 'ru' ? 'Часто жалуется на усталость' : 'Often complains of fatigue'}>{q.child.hyperactivityOptions.tired}</option>
-              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.child.hyperactivityOptions.noProblems}</option>
+              <option value={q.child.hyperactivityOptions.hyperactive}>{q.child.hyperactivityOptions.hyperactive}</option>
+              <option value={q.child.hyperactivityOptions.tired}>{q.child.hyperactivityOptions.tired}</option>
+              <option value={q.child.hyperactivityOptions.noProblems}>{q.child.hyperactivityOptions.noProblems}</option>
             </select>
           </FormField>
           <FormField label={q.child.waterIntake} required error={errors.waterIntake?.message}>
@@ -210,10 +210,10 @@ export default function ChildQuestionnairePage() {
           <FormField label={q.child.headaches} required error={errors.headaches?.message}>
             <select {...register('headaches')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.child.headachesOptions.noProblems}</option>
-              <option value={locale === 'ru' ? 'Головные боли' : 'Headaches'}>{q.child.headachesOptions.headaches}</option>
-              <option value={locale === 'ru' ? 'Плохой сон' : 'Poor sleep'}>{q.child.headachesOptions.badSleep}</option>
-              <option value={locale === 'ru' ? 'И головные боли, и плохой сон' : 'Both headaches and poor sleep'}>{q.child.headachesOptions.both}</option>
+              <option value={q.child.headachesOptions.noProblems}>{q.child.headachesOptions.noProblems}</option>
+              <option value={q.child.headachesOptions.headaches}>{q.child.headachesOptions.headaches}</option>
+              <option value={q.child.headachesOptions.badSleep}>{q.child.headachesOptions.badSleep}</option>
+              <option value={q.child.headachesOptions.both}>{q.child.headachesOptions.both}</option>
             </select>
           </FormField>
           <FormField label={q.child.illnesses} required error={errors.illnesses?.message}>
@@ -243,20 +243,20 @@ export default function ChildQuestionnairePage() {
           <FormField label={q.child.source} required error={errors.source?.message}>
             <select {...register('source')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Телеграмм' : 'Telegram'}>{q.child.sourceOptions.telegram}</option>
-              <option value={locale === 'ru' ? 'Инстаграм' : 'Instagram'}>{q.child.sourceOptions.instagram}</option>
-              <option value={locale === 'ru' ? 'По рекомендации' : 'By recommendation'}>{q.child.sourceOptions.recommendation}</option>
+              <option value={q.child.sourceOptions.telegram}>{q.child.sourceOptions.telegram}</option>
+              <option value={q.child.sourceOptions.instagram}>{q.child.sourceOptions.instagram}</option>
+              <option value={q.child.sourceOptions.recommendation}>{q.child.sourceOptions.recommendation}</option>
             </select>
           </FormField>
           <FormField label={q.child.hasTests} required error={errors.hasTests?.message}>
             <select {...register('hasTests')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Да, есть анализы / УЗИ за последние 2–3 месяца' : 'Yes, I have tests / ultrasound from the last 2-3 months'}>{q.child.hasTestsOptions.yes}</option>
+              <option value={q.child.hasTestsOptions.yes}>{q.child.hasTestsOptions.yes}</option>
               <option value={q.no}>{q.no}</option>
             </select>
           </FormField>
 
-          {hasTests === (locale === 'ru' ? 'Да, есть анализы / УЗИ за последние 2–3 месяца' : 'Yes, I have tests / ultrasound from the last 2-3 months') && (
+          {hasTests === q.child.hasTestsOptions.yes && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}

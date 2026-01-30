@@ -141,10 +141,10 @@ export default function WomenQuestionnairePage() {
           <FormField label={q.women.covid} required error={errors.covid?.message}>
             <select {...register('covid')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Нет' : 'No'}>{q.women.covidOptions.no}</option>
-              <option value={locale === 'ru' ? 'Болел' : 'Had COVID'}>{q.women.covidOptions.sick}</option>
-              <option value={locale === 'ru' ? 'Вакцинирован' : 'Vaccinated'}>{q.women.covidOptions.vaccinated}</option>
-              <option value={locale === 'ru' ? 'Болел и вакцинирован' : 'Had COVID and vaccinated'}>{q.women.covidOptions.both}</option>
+              <option value={q.women.covidOptions.no}>{q.women.covidOptions.no}</option>
+              <option value={q.women.covidOptions.sick}>{q.women.covidOptions.sick}</option>
+              <option value={q.women.covidOptions.vaccinated}>{q.women.covidOptions.vaccinated}</option>
+              <option value={q.women.covidOptions.both}>{q.women.covidOptions.both}</option>
             </select>
           </FormField>
           <FormField label={q.women.covidComplications} required error={errors.covidComplications?.message}>
@@ -153,21 +153,21 @@ export default function WomenQuestionnairePage() {
           <FormField label={q.women.hair} required error={errors.hair?.message}>
             <select {...register('hair')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Довольна качеством' : 'Satisfied with quality'}>{q.women.hairOptions.satisfied}</option>
-              <option value={locale === 'ru' ? 'Выпадают' : 'Falling out'}>{q.women.hairOptions.falling}</option>
-              <option value={locale === 'ru' ? 'Сухие' : 'Dry'}>{q.women.hairOptions.dry}</option>
-              <option value={locale === 'ru' ? 'Жирные' : 'Oily'}>{q.women.hairOptions.oily}</option>
-              <option value={locale === 'ru' ? 'Ломкие' : 'Brittle'}>{q.women.hairOptions.brittle}</option>
+              <option value={q.women.hairOptions.satisfied}>{q.women.hairOptions.satisfied}</option>
+              <option value={q.women.hairOptions.falling}>{q.women.hairOptions.falling}</option>
+              <option value={q.women.hairOptions.dry}>{q.women.hairOptions.dry}</option>
+              <option value={q.women.hairOptions.oily}>{q.women.hairOptions.oily}</option>
+              <option value={q.women.hairOptions.brittle}>{q.women.hairOptions.brittle}</option>
             </select>
           </FormField>
           <FormField label={q.women.teeth} required error={errors.teeth?.message}>
             <select {...register('teeth')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.women.teethOptions.noProblems}</option>
-              <option value={locale === 'ru' ? 'Быстро крошатся' : 'Crumbling quickly'}>{q.women.teethOptions.crumbling}</option>
-              <option value={locale === 'ru' ? 'Часто портятся' : 'Deteriorating frequently'}>{q.women.teethOptions.deteriorating}</option>
-              <option value={locale === 'ru' ? 'Неприятный запах изо рта' : 'Bad breath'}>{q.women.teethOptions.badBreath}</option>
-              <option value={locale === 'ru' ? 'Кровоточат десны' : 'Bleeding gums'}>{q.women.teethOptions.bleedingGums}</option>
+              <option value={q.women.teethOptions.noProblems}>{q.women.teethOptions.noProblems}</option>
+              <option value={q.women.teethOptions.crumbling}>{q.women.teethOptions.crumbling}</option>
+              <option value={q.women.teethOptions.deteriorating}>{q.women.teethOptions.deteriorating}</option>
+              <option value={q.women.teethOptions.badBreath}>{q.women.teethOptions.badBreath}</option>
+              <option value={q.women.teethOptions.bleedingGums}>{q.women.teethOptions.bleedingGums}</option>
             </select>
           </FormField>
           <FormField label={q.women.digestion} required error={errors.digestion?.message}>
@@ -207,7 +207,7 @@ export default function WomenQuestionnairePage() {
               <option value="">{q.select}</option>
               <option value={q.no}>{q.no}</option>
               <option value={q.yes}>{q.yes}</option>
-              <option value={locale === 'ru' ? 'Руки-ноги холодные даже летом' : 'Hands and feet cold even in summer'}>{q.women.numbnessOptions.coldLimbs}</option>
+              <option value={q.women.numbnessOptions.coldLimbs}>{q.women.numbnessOptions.coldLimbs}</option>
             </select>
           </FormField>
         </div>
@@ -227,12 +227,12 @@ export default function WomenQuestionnairePage() {
           <FormField label={q.women.varicose} required error={errors.varicose?.message}>
             <select {...register('varicose')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.women.varicoseOptions.noProblems}</option>
-              <option value={locale === 'ru' ? 'Варикоз (сеточка)' : 'Varicose veins (mild)'}>{q.women.varicoseOptions.varicoseMild}</option>
-              <option value={locale === 'ru' ? 'Варикоз (выраженные вены)' : 'Varicose veins (severe)'}>{q.women.varicoseOptions.varicoseSevere}</option>
-              <option value={locale === 'ru' ? 'Геморрой (кровоточит)' : 'Hemorrhoids (bleeding)'}>{q.women.varicoseOptions.hemorrhoidsBleeding}</option>
-              <option value={locale === 'ru' ? 'Геморрой (не кровоточит)' : 'Hemorrhoids (no bleeding)'}>{q.women.varicoseOptions.hemorrhoidsNoBleeding}</option>
-              <option value={locale === 'ru' ? 'Пигментные пятна' : 'Pigmentation spots'}>{q.women.varicoseOptions.pigmentation}</option>
+              <option value={q.women.varicoseOptions.noProblems}>{q.women.varicoseOptions.noProblems}</option>
+              <option value={q.women.varicoseOptions.varicoseMild}>{q.women.varicoseOptions.varicoseMild}</option>
+              <option value={q.women.varicoseOptions.varicoseSevere}>{q.women.varicoseOptions.varicoseSevere}</option>
+              <option value={q.women.varicoseOptions.hemorrhoidsBleeding}>{q.women.varicoseOptions.hemorrhoidsBleeding}</option>
+              <option value={q.women.varicoseOptions.hemorrhoidsNoBleeding}>{q.women.varicoseOptions.hemorrhoidsNoBleeding}</option>
+              <option value={q.women.varicoseOptions.pigmentation}>{q.women.varicoseOptions.pigmentation}</option>
             </select>
           </FormField>
           <FormField label={q.women.joints} required error={errors.joints?.message}>
@@ -247,11 +247,11 @@ export default function WomenQuestionnairePage() {
           <FormField label={q.women.menstruation} required error={errors.menstruation?.message}>
             <select {...register('menstruation')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Нерегулярные' : 'Irregular'}>{q.women.menstruationOptions.irregular}</option>
-              <option value={locale === 'ru' ? 'Болезненные' : 'Painful'}>{q.women.menstruationOptions.painful}</option>
-              <option value={locale === 'ru' ? 'Затяжные' : 'Prolonged'}>{q.women.menstruationOptions.prolonged}</option>
-              <option value={locale === 'ru' ? 'Обильные кровотечения' : 'Heavy bleeding'}>{q.women.menstruationOptions.heavy}</option>
-              <option value={locale === 'ru' ? 'Нормальные' : 'Normal'}>{q.women.menstruationOptions.normal}</option>
+              <option value={q.women.menstruationOptions.irregular}>{q.women.menstruationOptions.irregular}</option>
+              <option value={q.women.menstruationOptions.painful}>{q.women.menstruationOptions.painful}</option>
+              <option value={q.women.menstruationOptions.prolonged}>{q.women.menstruationOptions.prolonged}</option>
+              <option value={q.women.menstruationOptions.heavy}>{q.women.menstruationOptions.heavy}</option>
+              <option value={q.women.menstruationOptions.normal}>{q.women.menstruationOptions.normal}</option>
             </select>
           </FormField>
           <FormField label={q.women.lifestyle} required error={errors.lifestyle?.message}>
@@ -283,19 +283,19 @@ export default function WomenQuestionnairePage() {
           <FormField label={q.women.sleep} required error={errors.sleep?.message}>
             <select {...register('sleep')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Хороший' : 'Good'}>{q.women.sleepOptions.good}</option>
-              <option value={locale === 'ru' ? 'Трудно заснуть' : 'Hard to fall asleep'}>{q.women.sleepOptions.hardToFallAsleep}</option>
-              <option value={locale === 'ru' ? 'Часто просыпаюсь ночью' : 'Wake up often at night'}>{q.women.sleepOptions.wakeUpOften}</option>
+              <option value={q.women.sleepOptions.good}>{q.women.sleepOptions.good}</option>
+              <option value={q.women.sleepOptions.hardToFallAsleep}>{q.women.sleepOptions.hardToFallAsleep}</option>
+              <option value={q.women.sleepOptions.wakeUpOften}>{q.women.sleepOptions.wakeUpOften}</option>
             </select>
           </FormField>
           <FormField label={q.women.energy} required error={errors.energy?.message}>
             <select {...register('energy')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Нормальная' : 'Normal'}>{q.women.energyOptions.normal}</option>
-              <option value={locale === 'ru' ? 'С утра нужно собрать себя по кусочкам' : 'Need to pull yourself together in the morning'}>{q.women.energyOptions.morningPieces}</option>
-              <option value={locale === 'ru' ? 'Очень тяжело просыпаться' : 'Very hard to wake up'}>{q.women.energyOptions.hardToWake}</option>
-              <option value={locale === 'ru' ? 'Утром чувствуете себя неотдохнувшим' : 'Feel unrested in the morning'}>{q.women.energyOptions.notRested}</option>
-              <option value={locale === 'ru' ? 'Нужно стимулировать себя кофе' : 'Need coffee to stimulate yourself'}>{q.women.energyOptions.needCoffee}</option>
+              <option value={q.women.energyOptions.normal}>{q.women.energyOptions.normal}</option>
+              <option value={q.women.energyOptions.morningPieces}>{q.women.energyOptions.morningPieces}</option>
+              <option value={q.women.energyOptions.hardToWake}>{q.women.energyOptions.hardToWake}</option>
+              <option value={q.women.energyOptions.notRested}>{q.women.energyOptions.notRested}</option>
+              <option value={q.women.energyOptions.needCoffee}>{q.women.energyOptions.needCoffee}</option>
             </select>
           </FormField>
           <FormField label={q.women.memory} required error={errors.memory?.message}>
@@ -324,12 +324,12 @@ export default function WomenQuestionnairePage() {
           <FormField label={q.women.hasTests} required error={errors.hasTests?.message}>
             <select {...register('hasTests')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Да, есть анализы / УЗИ за последние 2–3 месяца' : 'Yes, I have tests / ultrasound from the last 2-3 months'}>{q.women.hasTestsOptions.yes}</option>
+              <option value={q.women.hasTestsOptions.yes}>{q.women.hasTestsOptions.yes}</option>
               <option value={q.no}>{q.no}</option>
             </select>
           </FormField>
 
-          {hasTests === (locale === 'ru' ? 'Да, есть анализы / УЗИ за последние 2–3 месяца' : 'Yes, I have tests / ultrasound from the last 2-3 months') && (
+          {hasTests === q.women.hasTestsOptions.yes && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
@@ -352,9 +352,9 @@ export default function WomenQuestionnairePage() {
           <FormField label={q.women.source} required error={errors.source?.message}>
             <select {...register('source')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Телеграмм' : 'Telegram'}>{q.women.sourceOptions.telegram}</option>
-              <option value={locale === 'ru' ? 'Инстаграм' : 'Instagram'}>{q.women.sourceOptions.instagram}</option>
-              <option value={locale === 'ru' ? 'По рекомендации' : 'By recommendation'}>{q.women.sourceOptions.recommendation}</option>
+              <option value={q.women.sourceOptions.telegram}>{q.women.sourceOptions.telegram}</option>
+              <option value={q.women.sourceOptions.instagram}>{q.women.sourceOptions.instagram}</option>
+              <option value={q.women.sourceOptions.recommendation}>{q.women.sourceOptions.recommendation}</option>
             </select>
           </FormField>
 

@@ -136,10 +136,10 @@ export default function InfantQuestionnairePage() {
           <FormField label={q.women.digestion} required error={errors.digestion?.message}>
             <select {...register('digestion')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.infant.digestionOptions.noProblems}</option>
-              <option value={locale === 'ru' ? 'Боли в животе' : 'Stomach pain'}>{q.infant.digestionOptions.stomachPain}</option>
-              <option value={locale === 'ru' ? 'Диарея' : 'Diarrhea'}>{q.infant.digestionOptions.diarrhea}</option>
-              <option value={locale === 'ru' ? 'Запор' : 'Constipation'}>{q.infant.digestionOptions.constipation}</option>
+              <option value={q.infant.digestionOptions.noProblems}>{q.infant.digestionOptions.noProblems}</option>
+              <option value={q.infant.digestionOptions.stomachPain}>{q.infant.digestionOptions.stomachPain}</option>
+              <option value={q.infant.digestionOptions.diarrhea}>{q.infant.digestionOptions.diarrhea}</option>
+              <option value={q.infant.digestionOptions.constipation}>{q.infant.digestionOptions.constipation}</option>
             </select>
           </FormField>
           <FormField label={q.infant.nightSweating} required error={errors.nightSweating?.message}>
@@ -159,24 +159,24 @@ export default function InfantQuestionnairePage() {
           <FormField label={q.infant.skinIssues} required error={errors.skinIssues?.message}>
             <select {...register('skinIssues')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.infant.skinIssuesOptions.noProblems}</option>
-              <option value={locale === 'ru' ? 'Родинки' : 'Moles'}>{q.infant.skinIssuesOptions.moles}</option>
-              <option value={locale === 'ru' ? 'Папилломы' : 'Papillomas'}>{q.infant.skinIssuesOptions.papillomas}</option>
-              <option value={locale === 'ru' ? 'Красные точки' : 'Red spots'}>{q.infant.skinIssuesOptions.redSpots}</option>
-              <option value={locale === 'ru' ? 'Высыпания' : 'Rashes'}>{q.infant.skinIssuesOptions.rashes}</option>
-              <option value={locale === 'ru' ? 'Экзема' : 'Eczema'}>{q.infant.skinIssuesOptions.eczema}</option>
-              <option value={locale === 'ru' ? 'Псориаз' : 'Psoriasis'}>{q.infant.skinIssuesOptions.psoriasis}</option>
+              <option value={q.infant.skinIssuesOptions.noProblems}>{q.infant.skinIssuesOptions.noProblems}</option>
+              <option value={q.infant.skinIssuesOptions.moles}>{q.infant.skinIssuesOptions.moles}</option>
+              <option value={q.infant.skinIssuesOptions.papillomas}>{q.infant.skinIssuesOptions.papillomas}</option>
+              <option value={q.infant.skinIssuesOptions.redSpots}>{q.infant.skinIssuesOptions.redSpots}</option>
+              <option value={q.infant.skinIssuesOptions.rashes}>{q.infant.skinIssuesOptions.rashes}</option>
+              <option value={q.infant.skinIssuesOptions.eczema}>{q.infant.skinIssuesOptions.eczema}</option>
+              <option value={q.infant.skinIssuesOptions.psoriasis}>{q.infant.skinIssuesOptions.psoriasis}</option>
             </select>
           </FormField>
           <FormField label={q.women.allergies} required error={errors.allergies?.message}>
             <select {...register('allergies')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.infant.allergiesOptions.noProblems}</option>
-              <option value={locale === 'ru' ? 'Цветение' : 'Pollen'}>{q.infant.allergiesOptions.pollen}</option>
-              <option value={locale === 'ru' ? 'Животные' : 'Animals'}>{q.infant.allergiesOptions.animals}</option>
-              <option value={locale === 'ru' ? 'Пыль' : 'Dust'}>{q.infant.allergiesOptions.dust}</option>
-              <option value={locale === 'ru' ? 'Еда' : 'Food'}>{q.infant.allergiesOptions.food}</option>
-              <option value={locale === 'ru' ? 'Другое' : 'Other'}>{q.infant.allergiesOptions.other}</option>
+              <option value={q.infant.allergiesOptions.noProblems}>{q.infant.allergiesOptions.noProblems}</option>
+              <option value={q.infant.allergiesOptions.pollen}>{q.infant.allergiesOptions.pollen}</option>
+              <option value={q.infant.allergiesOptions.animals}>{q.infant.allergiesOptions.animals}</option>
+              <option value={q.infant.allergiesOptions.dust}>{q.infant.allergiesOptions.dust}</option>
+              <option value={q.infant.allergiesOptions.food}>{q.infant.allergiesOptions.food}</option>
+              <option value={q.infant.allergiesOptions.other}>{q.infant.allergiesOptions.other}</option>
             </select>
           </FormField>
           <FormField label={q.infant.waterIntake} required error={errors.waterIntake?.message}>
@@ -197,12 +197,12 @@ export default function InfantQuestionnairePage() {
           <FormField label={q.infant.injuriesLabel} required error={errors.injuries?.message}>
             <select {...register('injuries')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Все в порядке' : 'All good'}>{q.infant.injuriesOptions.allGood}</option>
-              <option value={locale === 'ru' ? 'Травмы' : 'Injuries'}>{q.infant.injuriesOptions.injuries}</option>
-              <option value={locale === 'ru' ? 'Операции' : 'Operations'}>{q.infant.injuriesOptions.operations}</option>
-              <option value={locale === 'ru' ? 'Удары по голове' : 'Head injuries'}>{q.infant.injuriesOptions.headInjuries}</option>
-              <option value={locale === 'ru' ? 'Переломы' : 'Fractures'}>{q.infant.injuriesOptions.fractures}</option>
-              <option value={locale === 'ru' ? 'Сильные падения' : 'Severe falls'}>{q.infant.injuriesOptions.falls}</option>
+              <option value={q.infant.injuriesOptions.allGood}>{q.infant.injuriesOptions.allGood}</option>
+              <option value={q.infant.injuriesOptions.injuries}>{q.infant.injuriesOptions.injuries}</option>
+              <option value={q.infant.injuriesOptions.operations}>{q.infant.injuriesOptions.operations}</option>
+              <option value={q.infant.injuriesOptions.headInjuries}>{q.infant.injuriesOptions.headInjuries}</option>
+              <option value={q.infant.injuriesOptions.fractures}>{q.infant.injuriesOptions.fractures}</option>
+              <option value={q.infant.injuriesOptions.falls}>{q.infant.injuriesOptions.falls}</option>
             </select>
           </FormField>
           <FormField label={q.infant.injuriesDetails} required error={errors.injuriesDetails?.message}>
@@ -211,18 +211,18 @@ export default function InfantQuestionnairePage() {
           <FormField label={q.infant.sleep} required error={errors.sleep?.message}>
             <select {...register('sleep')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Хорошо' : 'Good'}>{q.infant.sleepOptions.good}</option>
-              <option value={locale === 'ru' ? 'Плохо' : 'Bad'}>{q.infant.sleepOptions.bad}</option>
-              <option value={locale === 'ru' ? 'Иногда проблемно' : 'Sometimes problematic'}>{q.infant.sleepOptions.sometimes}</option>
+              <option value={q.infant.sleepOptions.good}>{q.infant.sleepOptions.good}</option>
+              <option value={q.infant.sleepOptions.bad}>{q.infant.sleepOptions.bad}</option>
+              <option value={q.infant.sleepOptions.sometimes}>{q.infant.sleepOptions.sometimes}</option>
             </select>
           </FormField>
           <FormField label={q.infant.illnesses} required error={errors.illnesses?.message}>
             <select {...register('illnesses')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Редко болеет' : 'Rarely gets sick'}>{q.infant.illnessesOptions.rarely}</option>
-              <option value={locale === 'ru' ? 'Часто болеет' : 'Often gets sick'}>{q.infant.illnessesOptions.often}</option>
-              <option value={locale === 'ru' ? 'Принимал антибиотики' : 'Has taken antibiotics'}>{q.infant.illnessesOptions.antibiotics}</option>
-              <option value={locale === 'ru' ? 'И часто болеет, и принимал антибиотики' : 'Both often gets sick and has taken antibiotics'}>{q.infant.illnessesOptions.both}</option>
+              <option value={q.infant.illnessesOptions.rarely}>{q.infant.illnessesOptions.rarely}</option>
+              <option value={q.infant.illnessesOptions.often}>{q.infant.illnessesOptions.often}</option>
+              <option value={q.infant.illnessesOptions.antibiotics}>{q.infant.illnessesOptions.antibiotics}</option>
+              <option value={q.infant.illnessesOptions.both}>{q.infant.illnessesOptions.both}</option>
             </select>
           </FormField>
         </div>
@@ -240,8 +240,8 @@ export default function InfantQuestionnairePage() {
           <FormField label={q.infant.birthType} required error={errors.birthType?.message}>
             <select {...register('birthType')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Естественно' : 'Natural'}>{q.infant.birthTypeOptions.natural}</option>
-              <option value={locale === 'ru' ? 'Кесарево' : 'Cesarean'}>{q.infant.birthTypeOptions.cesarean}</option>
+              <option value={q.infant.birthTypeOptions.natural}>{q.infant.birthTypeOptions.natural}</option>
+              <option value={q.infant.birthTypeOptions.cesarean}>{q.infant.birthTypeOptions.cesarean}</option>
             </select>
           </FormField>
           <FormField label={q.infant.toxemia} required error={errors.toxemia?.message}>
@@ -307,20 +307,20 @@ export default function InfantQuestionnairePage() {
           <FormField label={q.infant.source} required error={errors.source?.message}>
             <select {...register('source')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Инстаграм' : 'Instagram'}>{q.infant.sourceOptions.instagram}</option>
-              <option value={locale === 'ru' ? 'Телеграмм канал' : 'Telegram channel'}>{q.infant.sourceOptions.telegram}</option>
-              <option value={locale === 'ru' ? 'По рекомендации' : 'By recommendation'}>{q.infant.sourceOptions.recommendation}</option>
+              <option value={q.infant.sourceOptions.instagram}>{q.infant.sourceOptions.instagram}</option>
+              <option value={q.infant.sourceOptions.telegram}>{q.infant.sourceOptions.telegram}</option>
+              <option value={q.infant.sourceOptions.recommendation}>{q.infant.sourceOptions.recommendation}</option>
             </select>
           </FormField>
           <FormField label={q.women.hasTests} required error={errors.hasTests?.message}>
             <select {...register('hasTests')}>
               <option value="">{q.select}</option>
-              <option value={locale === 'ru' ? 'Да, есть анализы / УЗИ за последние 2–3 месяца' : 'Yes, I have tests / ultrasound from the last 2-3 months'}>{q.women.hasTestsOptions.yes}</option>
+              <option value={q.women.hasTestsOptions.yes}>{q.women.hasTestsOptions.yes}</option>
               <option value={q.no}>{q.no}</option>
             </select>
           </FormField>
 
-          {hasTests === (locale === 'ru' ? 'Да, есть анализы / УЗИ за последние 2–3 месяца' : 'Yes, I have tests / ultrasound from the last 2-3 months') && (
+          {hasTests === q.women.hasTestsOptions.yes && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
