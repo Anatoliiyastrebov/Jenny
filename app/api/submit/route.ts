@@ -27,19 +27,34 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Collect files
+    // Collect files - iterate through all formData entries to find files
     const files: File[] = [];
     const fileCount = parseInt(formData.get('fileCount') as string) || 0;
     
     console.log(`Received fileCount: ${fileCount}`);
+    console.log(`FormData entries:`, Array.from(formData.keys()));
     
+    // Try to get files by index first
     for (let i = 0; i < fileCount; i++) {
-      const file = formData.get(`file_${i}`) as File | null;
-      if (file && file.size > 0) {
-        console.log(`File ${i}: ${file.name}, size: ${file.size}, type: ${file.type}`);
-        files.push(file);
+      const fileEntry = formData.get(`file_${i}`);
+      if (fileEntry instanceof File) {
+        const file = fileEntry as File;
+        if (file.size > 0) {
+          console.log(`File ${i}: ${file.name}, size: ${file.size}, type: ${file.type}`);
+          files.push(file);
+        } else {
+          console.log(`File ${i}: empty (size: ${file.size})`);
+        }
+      } else if (fileEntry) {
+        // If it's a Blob, convert to File
+        const blob = fileEntry as Blob;
+        const file = new File([blob], `file_${i}`, { type: blob.type });
+        if (file.size > 0) {
+          console.log(`File ${i} (from Blob): ${file.name}, size: ${file.size}, type: ${file.type}`);
+          files.push(file);
+        }
       } else {
-        console.log(`File ${i}: missing or empty`);
+        console.log(`File ${i}: not found`);
       }
     }
     
