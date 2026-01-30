@@ -77,7 +77,7 @@ export function Navbar() {
       window.removeEventListener('resize', checkVisibility);
       resizeObserver.disconnect();
     };
-  }, [pathname, locale, navItems]);
+  }, [pathname, locale, t.nav]);
 
   return (
     <nav className="bg-white shadow-sm border-b border-medical-200 sticky top-0 z-50">
