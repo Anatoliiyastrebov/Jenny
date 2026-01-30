@@ -222,19 +222,14 @@ async function sendFileToTelegram(
     }
     
     // Append file with proper field name
-    // For images, Telegram accepts photo as Buffer directly
-    // For documents, we need to specify filename
-    if (isImage) {
-      formData.append(fieldName, buffer, {
-        filename: file.name,
-        contentType: file.type || 'image/jpeg',
-      });
-    } else {
-      formData.append(fieldName, buffer, {
-        filename: file.name,
-        contentType: file.type || 'application/octet-stream',
-      });
-    }
+    // Telegram API requires files to be sent as multipart/form-data
+    // For images, use 'photo' field, for videos 'video', for others 'document'
+    const fileOptions: any = {
+      filename: file.name,
+      contentType: file.type || (isImage ? 'image/jpeg' : 'application/octet-stream'),
+    };
+    
+    formData.append(fieldName, buffer, fileOptions);
 
     // Add caption with file name (only for documents and videos)
     if (!isImage) {
