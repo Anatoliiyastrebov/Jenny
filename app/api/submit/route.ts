@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { questionnaireTranslations } from '@/lib/questionnaire-translations';
 
 export const runtime = 'nodejs';
 
@@ -155,53 +156,251 @@ export async function POST(request: NextRequest) {
 }
 
 function formatQuestionnaireMessage(type: string, data: Record<string, any>, locale: string): string {
-  const date = new Date().toLocaleString(locale === 'ru' ? 'ru-RU' : 'en-US');
+  const validLocale = (locale === 'ru' || locale === 'en') ? locale : 'ru';
+  const date = new Date().toLocaleString(validLocale === 'ru' ? 'ru-RU' : 'en-US');
+  const t = questionnaireTranslations[validLocale];
   
-  let message = `<b>📋 Новая анкета: ${type}</b>\n\n`;
-  message += `<b>Язык:</b> ${locale === 'ru' ? 'Русский' : 'English'}\n`;
-  message += `<b>Дата и время:</b> ${date}\n\n`;
-  message += `<b>Данные:</b>\n`;
-
-  for (const [key, value] of Object.entries(data)) {
-    if (key === 'files' || key === 'gdprConsent' || !value || value === '') continue;
+  // Определяем название анкеты на правильном языке
+  const typeLabels: Record<string, { ru: string; en: string }> = {
+    women: { ru: 'Женская анкета', en: "Women's Questionnaire" },
+    men: { ru: 'Мужская анкета', en: "Men's Questionnaire" },
+    infant: { ru: 'Анкета для младенца', en: 'Infant Questionnaire' },
+    child: { ru: 'Детская анкета', en: "Children's Questionnaire" },
+  };
+  
+  const typeLabel = typeLabels[type]?.[validLocale] || type;
+  
+  let message = `<b>📋 ${validLocale === 'ru' ? 'Новая анкета' : 'New Questionnaire'}: ${typeLabel}</b>\n\n`;
+  message += `<b>${validLocale === 'ru' ? 'Язык' : 'Language'}:</b> ${validLocale === 'ru' ? 'Русский' : 'English'}\n`;
+  message += `<b>${validLocale === 'ru' ? 'Дата и время' : 'Date and Time'}:</b> ${date}\n\n`;
+  
+  // Определяем порядок полей для каждой анкеты
+  const fieldOrder = getFieldOrder(type);
+  const personalDataFields = getPersonalDataFields(type);
+  
+  // Разделяем на личные данные и вопросы
+  const personalData: Array<[string, any]> = [];
+  const questions: Array<[string, any]> = [];
+  
+  for (const key of fieldOrder) {
+    if (!data[key] || data[key] === '' || key === 'files' || key === 'gdprConsent') continue;
     
-    const label = formatFieldLabel(key);
-    let formattedValue = value;
-
-    if (Array.isArray(value)) {
-      formattedValue = value.join(', ');
-    } else if (typeof value === 'object' && value !== null) {
-      formattedValue = JSON.stringify(value);
-    } else if (typeof value === 'boolean') {
-      formattedValue = value ? 'Да' : 'Нет';
+    if (personalDataFields.includes(key)) {
+      personalData.push([key, data[key]]);
     } else {
-      formattedValue = String(value);
+      questions.push([key, data[key]]);
     }
-
-    formattedValue = String(formattedValue)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-
-    message += `<b>${label}:</b> ${formattedValue}\n`;
+  }
+  
+  // Личные данные
+  if (personalData.length > 0) {
+    message += `<b>${validLocale === 'ru' ? 'Личные данные' : 'Personal Data'}:</b>\n`;
+    for (const [key, value] of personalData) {
+      const label = getFieldLabel(key, type, validLocale);
+      const formattedValue = formatValue(value, validLocale);
+      message += `<b>${label}:</b> ${formattedValue}\n`;
+    }
+    message += `\n`;
+  }
+  
+  // Вопросы с нумерацией
+  if (questions.length > 0) {
+    message += `<b>${validLocale === 'ru' ? 'Вопросы' : 'Questions'}:</b>\n`;
+    let questionNumber = 1;
+    for (const [key, value] of questions) {
+      const label = getFieldLabel(key, type, validLocale);
+      const formattedValue = formatValue(value, validLocale);
+      message += `${questionNumber}. <b>${label}:</b> ${formattedValue}\n`;
+      questionNumber++;
+    }
   }
 
   return message;
 }
 
-function formatFieldLabel(key: string): string {
-  const labels: Record<string, string> = {
-    firstName: 'Имя',
-    lastName: 'Фамилия',
-    age: 'Возраст',
-    weight: 'Вес',
-    country: 'Страна',
-    city: 'Город',
-    waterIntake: 'Потребление воды',
-    mainProblem: 'Основная проблема',
-    additional: 'Дополнительно',
-    source: 'Источник',
+function getPersonalDataFields(type: string): string[] {
+  const commonFields = ['firstName', 'lastName', 'age', 'weight', 'country', 'city'];
+  if (type === 'infant') {
+    return ['firstName', 'lastName', 'ageMonths', 'weight', 'country', 'city'];
+  }
+  return commonFields;
+}
+
+function getFieldOrder(type: string): string[] {
+  const orders: Record<string, string[]> = {
+    women: [
+      'firstName', 'lastName', 'age', 'weight', 'country', 'city',
+      'waterIntake', 'covid', 'covidComplications', 'hair', 'teeth', 'digestion',
+      'stones', 'operations', 'pressure', 'chronicDiseases', 'headaches', 'numbness',
+      'varicose', 'joints', 'cysts', 'herpes', 'menstruation', 'lifestyle',
+      'skin', 'allergies', 'colds', 'sleep', 'energy', 'memory',
+      'medications', 'cleansing', 'hasTests', 'additional', 'mainProblem', 'source'
+    ],
+    men: [
+      'firstName', 'lastName', 'age', 'weight', 'country', 'city',
+      'weightSatisfaction', 'weightChange', 'covid', 'digestion', 'varicose', 'teeth',
+      'joints', 'coldLimbs', 'headaches', 'operations', 'stones', 'pressure',
+      'waterIntake', 'moles', 'allergies', 'skin', 'sleep', 'energy',
+      'memory', 'cleansing', 'mainProblem', 'additional', 'source', 'hasTests'
+    ],
+    infant: [
+      'firstName', 'lastName', 'ageMonths', 'weight', 'country', 'city',
+      'digestion', 'nightSweating', 'badBreath', 'skinIssues', 'allergies', 'waterIntake',
+      'injuries', 'injuriesDetails', 'sleep', 'illnesses',
+      'birthType', 'toxemia', 'motherAllergies', 'motherConstipation', 'motherAntibiotics',
+      'motherAnemia', 'pregnancyProblems', 'additional', 'mainProblem', 'source', 'hasTests'
+    ],
+    child: [
+      'firstName', 'lastName', 'age', 'weight', 'country', 'city',
+      'digestion', 'teeth', 'nightSweating', 'sweets', 'skinIssues', 'allergies',
+      'hyperactivity', 'waterIntake', 'injuries', 'headaches', 'illnesses', 'joints',
+      'mainProblem', 'additional', 'source', 'hasTests'
+    ],
   };
-  return labels[key] || key;
+  return orders[type] || [];
+}
+
+function getFieldLabel(key: string, type: string, locale: 'ru' | 'en'): string {
+  const t = questionnaireTranslations[locale];
+  
+  // Общие поля
+  if (key === 'firstName') return t.firstName;
+  if (key === 'lastName') return t.lastName;
+  if (key === 'age') return t.age;
+  if (key === 'ageMonths') return locale === 'ru' ? 'Возраст (месяцы)' : 'Age (months)';
+  if (key === 'weight') return t.weight;
+  if (key === 'country') return t.country;
+  if (key === 'city') return t.city;
+  
+  // Поля по типам анкет
+  if (type === 'women') {
+    const w = t.women as any;
+    if (key === 'waterIntake') return w.waterIntake;
+    if (key === 'covid') return w.covid;
+    if (key === 'covidComplications') return w.covidComplications;
+    if (key === 'hair') return w.hair;
+    if (key === 'teeth') return w.teeth;
+    if (key === 'digestion') return w.digestion;
+    if (key === 'stones') return w.stones;
+    if (key === 'operations') return w.operations;
+    if (key === 'pressure') return w.pressure;
+    if (key === 'chronicDiseases') return w.chronicDiseases;
+    if (key === 'headaches') return w.headaches;
+    if (key === 'numbness') return w.numbness;
+    if (key === 'varicose') return w.varicose;
+    if (key === 'joints') return w.joints;
+    if (key === 'cysts') return w.cysts;
+    if (key === 'herpes') return w.herpes;
+    if (key === 'menstruation') return w.menstruation;
+    if (key === 'lifestyle') return w.lifestyle;
+    if (key === 'skin') return w.skin;
+    if (key === 'allergies') return w.allergies;
+    if (key === 'colds') return w.colds;
+    if (key === 'sleep') return w.sleep;
+    if (key === 'energy') return w.energy;
+    if (key === 'memory') return w.memory;
+    if (key === 'medications') return w.medications;
+    if (key === 'cleansing') return w.cleansing;
+    if (key === 'hasTests') return w.hasTests;
+    if (key === 'additional') return w.additional;
+    if (key === 'mainProblem') return w.mainProblem;
+    if (key === 'source') return w.source;
+  }
+  
+  if (type === 'men') {
+    const m = t.men as any;
+    if (key === 'weightSatisfaction') return m.weightSatisfaction;
+    if (key === 'weightChange') return m.weightChange;
+    if (key === 'covid') return m.covid;
+    if (key === 'digestion') return m.digestion;
+    if (key === 'varicose') return m.varicose;
+    if (key === 'teeth') return m.teeth;
+    if (key === 'joints') return m.joints;
+    if (key === 'coldLimbs') return m.coldLimbs;
+    if (key === 'headaches') return m.headaches;
+    if (key === 'operations') return m.operations;
+    if (key === 'stones') return m.stones;
+    if (key === 'pressure') return m.pressure;
+    if (key === 'waterIntake') return m.waterIntake;
+    if (key === 'moles') return m.moles;
+    if (key === 'allergies') return m.allergies;
+    if (key === 'skin') return m.skin;
+    if (key === 'sleep') return m.sleep;
+    if (key === 'energy') return m.energy;
+    if (key === 'memory') return m.memory;
+    if (key === 'cleansing') return m.cleansing;
+    if (key === 'mainProblem') return m.mainProblem;
+    if (key === 'additional') return m.additional;
+    if (key === 'source') return m.source;
+    if (key === 'hasTests') return m.hasTests;
+  }
+  
+  if (type === 'infant') {
+    const i = t.infant as any;
+    if (key === 'digestion') return i.digestion;
+    if (key === 'nightSweating') return i.nightSweating;
+    if (key === 'badBreath') return i.badBreath;
+    if (key === 'skinIssues') return i.skinIssues;
+    if (key === 'allergies') return i.allergies;
+    if (key === 'waterIntake') return i.waterIntake;
+    if (key === 'injuries') return i.injuriesLabel;
+    if (key === 'injuriesDetails') return i.injuriesDetails;
+    if (key === 'sleep') return i.sleep;
+    if (key === 'illnesses') return i.illnesses;
+    if (key === 'birthType') return i.birthType;
+    if (key === 'toxemia') return i.toxemia;
+    if (key === 'motherAllergies') return i.motherAllergies;
+    if (key === 'motherConstipation') return i.motherConstipation;
+    if (key === 'motherAntibiotics') return i.motherAntibiotics;
+    if (key === 'motherAnemia') return i.motherAnemia;
+    if (key === 'pregnancyProblems') return i.pregnancyProblems;
+    if (key === 'additional') return i.additional;
+    if (key === 'mainProblem') return i.mainProblem;
+    if (key === 'source') return i.source;
+    if (key === 'hasTests') {
+      if (type === 'infant') {
+        const i = t.infant as any;
+        return i.hasTests || (locale === 'ru' ? 'Есть анализы/УЗИ' : 'Has tests/ultrasound');
+      }
+    }
+  }
+  
+  if (type === 'child') {
+    const c = t.child as any;
+    if (key === 'digestion') return c.digestion;
+    if (key === 'teeth') return c.teeth;
+    if (key === 'nightSweating') return c.nightSweating;
+    if (key === 'sweets') return c.sweets;
+    if (key === 'skinIssues') return c.skinIssues;
+    if (key === 'allergies') return c.allergies;
+    if (key === 'hyperactivity') return c.hyperactivity;
+    if (key === 'waterIntake') return c.waterIntake;
+    if (key === 'injuries') return c.injuriesLabel;
+    if (key === 'headaches') return c.headaches;
+    if (key === 'illnesses') return c.illnesses;
+    if (key === 'joints') return c.joints;
+    if (key === 'mainProblem') return locale === 'ru' ? 'Основная проблема' : 'Main problem';
+    if (key === 'additional') return c.additional;
+    if (key === 'source') return c.source;
+    if (key === 'hasTests') return c.hasTests;
+  }
+  
+  return key;
+}
+
+function formatValue(value: any, locale: 'ru' | 'en'): string {
+  if (Array.isArray(value)) {
+    return value.join(', ');
+  } else if (typeof value === 'object' && value !== null) {
+    return JSON.stringify(value);
+  } else if (typeof value === 'boolean') {
+    return value ? (locale === 'ru' ? 'Да' : 'Yes') : (locale === 'ru' ? 'Нет' : 'No');
+  } else {
+    const str = String(value);
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
 }
 
