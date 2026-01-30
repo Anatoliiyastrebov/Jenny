@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   keywords: 'здоровье, wellness, анкетирование, консультация, Дженни',
   authors: [{ name: 'Jenny Wellness Consultant' }],
   robots: 'index, follow',
+  icons: {
+    icon: '/icon.svg',
+    apple: '/icon.svg',
+  },
   openGraph: {
     type: 'website',
     locale: 'ru_RU',
