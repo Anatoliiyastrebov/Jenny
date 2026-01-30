@@ -134,7 +134,6 @@ export default function MenQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.1 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.men.health}</h2>
         <div className="space-y-4">
           <FormField label={q.men.weightSatisfaction} required error={errors.weightSatisfaction?.message}>
             <select {...register('weightSatisfaction')}>
@@ -215,7 +214,6 @@ export default function MenQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.2 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.men.health}</h2>
         <div className="space-y-4">
           <FormField label={q.men.headaches} required error={errors.headaches?.message}>
             <select {...register('headaches')}>
@@ -306,7 +304,6 @@ export default function MenQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.3 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.men.health}</h2>
         <div className="space-y-4">
           <FormField label={q.women.sleep} required error={errors.sleep?.message}>
             <select {...register('sleep')}>

@@ -134,7 +134,6 @@ export default function InfantQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.1 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.infant.health}</h2>
         <div className="space-y-4">
           <FormField label={q.women.digestion} required error={errors.digestion?.message}>
             <select {...register('digestion')}>
@@ -311,7 +310,6 @@ export default function InfantQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.4 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.infant.completion}</h2>
         <div className="space-y-4">
           <FormField label={q.infant.additional} required error={errors.additional?.message}>
             <textarea {...register('additional')} rows={4} />

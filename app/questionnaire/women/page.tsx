@@ -214,9 +214,6 @@ export default function WomenQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.1 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">
-          {q.women.health}
-        </h2>
         <div className="space-y-4">
           <FormField label={q.women.stones} required error={errors.stones?.message}>
             <select {...register('stones')}>
@@ -294,9 +291,6 @@ export default function WomenQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.15 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">
-          {q.women.health}
-        </h2>
         <div className="space-y-4">
           <FormField label={q.women.varicose} required error={errors.varicose?.message}>
             <select {...register('varicose')}>
@@ -384,9 +378,6 @@ export default function WomenQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.2 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">
-          {q.women.health}
-        </h2>
         <div className="space-y-4">
           <FormField label={q.women.skin} required error={errors.skin?.message}>
             <select {...register('skin')}>
@@ -489,9 +480,6 @@ export default function WomenQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.25 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">
-          {q.women.completion}
-        </h2>
         <div className="space-y-4">
           <FormField label={q.women.hasTests} required error={errors.hasTests?.message}>
             <select {...register('hasTests')}>
