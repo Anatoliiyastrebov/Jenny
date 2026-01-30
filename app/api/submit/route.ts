@@ -65,12 +65,24 @@ export async function POST(request: NextRequest) {
           console.error(`Error converting Blob to File ${i}:`, error);
         }
       } 
-      // Handle other types
+      // Handle other types - try to read as ArrayBuffer and create File
       else {
-        console.log(`File ${i}: unexpected type: ${typeof fileEntry}`);
-        // Try to read as Blob if possible
-        if (typeof fileEntry === 'string') {
-          console.warn(`File ${i} is a string, cannot process as file`);
+        console.log(`File ${i}: unexpected type: ${typeof fileEntry}, attempting conversion...`);
+        try {
+          // If it's a string, we can't process it
+          if (typeof fileEntry === 'string') {
+            console.warn(`File ${i} is a string, cannot process as file`);
+          } else {
+            // Try to create a Blob and then File
+            const blob = new Blob([fileEntry as any]);
+            const fileName = `file_${i}`;
+            file = new File([blob], fileName, { 
+              type: 'application/octet-stream' 
+            });
+            console.log(`File ${i}: Created from unknown type - ${file.name}, ${file.size} bytes`);
+          }
+        } catch (error) {
+          console.error(`Error handling file entry ${i}:`, error);
         }
       }
       
@@ -85,6 +97,18 @@ export async function POST(request: NextRequest) {
     }
     
     console.log(`Total files collected: ${files.length}`);
+    
+    // Also try to get all files from FormData (alternative method)
+    if (files.length === 0 && fileCount > 0) {
+      console.log('No files collected by index, trying alternative method...');
+      for (const [key, value] of formData.entries()) {
+        if (key.startsWith('file_') && value instanceof File) {
+          console.log(`Found file by key ${key}: ${value.name}, ${value.size} bytes`);
+          files.push(value);
+        }
+      }
+      console.log(`Alternative method found ${files.length} file(s)`);
+    }
 
     // Check Telegram credentials
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
