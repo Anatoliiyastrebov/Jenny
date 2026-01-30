@@ -45,16 +45,22 @@ export async function POST(request: NextRequest) {
         } else {
           console.log(`File ${i}: empty (size: ${file.size})`);
         }
-      } else if (fileEntry instanceof Blob && !(fileEntry instanceof File)) {
-        // If it's a Blob (but not File), convert to File
-        const blob = fileEntry;
-        const file = new File([blob], `file_${i}`, { type: blob.type });
-        if (file.size > 0) {
-          console.log(`File ${i} (from Blob): size: ${file.size}, type: ${file.type}`);
-          files.push(file);
+      } else if (fileEntry && typeof fileEntry === 'object' && 'size' in fileEntry) {
+        // Handle Blob-like objects (for serverless compatibility)
+        try {
+          const blob = fileEntry as any;
+          const file = new File([blob], `file_${i}`, { 
+            type: blob.type || 'application/octet-stream' 
+          });
+          if (file.size > 0) {
+            console.log(`File ${i} (from Blob-like): size: ${file.size}, type: ${file.type}`);
+            files.push(file);
+          }
+        } catch (error) {
+          console.error(`Error converting file ${i}:`, error);
         }
       } else if (fileEntry) {
-        console.log(`File ${i}: unexpected type: ${typeof fileEntry}, value:`, fileEntry);
+        console.log(`File ${i}: unexpected type: ${typeof fileEntry}`);
       } else {
         console.log(`File ${i}: not found`);
       }
