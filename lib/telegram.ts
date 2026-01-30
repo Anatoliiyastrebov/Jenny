@@ -2,7 +2,7 @@ export interface QuestionnaireSubmission {
   type: string;
   data: Record<string, any>;
   locale: string;
-  files?: File[];
+  files?: (File | Blob)[];
 }
 
 export async function sendToTelegram(submission: QuestionnaireSubmission): Promise<boolean> {
@@ -41,7 +41,8 @@ export async function sendToTelegram(submission: QuestionnaireSubmission): Promi
       console.log(`Sending ${submission.files.length} file(s) to Telegram...`);
       for (let i = 0; i < submission.files.length; i++) {
         const file = submission.files[i];
-        console.log(`Sending file ${i + 1}/${submission.files.length}: ${file.name}`);
+        const fileName = file instanceof File ? file.name : `file_${i + 1}`;
+        console.log(`Sending file ${i + 1}/${submission.files.length}: ${fileName}`);
         await sendFileToTelegram(botToken, chatId, file);
         // Small delay between files to avoid rate limiting
         if (i < submission.files.length - 1) {
@@ -172,24 +173,51 @@ function formatFieldLabel(key: string): string {
 async function sendFileToTelegram(
   botToken: string,
   chatId: string,
-  file: File
+  file: File | Blob
 ): Promise<void> {
   try {
-    console.log(`Sending file: ${file.name}, size: ${file.size} bytes, type: ${file.type}`);
+    const fileName = file instanceof File ? file.name : 'file';
+    const fileType = file.type || '';
+    const fileSize = file.size;
     
-    // Convert File to Buffer for serverless environment
+    console.log(`Sending file: ${fileName}, size: ${fileSize} bytes, type: ${fileType}`);
+    
+    // Convert File/Blob to Buffer for serverless environment
     let buffer: Buffer;
     try {
-      const arrayBuffer = await file.arrayBuffer();
-      buffer = Buffer.from(arrayBuffer);
+      // Use stream() method if available (for better memory efficiency)
+      if ('stream' in file && typeof file.stream === 'function') {
+        const stream = file.stream();
+        const chunks: Uint8Array[] = [];
+        const reader = stream.getReader();
+        
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          chunks.push(value);
+        }
+        
+        const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
+        const combined = new Uint8Array(totalLength);
+        let offset = 0;
+        for (const chunk of chunks) {
+          combined.set(chunk, offset);
+          offset += chunk.length;
+        }
+        buffer = Buffer.from(combined);
+      } else {
+        // Fallback to arrayBuffer()
+        const arrayBuffer = await file.arrayBuffer();
+        buffer = Buffer.from(arrayBuffer);
+      }
       console.log(`File converted to buffer: ${buffer.length} bytes`);
     } catch (error) {
       console.error(`Error converting file to buffer:`, error);
-      throw new Error(`Failed to read file ${file.name}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(`Failed to read file ${fileName}: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
     
     if (buffer.length === 0) {
-      throw new Error(`File ${file.name} is empty`);
+      throw new Error(`File ${fileName} is empty`);
     }
     
     // Use form-data package for proper multipart/form-data encoding
@@ -199,12 +227,11 @@ async function sendFileToTelegram(
     formData.append('chat_id', chatId);
     
     // Determine file type and use appropriate Telegram API method
-    const fileType = file.type || '';
-    const fileName = file.name.toLowerCase();
+    const fileNameLower = fileName.toLowerCase();
     const isImage = fileType.startsWith('image/') || 
-                    /\.(jpg|jpeg|png|gif|webp|bmp)$/i.test(fileName);
+                    /\.(jpg|jpeg|png|gif|webp|bmp)$/i.test(fileNameLower);
     const isVideo = fileType.startsWith('video/') || 
-                    /\.(mp4|avi|mov|wmv|flv|webm|mkv)$/i.test(fileName);
+                    /\.(mp4|avi|mov|wmv|flv|webm|mkv)$/i.test(fileNameLower);
     
     let apiMethod = 'sendDocument';
     let fieldName = 'document';
@@ -225,15 +252,15 @@ async function sendFileToTelegram(
     // Telegram API requires files to be sent as multipart/form-data
     // For images, use 'photo' field, for videos 'video', for others 'document'
     const fileOptions: any = {
-      filename: file.name,
-      contentType: file.type || (isImage ? 'image/jpeg' : 'application/octet-stream'),
+      filename: fileName,
+      contentType: fileType || (isImage ? 'image/jpeg' : 'application/octet-stream'),
     };
     
     formData.append(fieldName, buffer, fileOptions);
 
     // Add caption with file name (only for documents and videos)
     if (!isImage) {
-      formData.append('caption', `📎 ${file.name}`);
+      formData.append('caption', `📎 ${fileName}`);
     }
 
     const headers = formData.getHeaders();
@@ -254,7 +281,7 @@ async function sendFileToTelegram(
     console.log(`Telegram API response:`, responseText.substring(0, 200));
 
     if (!response.ok) {
-      let errorMessage = `Failed to send file ${file.name}`;
+      let errorMessage = `Failed to send file ${fileName}`;
       try {
         const errorJson = JSON.parse(responseText);
         errorMessage = errorJson.description || errorMessage;
@@ -268,12 +295,12 @@ async function sendFileToTelegram(
     
     const result = JSON.parse(responseText);
     if (result.ok) {
-      console.log(`✅ File ${file.name} sent successfully`);
+      console.log(`✅ File ${fileName} sent successfully`);
     } else {
       throw new Error(`Telegram API returned ok=false: ${result.description || 'Unknown error'}`);
     }
   } catch (error) {
-    console.error(`❌ Error sending file ${file.name}:`, error);
+    console.error(`❌ Error sending file ${file instanceof File ? file.name : 'file'}:`, error);
     throw error;
   }
 }

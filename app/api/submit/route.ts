@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Collect files - iterate through all entries to find files
-    const files: File[] = [];
+    const files: (File | Blob)[] = [];
     const fileCount = parseInt(formData.get('fileCount') as string) || 0;
     
     console.log(`Received fileCount: ${fileCount}`);
@@ -43,51 +43,66 @@ export async function POST(request: NextRequest) {
         continue;
       }
       
-      let file: File | null = null;
+      let file: File | Blob | null = null;
       
-      // Type guard for File
-      if (fileEntry instanceof File) {
-        console.log(`File ${i}: File instance - ${fileEntry.name}, ${fileEntry.size} bytes, ${fileEntry.type}`);
-        file = fileEntry;
-      } 
-      // Type guard for Blob (but not File)
-      else if (typeof fileEntry === 'object' && fileEntry !== null && 'size' in fileEntry && 'type' in fileEntry) {
+      // Type guard for File - check if it has name property (File has name, Blob doesn't)
+      if (typeof fileEntry === 'object' && fileEntry !== null && 'name' in fileEntry && 'size' in fileEntry && 'type' in fileEntry) {
+        // It's likely a File
         try {
-          const blob = fileEntry as Blob;
-          console.log(`File ${i}: Blob-like object, size: ${blob.size}, type: ${blob.type}`);
-          // Try to get filename from formData if available
-          const fileName = (fileEntry as any).name || `file_${i}`;
-          file = new File([blob], fileName, { 
-            type: blob.type || 'application/octet-stream' 
-          });
-          console.log(`File ${i}: Converted to File - ${file.name}, ${file.size} bytes`);
-        } catch (error) {
-          console.error(`Error converting Blob to File ${i}:`, error);
-        }
-      } 
-      // Handle other types - try to read as ArrayBuffer and create File
-      else {
-        console.log(`File ${i}: unexpected type: ${typeof fileEntry}, attempting conversion...`);
-        try {
-          // If it's a string, we can't process it
-          if (typeof fileEntry === 'string') {
-            console.warn(`File ${i} is a string, cannot process as file`);
+          const fileEntryAsFile = fileEntry as any;
+          if (fileEntryAsFile instanceof File) {
+            console.log(`File ${i}: File instance - ${fileEntryAsFile.name}, ${fileEntryAsFile.size} bytes, ${fileEntryAsFile.type}`);
+            file = fileEntryAsFile;
           } else {
-            // Try to create a Blob and then File
-            const blob = new Blob([fileEntry as any]);
-            const fileName = `file_${i}`;
-            file = new File([blob], fileName, { 
-              type: 'application/octet-stream' 
+            // Create File from object with name property
+            file = new File([fileEntryAsFile], fileEntryAsFile.name || `file_${i}`, { 
+              type: fileEntryAsFile.type || 'application/octet-stream' 
             });
-            console.log(`File ${i}: Created from unknown type - ${file.name}, ${file.size} bytes`);
+            console.log(`File ${i}: Created File from object - ${(file as File).name}, ${file.size} bytes`);
           }
         } catch (error) {
-          console.error(`Error handling file entry ${i}:`, error);
+          console.error(`Error creating File from entry ${i}:`, error);
+        }
+      }
+      // Type guard for Blob (but not File) - check if it's a Blob-like object without name
+      else if (typeof fileEntry === 'object' && fileEntry !== null && 'size' in fileEntry && 'type' in fileEntry) {
+        const blobEntry = fileEntry as any;
+        console.log(`File ${i}: Blob-like object, size: ${blobEntry.size}, type: ${blobEntry.type}`);
+        // Try to get filename from formData if available, or create File from Blob
+        try {
+          const fileName = blobEntry.name || `file_${i}`;
+          file = new File([blobEntry], fileName, { 
+            type: blobEntry.type || 'application/octet-stream' 
+          });
+          console.log(`File ${i}: Converted Blob to File - ${(file as File).name}, ${file.size} bytes`);
+        } catch (error) {
+          // If File constructor fails, use Blob directly
+          console.log(`File ${i}: Using Blob directly`);
+          file = blobEntry;
+        }
+      }
+      // Handle other types
+      else {
+        console.log(`File ${i}: unexpected type: ${typeof fileEntry}`);
+        if (typeof fileEntry === 'string') {
+          console.warn(`File ${i} is a string, cannot process as file`);
+        } else {
+          // Try to create a Blob
+          try {
+            const blob = new Blob([fileEntry as any]);
+            file = new File([blob], `file_${i}`, { 
+              type: 'application/octet-stream' 
+            });
+            console.log(`File ${i}: Created from unknown type - ${(file as File).name}, ${file.size} bytes`);
+          } catch (error) {
+            console.error(`Error creating file from entry ${i}:`, error);
+          }
         }
       }
       
       if (file && file.size > 0) {
-        console.log(`✅ File ${i} ready: ${file.name}, size: ${file.size}, type: ${file.type}`);
+        const fileName = file instanceof File ? file.name : `file_${i}`;
+        console.log(`✅ File ${i} ready: ${fileName}, size: ${file.size}, type: ${file.type}`);
         files.push(file);
       } else if (file) {
         console.log(`⚠️ File ${i}: empty (size: ${file.size})`);
@@ -102,9 +117,11 @@ export async function POST(request: NextRequest) {
     if (files.length === 0 && fileCount > 0) {
       console.log('No files collected by index, trying alternative method...');
       for (const [key, value] of formData.entries()) {
-        if (key.startsWith('file_') && value instanceof File) {
-          console.log(`Found file by key ${key}: ${value.name}, ${value.size} bytes`);
-          files.push(value);
+        if (key.startsWith('file_') && typeof value === 'object' && value !== null && 'size' in value) {
+          const fileName = ('name' in value && typeof value.name === 'string') ? value.name : key;
+          const fileSize = (value as any).size;
+          console.log(`Found file by key ${key}: ${fileName}, ${fileSize} bytes`);
+          files.push(value as any);
         }
       }
       console.log(`Alternative method found ${files.length} file(s)`);
