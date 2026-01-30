@@ -1,22 +1,56 @@
 import { z } from 'zod';
 
-// Contact validation schema
+// Contact validation schema - принимает username без @, автоматически добавляет @ при нормализации
 const contactSchema = z.string().min(1, 'Контакт обязателен').refine(
   (val) => {
     const trimmed = val.trim();
-    // Telegram: @username или t.me/username
-    const telegramRegex = /^(@[a-zA-Z0-9_]{5,32}|t\.me\/[a-zA-Z0-9_]{5,32})$/;
-    // Instagram: @username
-    const instagramRegex = /^@[a-zA-Z0-9_.]{1,30}$/;
-    // Phone: +7XXXXXXXXXX, 8XXXXXXXXXX, или другие форматы
-    const phoneRegex = /^(\+?[1-9]\d{1,14}|8\d{10,11})$/;
+    // Telegram: username (5-32 символа), @username, или t.me/username
+    const telegramUsernameRegex = /^[a-zA-Z0-9_]{5,32}$/;
+    const telegramAtRegex = /^@[a-zA-Z0-9_]{5,32}$/;
+    const telegramTmeRegex = /^t\.me\/[a-zA-Z0-9_]{5,32}$/;
+    // Instagram: username (1-30 символов) или @username
+    const instagramUsernameRegex = /^[a-zA-Z0-9_.]{1,30}$/;
+    const instagramAtRegex = /^@[a-zA-Z0-9_.]{1,30}$/;
+    // Phone: +7XXXXXXXXXX (11 цифр после +7), 8XXXXXXXXXX (11 цифр после 8), или другие международные форматы
+    const phoneRegex = /^(\+7\d{10}|8\d{10}|\+\d{10,14})$/;
     
-    return telegramRegex.test(trimmed) || instagramRegex.test(trimmed) || phoneRegex.test(trimmed);
+    return telegramUsernameRegex.test(trimmed) || 
+           telegramAtRegex.test(trimmed) || 
+           telegramTmeRegex.test(trimmed) ||
+           instagramUsernameRegex.test(trimmed) || 
+           instagramAtRegex.test(trimmed) || 
+           phoneRegex.test(trimmed);
   },
   {
-    message: 'Введите корректный контакт: Telegram (@username или t.me/username), Instagram (@username) или номер телефона',
+    message: 'Введите корректный контакт: Telegram (username, @username или t.me/username), Instagram (username или @username) или номер телефона (+7XXXXXXXXXX или 8XXXXXXXXXX)',
   }
-);
+).transform((val) => {
+  // Нормализуем контакт: добавляем @ если его нет для username
+  const trimmed = val.trim();
+  
+  // Если это телефон, возвращаем как есть
+  if (/^(\+7\d{10}|8\d{10}|\+\d{10,14})$/.test(trimmed)) {
+    return trimmed;
+  }
+  
+  // Если это t.me/username, возвращаем как есть
+  if (/^t\.me\/[a-zA-Z0-9_]{5,32}$/.test(trimmed)) {
+    return trimmed;
+  }
+  
+  // Если это username без @ (Telegram или Instagram), добавляем @
+  if (/^[a-zA-Z0-9_]{5,32}$/.test(trimmed)) {
+    // Telegram username (5-32 символа)
+    return `@${trimmed}`;
+  }
+  if (/^[a-zA-Z0-9_.]{1,30}$/.test(trimmed)) {
+    // Instagram username (1-30 символов)
+    return `@${trimmed}`;
+  }
+  
+  // Если уже есть @, возвращаем как есть
+  return trimmed;
+});
 
 // Base personal data schema
 const personalDataSchema = z.object({

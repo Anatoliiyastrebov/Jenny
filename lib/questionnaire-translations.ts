@@ -316,8 +316,8 @@ export const questionnaireTranslations = {
         recommendation: 'По рекомендации',
       },
       contact: 'Контактные данные',
-      contactPlaceholder: '@username или номер телефона',
-      contactHint: 'Telegram: @username или t.me/username\nInstagram: @username\nТелефон: +7XXXXXXXXXX или 8XXXXXXXXXX',
+      contactPlaceholder: 'username или номер телефона',
+      contactHint: 'Telegram: username, @username или t.me/username\nInstagram: username или @username\nТелефон: +7XXXXXXXXXX или 8XXXXXXXXXX\n(@ добавляется автоматически)',
     },
     
     // Мужская анкета
@@ -469,8 +469,8 @@ export const questionnaireTranslations = {
         recommendation: 'По рекомендации',
       },
       contact: 'Контактные данные',
-      contactPlaceholder: '@username или номер телефона',
-      contactHint: 'Telegram: @username или t.me/username\nInstagram: @username\nТелефон: +7XXXXXXXXXX или 8XXXXXXXXXX',
+      contactPlaceholder: 'username или номер телефона',
+      contactHint: 'Telegram: username, @username или t.me/username\nInstagram: username или @username\nТелефон: +7XXXXXXXXXX или 8XXXXXXXXXX\n(@ добавляется автоматически)',
       hasTests: 'Если есть анализы и узи за последние 3 месяца - приложите',
       hasTestsOptions: {
         yes: 'Да, есть анализы / УЗИ за последние 2–3 месяца',
@@ -571,8 +571,8 @@ export const questionnaireTranslations = {
         recommendation: 'По рекомендации',
       },
       contact: 'Контактные данные',
-      contactPlaceholder: '@username или номер телефона',
-      contactHint: 'Telegram: @username или t.me/username\nInstagram: @username\nТелефон: +7XXXXXXXXXX или 8XXXXXXXXXX',
+      contactPlaceholder: 'username или номер телефона',
+      contactHint: 'Telegram: username, @username или t.me/username\nInstagram: username или @username\nТелефон: +7XXXXXXXXXX или 8XXXXXXXXXX\n(@ добавляется автоматически)',
     },
     
     // Детская анкета
@@ -686,8 +686,8 @@ export const questionnaireTranslations = {
         recommendation: 'По рекомендации',
       },
       contact: 'Контактные данные',
-      contactPlaceholder: '@username или номер телефона',
-      contactHint: 'Telegram: @username или t.me/username\nInstagram: @username\nТелефон: +7XXXXXXXXXX или 8XXXXXXXXXX',
+      contactPlaceholder: 'username или номер телефона',
+      contactHint: 'Telegram: username, @username или t.me/username\nInstagram: username или @username\nТелефон: +7XXXXXXXXXX или 8XXXXXXXXXX\n(@ добавляется автоматически)',
       hasTests: 'Если есть анализы и узи за последние 3 месяца - приложите',
       hasTestsOptions: {
         yes: 'Да, есть анализы / УЗИ за последние 2–3 месяца',
@@ -1009,8 +1009,8 @@ export const questionnaireTranslations = {
         recommendation: 'By recommendation',
       },
       contact: 'Contact Information',
-      contactPlaceholder: '@username or phone number',
-      contactHint: 'Telegram: @username or t.me/username\nInstagram: @username\nPhone: +7XXXXXXXXXX or 8XXXXXXXXXX',
+      contactPlaceholder: 'username or phone number',
+      contactHint: 'Telegram: username, @username or t.me/username\nInstagram: username or @username\nPhone: +7XXXXXXXXXX or 8XXXXXXXXXX\n(@ is added automatically)',
     },
     
     // Мужская анкета
@@ -1162,8 +1162,8 @@ export const questionnaireTranslations = {
         recommendation: 'By recommendation',
       },
       contact: 'Contact Information',
-      contactPlaceholder: '@username or phone number',
-      contactHint: 'Telegram: @username or t.me/username\nInstagram: @username\nPhone: +7XXXXXXXXXX or 8XXXXXXXXXX',
+      contactPlaceholder: 'username or phone number',
+      contactHint: 'Telegram: username, @username or t.me/username\nInstagram: username or @username\nPhone: +7XXXXXXXXXX or 8XXXXXXXXXX\n(@ is added automatically)',
       hasTests: 'If you have tests and ultrasound from the last 3 months - attach',
       hasTestsOptions: {
         yes: 'Yes, I have tests / ultrasound from the last 2-3 months',
@@ -1264,8 +1264,8 @@ export const questionnaireTranslations = {
         recommendation: 'By recommendation',
       },
       contact: 'Contact Information',
-      contactPlaceholder: '@username or phone number',
-      contactHint: 'Telegram: @username or t.me/username\nInstagram: @username\nPhone: +7XXXXXXXXXX or 8XXXXXXXXXX',
+      contactPlaceholder: 'username or phone number',
+      contactHint: 'Telegram: username, @username or t.me/username\nInstagram: username or @username\nPhone: +7XXXXXXXXXX or 8XXXXXXXXXX\n(@ is added automatically)',
     },
     
     // Детская анкета
@@ -1379,8 +1379,8 @@ export const questionnaireTranslations = {
         recommendation: 'By recommendation',
       },
       contact: 'Contact Information',
-      contactPlaceholder: '@username or phone number',
-      contactHint: 'Telegram: @username or t.me/username\nInstagram: @username\nPhone: +7XXXXXXXXXX or 8XXXXXXXXXX',
+      contactPlaceholder: 'username or phone number',
+      contactHint: 'Telegram: username, @username or t.me/username\nInstagram: username or @username\nPhone: +7XXXXXXXXXX or 8XXXXXXXXXX\n(@ is added automatically)',
       hasTests: 'If you have tests and ultrasound from the last 3 months - attach',
       hasTestsOptions: {
         yes: 'Yes, I have tests / ultrasound from the last 2-3 months',

@@ -238,7 +238,7 @@ function formatQuestionnaireMessage(type: string, data: Record<string, any>, loc
     message += `<b>${validLocale === 'ru' ? 'Личные данные' : 'Personal Data'}:</b>\n`;
     for (const [key, value] of personalData) {
       const label = getFieldLabel(key, type, validLocale);
-      const formattedValue = formatValue(value, validLocale);
+      const formattedValue = formatValue(value, validLocale, key);
       message += `<b>${label}:</b> ${formattedValue}\n`;
     }
     message += `\n`;
@@ -250,7 +250,7 @@ function formatQuestionnaireMessage(type: string, data: Record<string, any>, loc
     let questionNumber = 1;
     for (const [key, value] of questions) {
       const label = getFieldLabel(key, type, validLocale);
-      const formattedValue = formatValue(value, validLocale);
+      const formattedValue = formatValue(value, validLocale, key);
       message += `${questionNumber}. <b>${label}:</b> ${formattedValue}\n`;
       questionNumber++;
     }
@@ -433,7 +433,7 @@ function getFieldLabel(key: string, type: string, locale: 'ru' | 'en'): string {
   return key;
 }
 
-function formatValue(value: any, locale: 'ru' | 'en'): string {
+function formatValue(value: any, locale: 'ru' | 'en', key?: string): string {
   if (Array.isArray(value)) {
     return value.join(', ');
   } else if (typeof value === 'object' && value !== null) {
@@ -442,6 +442,35 @@ function formatValue(value: any, locale: 'ru' | 'en'): string {
     return value ? (locale === 'ru' ? 'Да' : 'Yes') : (locale === 'ru' ? 'Нет' : 'No');
   } else {
     const str = String(value);
+    
+    // Для поля contact создаем кликабельные ссылки
+    if (key === 'contact') {
+      const trimmed = str.trim();
+      
+      // Telegram: @username или t.me/username
+      if (/^@[a-zA-Z0-9_]{5,32}$/.test(trimmed)) {
+        const username = trimmed.substring(1);
+        return `<a href="https://t.me/${username}">${trimmed}</a>`;
+      }
+      if (/^t\.me\/[a-zA-Z0-9_]{5,32}$/.test(trimmed)) {
+        const username = trimmed.substring(5);
+        return `<a href="https://${trimmed}">${trimmed}</a>`;
+      }
+      
+      // Instagram: @username
+      if (/^@[a-zA-Z0-9_.]{1,30}$/.test(trimmed)) {
+        const username = trimmed.substring(1);
+        return `<a href="https://instagram.com/${username}">${trimmed}</a>`;
+      }
+      
+      // Телефон: создаем tel: ссылку
+      if (/^(\+7\d{10}|8\d{10}|\+\d{10,14})$/.test(trimmed)) {
+        const telLink = trimmed.startsWith('8') ? `+7${trimmed.substring(1)}` : trimmed;
+        return `<a href="tel:${telLink}">${trimmed}</a>`;
+      }
+    }
+    
+    // Для остальных полей просто экранируем HTML
     return str
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
