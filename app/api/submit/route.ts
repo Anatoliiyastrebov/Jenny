@@ -360,7 +360,7 @@ function getFieldLabel(key: string, type: string, locale: 'ru' | 'en'): string {
     if (key === 'hasTests') {
       if (type === 'infant') {
         const i = t.infant as any;
-        return i.hasTests || (validLocale === 'ru' ? 'Есть анализы/УЗИ' : 'Has tests/ultrasound');
+        return i.hasTests || (locale === 'ru' ? 'Есть анализы/УЗИ' : 'Has tests/ultrasound');
       }
     }
   }
@@ -379,7 +379,10 @@ function getFieldLabel(key: string, type: string, locale: 'ru' | 'en'): string {
     if (key === 'headaches') return c.headaches;
     if (key === 'illnesses') return c.illnesses;
     if (key === 'joints') return c.joints;
-    if (key === 'mainProblem') return locale === 'ru' ? 'Основная проблема' : 'Main problem';
+    if (key === 'mainProblem') {
+      const c = t.child as any;
+      return c.mainProblem || (locale === 'ru' ? 'Основная проблема' : 'Main problem');
+    }
     if (key === 'additional') return c.additional;
     if (key === 'source') return c.source;
     if (key === 'hasTests') return c.hasTests;
