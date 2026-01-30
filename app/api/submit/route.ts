@@ -6,7 +6,7 @@ export const runtime = 'nodejs';
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
-    const type = formData.get('type') as string;
+    let type = formData.get('type') as string;
     const locale = formData.get('locale') as string;
     const dataJson = formData.get('data') as string;
     
@@ -17,15 +17,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Преобразуем полное название анкеты в короткий ключ
+    const typeMapping: Record<string, string> = {
+      'Женская анкета': 'women',
+      "Women's Questionnaire": 'women',
+      'Мужская анкета': 'men',
+      "Men's Questionnaire": 'men',
+      'Анкета для младенца': 'infant',
+      'Анкета для младенца (до 1 года)': 'infant',
+      'Infant Questionnaire': 'infant',
+      'Infant Questionnaire (up to 1 year)': 'infant',
+      'Детская анкета': 'child',
+      "Children's Questionnaire": 'child',
+    };
+    
+    type = typeMapping[type] || type;
+
     let data;
     try {
       data = JSON.parse(dataJson);
     } catch (parseError) {
+      console.error('JSON parse error:', parseError);
       return NextResponse.json(
         { success: false, error: 'Invalid JSON data' },
         { status: 400 }
       );
     }
+    
+    // Логирование для отладки
+    console.log('Received type:', type);
+    console.log('Received locale:', locale);
+    console.log('Received data keys:', Object.keys(data));
+    console.log('Data sample:', JSON.stringify(data).substring(0, 500));
 
     // Check Telegram credentials
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
@@ -182,13 +205,31 @@ function formatQuestionnaireMessage(type: string, data: Record<string, any>, loc
   const personalData: Array<[string, any]> = [];
   const questions: Array<[string, any]> = [];
   
+  // Сначала обрабатываем поля в правильном порядке из fieldOrder
   for (const key of fieldOrder) {
-    if (!data[key] || data[key] === '' || key === 'files' || key === 'gdprConsent') continue;
+    if (key === 'files' || key === 'gdprConsent') continue;
+    
+    const value = data[key];
+    // Проверяем, что значение существует и не пустое
+    if (value === undefined || value === null || value === '') continue;
     
     if (personalDataFields.includes(key)) {
-      personalData.push([key, data[key]]);
+      personalData.push([key, value]);
     } else {
-      questions.push([key, data[key]]);
+      questions.push([key, value]);
+    }
+  }
+  
+  // Также обрабатываем все остальные поля, которых нет в fieldOrder
+  for (const [key, value] of Object.entries(data)) {
+    if (key === 'files' || key === 'gdprConsent') continue;
+    if (fieldOrder.includes(key)) continue; // Уже обработано
+    if (value === undefined || value === null || value === '') continue;
+    
+    if (personalDataFields.includes(key)) {
+      personalData.push([key, value]);
+    } else {
+      questions.push([key, value]);
     }
   }
   
