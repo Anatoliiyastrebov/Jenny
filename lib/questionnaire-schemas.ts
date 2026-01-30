@@ -1,5 +1,23 @@
 import { z } from 'zod';
 
+// Contact validation schema
+const contactSchema = z.string().min(1, 'Контакт обязателен').refine(
+  (val) => {
+    const trimmed = val.trim();
+    // Telegram: @username или t.me/username
+    const telegramRegex = /^(@[a-zA-Z0-9_]{5,32}|t\.me\/[a-zA-Z0-9_]{5,32})$/;
+    // Instagram: @username
+    const instagramRegex = /^@[a-zA-Z0-9_.]{1,30}$/;
+    // Phone: +7XXXXXXXXXX, 8XXXXXXXXXX, или другие форматы
+    const phoneRegex = /^(\+?[1-9]\d{1,14}|8\d{10,11})$/;
+    
+    return telegramRegex.test(trimmed) || instagramRegex.test(trimmed) || phoneRegex.test(trimmed);
+  },
+  {
+    message: 'Введите корректный контакт: Telegram (@username или t.me/username), Instagram (@username) или номер телефона',
+  }
+);
+
 // Base personal data schema
 const personalDataSchema = z.object({
   firstName: z.string().min(1, 'Имя обязательно'),
@@ -11,6 +29,7 @@ const personalDataSchema = z.object({
   gdprConsent: z.boolean().refine((val) => val === true, {
     message: 'Необходимо дать согласие на обработку персональных данных',
   }),
+  contact: contactSchema,
 });
 
 // Women's questionnaire schema
@@ -88,6 +107,7 @@ export const infantQuestionnaireSchema = z.object({
   gdprConsent: z.boolean().refine((val) => val === true, {
     message: 'Необходимо дать согласие на обработку персональных данных',
   }),
+  contact: contactSchema,
   digestion: z.string().min(1, 'Обязательное поле'),
   nightSweating: z.string().min(1, 'Обязательное поле'),
   badBreath: z.string().min(1, 'Обязательное поле'),
@@ -123,6 +143,7 @@ export const childQuestionnaireSchema = z.object({
   gdprConsent: z.boolean().refine((val) => val === true, {
     message: 'Необходимо дать согласие на обработку персональных данных',
   }),
+  contact: contactSchema,
   digestion: z.string().min(1, 'Обязательное поле'),
   teeth: z.string().min(1, 'Обязательное поле'),
   nightSweating: z.string().min(1, 'Обязательное поле'),

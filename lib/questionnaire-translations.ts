@@ -32,7 +32,7 @@ export const questionnaireTranslations = {
       personalData: 'Личные данные',
       mainQuestions: 'Основные вопросы',
       health: 'Здоровье',
-      healthCont: 'Здоровье (продолжение)',
+      healthCont: 'Здоровье',
       completion: 'Завершение',
       waterIntake: 'Сколько воды в день Вы пьете?',
       waterIntakePlaceholder: 'Например: 1.5 литра',
@@ -189,14 +189,14 @@ export const questionnaireTranslations = {
         other: 'Другое',
       },
       herpes: 'Герпес, папилломы, родинки',
-      herpesPlaceholder: 'Бородавки, красные точечки на коже, выделения, цистит',
+      herpesPlaceholder: 'Бородавки, красные точки на коже, выделения, цистит',
       herpesOptions: {
         no: 'Нет',
         herpes: 'Герпес',
         papillomas: 'Папилломы',
         moles: 'Родинки',
         warts: 'Бородавки',
-        redSpots: 'Красные точечки на коже',
+        redSpots: 'Красные точки на коже',
         discharge: 'Выделения',
         cystitis: 'Цистит',
         other: 'Другое',
@@ -315,13 +315,16 @@ export const questionnaireTranslations = {
         instagram: 'Инстаграм',
         recommendation: 'По рекомендации',
       },
+      contact: 'Контактные данные',
+      contactPlaceholder: '@username или номер телефона',
+      contactHint: 'Telegram: @username или t.me/username\nInstagram: @username\nТелефон: +7XXXXXXXXXX или 8XXXXXXXXXX',
     },
     
     // Мужская анкета
     men: {
       personalData: 'Личные данные',
       health: 'Здоровье',
-      healthCont: 'Здоровье (продолжение)',
+      healthCont: 'Здоровье',
       completion: 'Завершение',
       weightSatisfaction: 'Устраивает ли вас ваш вес?',
       weightChange: 'Хотели бы вы изменить вес?',
@@ -465,6 +468,9 @@ export const questionnaireTranslations = {
         telegram: 'Телеграмм канал',
         recommendation: 'По рекомендации',
       },
+      contact: 'Контактные данные',
+      contactPlaceholder: '@username или номер телефона',
+      contactHint: 'Telegram: @username или t.me/username\nInstagram: @username\nТелефон: +7XXXXXXXXXX или 8XXXXXXXXXX',
       hasTests: 'Если есть анализы и узи за последние 3 месяца - приложите',
       hasTestsOptions: {
         yes: 'Да, есть анализы / УЗИ за последние 2–3 месяца',
@@ -564,6 +570,9 @@ export const questionnaireTranslations = {
         telegram: 'Телеграмм канал',
         recommendation: 'По рекомендации',
       },
+      contact: 'Контактные данные',
+      contactPlaceholder: '@username или номер телефона',
+      contactHint: 'Telegram: @username или t.me/username\nInstagram: @username\nТелефон: +7XXXXXXXXXX или 8XXXXXXXXXX',
     },
     
     // Детская анкета
@@ -676,6 +685,9 @@ export const questionnaireTranslations = {
         instagram: 'Инстаграм',
         recommendation: 'По рекомендации',
       },
+      contact: 'Контактные данные',
+      contactPlaceholder: '@username или номер телефона',
+      contactHint: 'Telegram: @username или t.me/username\nInstagram: @username\nТелефон: +7XXXXXXXXXX или 8XXXXXXXXXX',
       hasTests: 'Если есть анализы и узи за последние 3 месяца - приложите',
       hasTestsOptions: {
         yes: 'Да, есть анализы / УЗИ за последние 2–3 месяца',
@@ -713,7 +725,7 @@ export const questionnaireTranslations = {
       personalData: 'Personal Data',
       mainQuestions: 'Main Questions',
       health: 'Health',
-      healthCont: 'Health (continued)',
+      healthCont: 'Health',
       completion: 'Completion',
       waterIntake: 'How much water do you drink per day?',
       waterIntakePlaceholder: 'For example: 1.5 liters',
@@ -996,13 +1008,16 @@ export const questionnaireTranslations = {
         instagram: 'Instagram',
         recommendation: 'By recommendation',
       },
+      contact: 'Contact Information',
+      contactPlaceholder: '@username or phone number',
+      contactHint: 'Telegram: @username or t.me/username\nInstagram: @username\nPhone: +7XXXXXXXXXX or 8XXXXXXXXXX',
     },
     
     // Мужская анкета
     men: {
       personalData: 'Personal Data',
       health: 'Health',
-      healthCont: 'Health (continued)',
+      healthCont: 'Health',
       completion: 'Completion',
       weightSatisfaction: 'Are you satisfied with your weight?',
       weightChange: 'Would you like to change your weight?',
@@ -1146,6 +1161,9 @@ export const questionnaireTranslations = {
         telegram: 'Telegram channel',
         recommendation: 'By recommendation',
       },
+      contact: 'Contact Information',
+      contactPlaceholder: '@username or phone number',
+      contactHint: 'Telegram: @username or t.me/username\nInstagram: @username\nPhone: +7XXXXXXXXXX or 8XXXXXXXXXX',
       hasTests: 'If you have tests and ultrasound from the last 3 months - attach',
       hasTestsOptions: {
         yes: 'Yes, I have tests / ultrasound from the last 2-3 months',
@@ -1245,6 +1263,9 @@ export const questionnaireTranslations = {
         telegram: 'Telegram channel',
         recommendation: 'By recommendation',
       },
+      contact: 'Contact Information',
+      contactPlaceholder: '@username or phone number',
+      contactHint: 'Telegram: @username or t.me/username\nInstagram: @username\nPhone: +7XXXXXXXXXX or 8XXXXXXXXXX',
     },
     
     // Детская анкета
@@ -1357,6 +1378,9 @@ export const questionnaireTranslations = {
         instagram: 'Instagram',
         recommendation: 'By recommendation',
       },
+      contact: 'Contact Information',
+      contactPlaceholder: '@username or phone number',
+      contactHint: 'Telegram: @username or t.me/username\nInstagram: @username\nPhone: +7XXXXXXXXXX or 8XXXXXXXXXX',
       hasTests: 'If you have tests and ultrasound from the last 3 months - attach',
       hasTestsOptions: {
         yes: 'Yes, I have tests / ultrasound from the last 2-3 months',

@@ -356,6 +356,31 @@ export default function ChildQuestionnairePage() {
         </div>
       </motion.section>
 
+      {/* Контактные данные */}
+      <motion.section
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.35 }}
+        className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
+      >
+        <h2 className="text-2xl font-semibold mb-6 text-medical-900">
+          {q.child.contact}
+        </h2>
+        <div className="space-y-4">
+          <FormField 
+            label={q.child.contact} 
+            required 
+            error={errors.contact?.message}
+            hint={q.child.contactHint}
+          >
+            <input 
+              {...register('contact')} 
+              placeholder={q.child.contactPlaceholder}
+            />
+          </FormField>
+        </div>
+      </motion.section>
+
       {/* Кнопка отправки */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}

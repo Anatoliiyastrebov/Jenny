@@ -275,27 +275,27 @@ function getFieldOrder(type: string): string[] {
       'stones', 'operations', 'pressure', 'chronicDiseases', 'headaches', 'numbness',
       'varicose', 'joints', 'cysts', 'herpes', 'menstruation', 'lifestyle',
       'skin', 'allergies', 'colds', 'sleep', 'energy', 'memory',
-      'medications', 'cleansing', 'hasTests', 'additional', 'mainProblem', 'source'
+      'medications', 'cleansing', 'hasTests', 'additional', 'mainProblem', 'source', 'contact'
     ],
     men: [
       'firstName', 'lastName', 'age', 'weight', 'country', 'city',
       'weightSatisfaction', 'weightChange', 'covid', 'digestion', 'varicose', 'teeth',
       'joints', 'coldLimbs', 'headaches', 'operations', 'stones', 'pressure',
       'waterIntake', 'moles', 'allergies', 'skin', 'sleep', 'energy',
-      'memory', 'cleansing', 'mainProblem', 'additional', 'source', 'hasTests'
+      'memory', 'cleansing', 'mainProblem', 'additional', 'source', 'hasTests', 'contact'
     ],
     infant: [
       'firstName', 'lastName', 'ageMonths', 'weight', 'country', 'city',
       'digestion', 'nightSweating', 'badBreath', 'skinIssues', 'allergies', 'waterIntake',
       'injuries', 'injuriesDetails', 'sleep', 'illnesses',
       'birthType', 'toxemia', 'motherAllergies', 'motherConstipation', 'motherAntibiotics',
-      'motherAnemia', 'pregnancyProblems', 'additional', 'mainProblem', 'source', 'hasTests'
+      'motherAnemia', 'pregnancyProblems', 'additional', 'mainProblem', 'source', 'hasTests', 'contact'
     ],
     child: [
       'firstName', 'lastName', 'age', 'weight', 'country', 'city',
       'digestion', 'teeth', 'nightSweating', 'sweets', 'skinIssues', 'allergies',
       'hyperactivity', 'waterIntake', 'injuries', 'headaches', 'illnesses', 'joints',
-      'mainProblem', 'additional', 'source', 'hasTests'
+      'mainProblem', 'additional', 'source', 'hasTests', 'contact'
     ],
   };
   return orders[type] || [];
@@ -312,6 +312,7 @@ function getFieldLabel(key: string, type: string, locale: 'ru' | 'en'): string {
   if (key === 'weight') return t.weight;
   if (key === 'country') return t.country;
   if (key === 'city') return t.city;
+  if (key === 'contact') return locale === 'ru' ? 'Контактные данные' : 'Contact Information';
   
   // Поля по типам анкет
   if (type === 'women') {

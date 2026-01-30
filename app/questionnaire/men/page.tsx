@@ -215,7 +215,7 @@ export default function MenQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.2 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.men.healthCont}</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.men.health}</h2>
         <div className="space-y-4">
           <FormField label={q.men.headaches} required error={errors.headaches?.message}>
             <select {...register('headaches')}>
@@ -306,7 +306,7 @@ export default function MenQuestionnairePage() {
         transition={{ duration: 0.3, delay: 0.3 }}
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.men.healthCont}</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.men.health}</h2>
         <div className="space-y-4">
           <FormField label={q.women.sleep} required error={errors.sleep?.message}>
             <select {...register('sleep')}>
@@ -408,6 +408,31 @@ export default function MenQuestionnairePage() {
               <strong>{q.privacy}:</strong> {q.privacyText}
             </p>
           </div>
+        </div>
+      </motion.section>
+
+      {/* Контактные данные */}
+      <motion.section
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.35 }}
+        className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
+      >
+        <h2 className="text-2xl font-semibold mb-6 text-medical-900">
+          {q.men.contact}
+        </h2>
+        <div className="space-y-4">
+          <FormField 
+            label={q.men.contact} 
+            required 
+            error={errors.contact?.message}
+            hint={q.men.contactHint}
+          >
+            <input 
+              {...register('contact')} 
+              placeholder={q.men.contactPlaceholder}
+            />
+          </FormField>
         </div>
       </motion.section>
 

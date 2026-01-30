@@ -295,7 +295,7 @@ export default function WomenQuestionnairePage() {
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
         <h2 className="text-2xl font-semibold mb-6 text-medical-900">
-          {q.women.healthCont}
+          {q.women.health}
         </h2>
         <div className="space-y-4">
           <FormField label={q.women.varicose} required error={errors.varicose?.message}>
@@ -385,7 +385,7 @@ export default function WomenQuestionnairePage() {
         className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
       >
         <h2 className="text-2xl font-semibold mb-6 text-medical-900">
-          {q.women.healthCont}
+          {q.women.health}
         </h2>
         <div className="space-y-4">
           <FormField label={q.women.skin} required error={errors.skin?.message}>
@@ -557,6 +557,31 @@ export default function WomenQuestionnairePage() {
               <strong>{q.privacy}:</strong> {q.privacyText}
             </p>
           </div>
+        </div>
+      </motion.section>
+
+      {/* Контактные данные */}
+      <motion.section
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.25 }}
+        className="bg-white rounded-lg shadow-sm p-6 md:p-8 border border-medical-200"
+      >
+        <h2 className="text-2xl font-semibold mb-6 text-medical-900">
+          {q.women.contact}
+        </h2>
+        <div className="space-y-4">
+          <FormField 
+            label={q.women.contact} 
+            required 
+            error={errors.contact?.message}
+            hint={q.women.contactHint}
+          >
+            <input 
+              {...register('contact')} 
+              placeholder={q.women.contactPlaceholder}
+            />
+          </FormField>
         </div>
       </motion.section>
 
