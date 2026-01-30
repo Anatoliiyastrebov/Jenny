@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       
       // Type guard for File
       if (fileEntry instanceof File) {
-        console.log(`File ${i}: File instance`);
+        console.log(`File ${i}: File instance - ${fileEntry.name}, ${fileEntry.size} bytes, ${fileEntry.type}`);
         file = fileEntry;
       } 
       // Type guard for Blob (but not File)
@@ -60,27 +60,27 @@ export async function POST(request: NextRequest) {
           file = new File([blob], fileName, { 
             type: blob.type || 'application/octet-stream' 
           });
+          console.log(`File ${i}: Converted to File - ${file.name}, ${file.size} bytes`);
         } catch (error) {
           console.error(`Error converting Blob to File ${i}:`, error);
         }
       } 
-      // Handle string or other types - try to create File
-      else if (fileEntry) {
-        console.log(`File ${i}: unexpected type: ${typeof fileEntry}, trying to convert...`);
-        try {
-          // If it's a string (base64 or path), we can't use it directly
-          // This shouldn't happen in normal flow, but log it
-          console.warn(`File ${i} is not a File or Blob, skipping`);
-        } catch (error) {
-          console.error(`Error handling file entry ${i}:`, error);
+      // Handle other types
+      else {
+        console.log(`File ${i}: unexpected type: ${typeof fileEntry}`);
+        // Try to read as Blob if possible
+        if (typeof fileEntry === 'string') {
+          console.warn(`File ${i} is a string, cannot process as file`);
         }
       }
       
       if (file && file.size > 0) {
-        console.log(`File ${i}: ${file.name}, size: ${file.size}, type: ${file.type}`);
+        console.log(`✅ File ${i} ready: ${file.name}, size: ${file.size}, type: ${file.type}`);
         files.push(file);
       } else if (file) {
-        console.log(`File ${i}: empty (size: ${file.size})`);
+        console.log(`⚠️ File ${i}: empty (size: ${file.size})`);
+      } else {
+        console.log(`❌ File ${i}: could not be processed`);
       }
     }
     
