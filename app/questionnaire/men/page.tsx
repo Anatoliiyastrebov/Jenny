@@ -109,7 +109,7 @@ export default function MenQuestionnairePage() {
           <FormField label={q.firstName} required error={errors.firstName?.message}>
             <input {...register('firstName')} />
           </FormField>
-          <FormField label={q.lastName} error={errors.lastName?.message}>
+          <FormField label={q.lastName} required error={errors.lastName?.message}>
             <input {...register('lastName')} />
           </FormField>
           <FormField label={q.age} required error={errors.age?.message}>
@@ -136,14 +136,14 @@ export default function MenQuestionnairePage() {
       >
         <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.men.health}</h2>
         <div className="space-y-4">
-          <FormField label={q.men.weightSatisfaction} error={errors.weightSatisfaction?.message}>
+          <FormField label={q.men.weightSatisfaction} required error={errors.weightSatisfaction?.message}>
             <select {...register('weightSatisfaction')}>
               <option value="">{q.select}</option>
               <option value={q.yes}>{q.yes}</option>
               <option value={q.no}>{q.no}</option>
             </select>
           </FormField>
-          <FormField label={q.men.weightChange} error={errors.weightChange?.message}>
+          <FormField label={q.men.weightChange} required error={errors.weightChange?.message}>
             <select {...register('weightChange')}>
               <option value="">{q.select}</option>
               <option value={q.no}>{q.no}</option>
@@ -151,7 +151,7 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Да, хотелось бы набрать' : 'Yes, would like to gain weight'}>{q.men.weightChangeOptions.gain}</option>
             </select>
           </FormField>
-          <FormField label={q.men.covid} error={errors.covid?.message}>
+          <FormField label={q.men.covid} required error={errors.covid?.message}>
             <select {...register('covid')}>
               <option value="">{q.select}</option>
               <option value={q.no}>{q.men.covidOptions.no}</option>
@@ -160,7 +160,7 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Болел и вакцинирован' : 'Had COVID and vaccinated'}>{q.men.covidOptions.both}</option>
             </select>
           </FormField>
-          <FormField label={q.women.digestion} error={errors.digestion?.message}>
+          <FormField label={q.women.digestion} required error={errors.digestion?.message}>
             <select {...register('digestion')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.digestionOptions.noProblems}</option>
@@ -170,7 +170,7 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Запор' : 'Constipation'}>{q.men.digestionOptions.constipation}</option>
             </select>
           </FormField>
-          <FormField label={q.men.varicose} error={errors.varicose?.message}>
+          <FormField label={q.men.varicose} required error={errors.varicose?.message}>
             <select {...register('varicose')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.varicoseOptions.noProblems}</option>
@@ -179,7 +179,7 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Оба' : 'Both'}>{q.men.varicoseOptions.both}</option>
             </select>
           </FormField>
-          <FormField label={q.women.teeth} error={errors.teeth?.message}>
+          <FormField label={q.women.teeth} required error={errors.teeth?.message}>
             <select {...register('teeth')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.teethOptions.noProblems}</option>
@@ -189,7 +189,7 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Кровоточивость' : 'Bleeding'}>{q.men.teethOptions.bleeding}</option>
             </select>
           </FormField>
-          <FormField label={q.women.joints} error={errors.joints?.message}>
+          <FormField label={q.women.joints} required error={errors.joints?.message}>
             <select {...register('joints')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.jointsOptions.noProblems}</option>
@@ -198,7 +198,7 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Воспаление' : 'Inflammation'}>{q.men.jointsOptions.inflammation}</option>
             </select>
           </FormField>
-          <FormField label={q.men.coldLimbs} error={errors.coldLimbs?.message}>
+          <FormField label={q.men.coldLimbs} required error={errors.coldLimbs?.message}>
             <select {...register('coldLimbs')}>
               <option value="">{q.select}</option>
               <option value={q.yes}>{q.yes}</option>
@@ -217,7 +217,7 @@ export default function MenQuestionnairePage() {
       >
         <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.men.healthCont}</h2>
         <div className="space-y-4">
-          <FormField label={q.men.headaches} error={errors.headaches?.message}>
+          <FormField label={q.men.headaches} required error={errors.headaches?.message}>
             <select {...register('headaches')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.headachesOptions.noProblems}</option>
@@ -227,14 +227,14 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Сотрясение' : 'Concussion'}>{q.men.headachesOptions.concussion}</option>
             </select>
           </FormField>
-          <FormField label={q.men.operations} error={errors.operations?.message}>
+          <FormField label={q.men.operations} required error={errors.operations?.message}>
             <select {...register('operations')}>
               <option value="">{q.select}</option>
               <option value={q.yes}>{q.yes}</option>
               <option value={q.no}>{q.no}</option>
             </select>
           </FormField>
-          <FormField label={q.men.stones} error={errors.stones?.message}>
+          <FormField label={q.men.stones} required error={errors.stones?.message}>
             <select {...register('stones')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.stonesOptions.noProblems}</option>
@@ -244,7 +244,7 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Камни в желчном' : 'Gallbladder stones'}>{q.men.stonesOptions.gallbladderStones}</option>
             </select>
           </FormField>
-          <FormField label={q.men.pressure} error={errors.pressure?.message}>
+          <FormField label={q.men.pressure} required error={errors.pressure?.message}>
             <select {...register('pressure')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Низкое' : 'Low'}>{q.men.pressureOptions.low}</option>
@@ -252,7 +252,7 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Нормальное' : 'Normal'}>{q.men.pressureOptions.normal}</option>
             </select>
           </FormField>
-          <FormField label={q.men.waterIntake} error={errors.waterIntake?.message}>
+          <FormField label={q.men.waterIntake} required error={errors.waterIntake?.message}>
             <select {...register('waterIntake')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? '1 литр' : '1 liter'}>{q.men.waterIntakeOptions.one}</option>
@@ -263,7 +263,7 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? '3.5 литра' : '3.5 liters'}>{q.men.waterIntakeOptions.threeHalf}</option>
             </select>
           </FormField>
-          <FormField label={q.men.moles} error={errors.moles?.message}>
+          <FormField label={q.men.moles} required error={errors.moles?.message}>
             <select {...register('moles')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.molesOptions.noProblems}</option>
@@ -273,7 +273,7 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Герпес' : 'Herpes'}>{q.men.molesOptions.herpes}</option>
             </select>
           </FormField>
-          <FormField label={q.women.allergies} error={errors.allergies?.message}>
+          <FormField label={q.women.allergies} required error={errors.allergies?.message}>
             <select {...register('allergies')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.allergiesOptions.noProblems}</option>
@@ -285,7 +285,7 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Другое' : 'Other'}>{q.men.allergiesOptions.other}</option>
             </select>
           </FormField>
-          <FormField label={q.women.skin} error={errors.skin?.message}>
+          <FormField label={q.women.skin} required error={errors.skin?.message}>
             <select {...register('skin')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.skinOptions.noProblems}</option>
@@ -308,7 +308,7 @@ export default function MenQuestionnairePage() {
       >
         <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.men.healthCont}</h2>
         <div className="space-y-4">
-          <FormField label={q.women.sleep} error={errors.sleep?.message}>
+          <FormField label={q.women.sleep} required error={errors.sleep?.message}>
             <select {...register('sleep')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Хороший' : 'Good'}>{q.men.sleepOptions.good}</option>
@@ -316,7 +316,7 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Часто просыпаюсь' : 'Wake up often'}>{q.men.sleepOptions.wakeUpOften}</option>
             </select>
           </FormField>
-          <FormField label={q.women.energy} error={errors.energy?.message}>
+          <FormField label={q.women.energy} required error={errors.energy?.message}>
             <select {...register('energy')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нормальная' : 'Normal'}>{q.men.energyOptions.normal}</option>
@@ -324,7 +324,7 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Очень низкая' : 'Very low'}>{q.men.energyOptions.veryLow}</option>
             </select>
           </FormField>
-          <FormField label={q.men.memory} error={errors.memory?.message}>
+          <FormField label={q.men.memory} required error={errors.memory?.message}>
             <select {...register('memory')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.men.memoryOptions.noProblems}</option>
@@ -333,16 +333,16 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'И память, и концентрация' : 'Both memory and concentration'}>{q.men.memoryOptions.both}</option>
             </select>
           </FormField>
-          <FormField label={q.men.cleansing} error={errors.cleansing?.message}>
+          <FormField label={q.men.cleansing} required error={errors.cleansing?.message}>
             <textarea {...register('cleansing')} placeholder={q.men.cleansingPlaceholder} rows={3} />
           </FormField>
-          <FormField label={q.men.mainProblem} error={errors.mainProblem?.message}>
+          <FormField label={q.men.mainProblem} required error={errors.mainProblem?.message}>
             <textarea {...register('mainProblem')} rows={3} />
           </FormField>
-          <FormField label={q.men.additional} error={errors.additional?.message}>
+          <FormField label={q.men.additional} required error={errors.additional?.message}>
             <textarea {...register('additional')} rows={4} />
           </FormField>
-          <FormField label={q.men.source} error={errors.source?.message}>
+          <FormField label={q.men.source} required error={errors.source?.message}>
             <select {...register('source')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Инстаграм' : 'Instagram'}>{q.men.sourceOptions.instagram}</option>
@@ -350,7 +350,7 @@ export default function MenQuestionnairePage() {
               <option value={locale === 'ru' ? 'По рекомендации' : 'By recommendation'}>{q.men.sourceOptions.recommendation}</option>
             </select>
           </FormField>
-          <FormField label={q.men.hasTests} error={errors.hasTests?.message}>
+          <FormField label={q.men.hasTests} required error={errors.hasTests?.message}>
             <select {...register('hasTests')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Да, есть анализы / УЗИ за последние 2–3 месяца' : 'Yes, I have tests / ultrasound from the last 2-3 months'}>{q.men.hasTestsOptions.yes}</option>

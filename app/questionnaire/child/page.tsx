@@ -109,7 +109,7 @@ export default function ChildQuestionnairePage() {
           <FormField label={q.firstName} required error={errors.firstName?.message}>
             <input {...register('firstName')} />
           </FormField>
-          <FormField label={q.lastName} error={errors.lastName?.message}>
+          <FormField label={q.lastName} required error={errors.lastName?.message}>
             <input {...register('lastName')} />
           </FormField>
           <FormField label={q.child.childAge} required error={errors.age?.message}>
@@ -136,13 +136,13 @@ export default function ChildQuestionnairePage() {
       >
         <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.infant.health}</h2>
         <div className="space-y-4">
-          <FormField label={q.women.digestion} error={errors.digestion?.message}>
+          <FormField label={q.women.digestion} required error={errors.digestion?.message}>
             <textarea {...register('digestion')} placeholder={q.child.digestionPlaceholder} rows={3} />
           </FormField>
-          <FormField label={q.women.teeth} error={errors.teeth?.message}>
+          <FormField label={q.women.teeth} required error={errors.teeth?.message}>
             <textarea {...register('teeth')} placeholder={q.child.teethPlaceholder} rows={2} />
           </FormField>
-          <FormField label={q.child.nightSweating} error={errors.nightSweating?.message}>
+          <FormField label={q.child.nightSweating} required error={errors.nightSweating?.message}>
             <select {...register('nightSweating')}>
               <option value="">{q.select}</option>
               <option value={q.yes}>{q.yes}</option>
@@ -161,7 +161,7 @@ export default function ChildQuestionnairePage() {
       >
         <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.child.behavior}</h2>
         <div className="space-y-4">
-          <FormField label={q.child.sweets} error={errors.sweets?.message}>
+          <FormField label={q.child.sweets} required error={errors.sweets?.message}>
             <select {...register('sweets')}>
               <option value="">{q.select}</option>
               <option value={q.yes}>{q.yes}</option>
@@ -169,7 +169,7 @@ export default function ChildQuestionnairePage() {
               <option value={locale === 'ru' ? 'Иногда' : 'Sometimes'}>{q.child.sweetsOptions.sometimes}</option>
             </select>
           </FormField>
-          <FormField label={q.child.skinIssues} error={errors.skinIssues?.message}>
+          <FormField label={q.child.skinIssues} required error={errors.skinIssues?.message}>
             <select {...register('skinIssues')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.child.skinIssuesOptions.noProblems}</option>
@@ -178,10 +178,10 @@ export default function ChildQuestionnairePage() {
               <option value={locale === 'ru' ? 'Дерматит' : 'Dermatitis'}>{q.child.skinIssuesOptions.dermatitis}</option>
             </select>
           </FormField>
-          <FormField label={q.women.allergies} error={errors.allergies?.message}>
+          <FormField label={q.women.allergies} required error={errors.allergies?.message}>
             <textarea {...register('allergies')} placeholder={q.child.allergiesPlaceholder} rows={2} />
           </FormField>
-          <FormField label={q.child.hyperactivity} error={errors.hyperactivity?.message}>
+          <FormField label={q.child.hyperactivity} required error={errors.hyperactivity?.message}>
             <select {...register('hyperactivity')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Гиперактивный' : 'Hyperactive'}>{q.child.hyperactivityOptions.hyperactive}</option>
@@ -189,7 +189,7 @@ export default function ChildQuestionnairePage() {
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.child.hyperactivityOptions.noProblems}</option>
             </select>
           </FormField>
-          <FormField label={q.child.waterIntake} error={errors.waterIntake?.message}>
+          <FormField label={q.child.waterIntake} required error={errors.waterIntake?.message}>
             <input type="number" {...register('waterIntake')} placeholder={q.child.waterIntakePlaceholder} />
           </FormField>
         </div>
@@ -204,10 +204,10 @@ export default function ChildQuestionnairePage() {
       >
         <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.child.injuries}</h2>
         <div className="space-y-4">
-          <FormField label={q.child.injuriesLabel} error={errors.injuries?.message}>
+          <FormField label={q.child.injuriesLabel} required error={errors.injuries?.message}>
             <textarea {...register('injuries')} rows={3} />
           </FormField>
-          <FormField label={q.child.headaches} error={errors.headaches?.message}>
+          <FormField label={q.child.headaches} required error={errors.headaches?.message}>
             <select {...register('headaches')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.child.headachesOptions.noProblems}</option>
@@ -216,10 +216,10 @@ export default function ChildQuestionnairePage() {
               <option value={locale === 'ru' ? 'И головные боли, и плохой сон' : 'Both headaches and poor sleep'}>{q.child.headachesOptions.both}</option>
             </select>
           </FormField>
-          <FormField label={q.child.illnesses} error={errors.illnesses?.message}>
+          <FormField label={q.child.illnesses} required error={errors.illnesses?.message}>
             <textarea {...register('illnesses')} rows={3} />
           </FormField>
-          <FormField label={q.women.joints} error={errors.joints?.message}>
+          <FormField label={q.women.joints} required error={errors.joints?.message}>
             <textarea {...register('joints')} placeholder={q.child.jointsPlaceholder} rows={3} />
           </FormField>
         </div>
@@ -234,13 +234,13 @@ export default function ChildQuestionnairePage() {
       >
         <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.child.completion}</h2>
         <div className="space-y-4">
-          <FormField label={q.men.mainProblem} error={errors.mainProblem?.message}>
+          <FormField label={q.men.mainProblem} required error={errors.mainProblem?.message}>
             <textarea {...register('mainProblem')} rows={3} />
           </FormField>
-          <FormField label={q.child.additional} error={errors.additional?.message}>
+          <FormField label={q.child.additional} required error={errors.additional?.message}>
             <textarea {...register('additional')} rows={4} />
           </FormField>
-          <FormField label={q.child.source} error={errors.source?.message}>
+          <FormField label={q.child.source} required error={errors.source?.message}>
             <select {...register('source')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Телеграмм' : 'Telegram'}>{q.child.sourceOptions.telegram}</option>
@@ -248,7 +248,7 @@ export default function ChildQuestionnairePage() {
               <option value={locale === 'ru' ? 'По рекомендации' : 'By recommendation'}>{q.child.sourceOptions.recommendation}</option>
             </select>
           </FormField>
-          <FormField label={q.child.hasTests} error={errors.hasTests?.message}>
+          <FormField label={q.child.hasTests} required error={errors.hasTests?.message}>
             <select {...register('hasTests')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Да, есть анализы / УЗИ за последние 2–3 месяца' : 'Yes, I have tests / ultrasound from the last 2-3 months'}>{q.child.hasTestsOptions.yes}</option>

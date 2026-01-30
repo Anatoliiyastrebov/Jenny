@@ -106,7 +106,7 @@ export default function WomenQuestionnairePage() {
           <FormField label={q.firstName} required error={errors.firstName?.message}>
             <input {...register('firstName')} />
           </FormField>
-          <FormField label={q.lastName} error={errors.lastName?.message}>
+          <FormField label={q.lastName} required error={errors.lastName?.message}>
             <input {...register('lastName')} />
           </FormField>
           <FormField label={q.age} required error={errors.age?.message}>
@@ -138,7 +138,7 @@ export default function WomenQuestionnairePage() {
           <FormField label={q.women.waterIntake} required error={errors.waterIntake?.message}>
             <input {...register('waterIntake')} placeholder={q.women.waterIntakePlaceholder} />
           </FormField>
-          <FormField label={q.women.covid} error={errors.covid?.message}>
+          <FormField label={q.women.covid} required error={errors.covid?.message}>
             <select {...register('covid')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет' : 'No'}>{q.women.covidOptions.no}</option>
@@ -147,10 +147,10 @@ export default function WomenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Болел и вакцинирован' : 'Had COVID and vaccinated'}>{q.women.covidOptions.both}</option>
             </select>
           </FormField>
-          <FormField label={q.women.covidComplications} error={errors.covidComplications?.message}>
+          <FormField label={q.women.covidComplications} required error={errors.covidComplications?.message}>
             <textarea {...register('covidComplications')} placeholder={q.women.covidComplicationsPlaceholder} rows={3} />
           </FormField>
-          <FormField label={q.women.hair} error={errors.hair?.message}>
+          <FormField label={q.women.hair} required error={errors.hair?.message}>
             <select {...register('hair')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Довольна качеством' : 'Satisfied with quality'}>{q.women.hairOptions.satisfied}</option>
@@ -160,7 +160,7 @@ export default function WomenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Ломкие' : 'Brittle'}>{q.women.hairOptions.brittle}</option>
             </select>
           </FormField>
-          <FormField label={q.women.teeth} error={errors.teeth?.message}>
+          <FormField label={q.women.teeth} required error={errors.teeth?.message}>
             <select {...register('teeth')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.women.teethOptions.noProblems}</option>
@@ -170,7 +170,7 @@ export default function WomenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Кровоточат десны' : 'Bleeding gums'}>{q.women.teethOptions.bleedingGums}</option>
             </select>
           </FormField>
-          <FormField label={q.women.digestion} error={errors.digestion?.message}>
+          <FormField label={q.women.digestion} required error={errors.digestion?.message}>
             <textarea {...register('digestion')} placeholder={q.women.digestionPlaceholder} rows={3} />
           </FormField>
         </div>
@@ -187,22 +187,22 @@ export default function WomenQuestionnairePage() {
           {q.women.health}
         </h2>
         <div className="space-y-4">
-          <FormField label={q.women.stones} error={errors.stones?.message}>
+          <FormField label={q.women.stones} required error={errors.stones?.message}>
             <textarea {...register('stones')} placeholder={q.women.stonesPlaceholder} rows={2} />
           </FormField>
-          <FormField label={q.women.operations} error={errors.operations?.message}>
+          <FormField label={q.women.operations} required error={errors.operations?.message}>
             <textarea {...register('operations')} placeholder={q.women.operationsPlaceholder} rows={3} />
           </FormField>
-          <FormField label={q.women.pressure} error={errors.pressure?.message}>
+          <FormField label={q.women.pressure} required error={errors.pressure?.message}>
             <textarea {...register('pressure')} placeholder={q.women.pressurePlaceholder} rows={2} />
           </FormField>
-          <FormField label={q.women.chronicDiseases} error={errors.chronicDiseases?.message}>
+          <FormField label={q.women.chronicDiseases} required error={errors.chronicDiseases?.message}>
             <textarea {...register('chronicDiseases')} placeholder={q.women.chronicDiseasesPlaceholder} rows={2} />
           </FormField>
-          <FormField label={q.women.headaches} error={errors.headaches?.message}>
+          <FormField label={q.women.headaches} required error={errors.headaches?.message}>
             <textarea {...register('headaches')} placeholder={q.women.headachesPlaceholder} rows={3} />
           </FormField>
-          <FormField label={q.women.numbness} error={errors.numbness?.message}>
+          <FormField label={q.women.numbness} required error={errors.numbness?.message}>
             <select {...register('numbness')}>
               <option value="">{q.select}</option>
               <option value={q.no}>{q.no}</option>
@@ -224,7 +224,7 @@ export default function WomenQuestionnairePage() {
           {q.women.healthCont}
         </h2>
         <div className="space-y-4">
-          <FormField label={q.women.varicose} error={errors.varicose?.message}>
+          <FormField label={q.women.varicose} required error={errors.varicose?.message}>
             <select {...register('varicose')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нет проблем' : 'No problems'}>{q.women.varicoseOptions.noProblems}</option>
@@ -235,16 +235,16 @@ export default function WomenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Пигментные пятна' : 'Pigmentation spots'}>{q.women.varicoseOptions.pigmentation}</option>
             </select>
           </FormField>
-          <FormField label={q.women.joints} error={errors.joints?.message}>
+          <FormField label={q.women.joints} required error={errors.joints?.message}>
             <textarea {...register('joints')} placeholder={q.women.jointsPlaceholder} rows={3} />
           </FormField>
-          <FormField label={q.women.cysts} error={errors.cysts?.message}>
+          <FormField label={q.women.cysts} required error={errors.cysts?.message}>
             <textarea {...register('cysts')} placeholder={q.women.cystsPlaceholder} rows={2} />
           </FormField>
-          <FormField label={q.women.herpes} error={errors.herpes?.message}>
+          <FormField label={q.women.herpes} required error={errors.herpes?.message}>
             <textarea {...register('herpes')} placeholder={q.women.herpesPlaceholder} rows={2} />
           </FormField>
-          <FormField label={q.women.menstruation} error={errors.menstruation?.message}>
+          <FormField label={q.women.menstruation} required error={errors.menstruation?.message}>
             <select {...register('menstruation')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нерегулярные' : 'Irregular'}>{q.women.menstruationOptions.irregular}</option>
@@ -254,7 +254,7 @@ export default function WomenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Нормальные' : 'Normal'}>{q.women.menstruationOptions.normal}</option>
             </select>
           </FormField>
-          <FormField label={q.women.lifestyle} error={errors.lifestyle?.message}>
+          <FormField label={q.women.lifestyle} required error={errors.lifestyle?.message}>
             <textarea {...register('lifestyle')} placeholder={q.women.lifestylePlaceholder} rows={3} />
           </FormField>
         </div>
@@ -271,16 +271,16 @@ export default function WomenQuestionnairePage() {
           {q.women.healthCont}
         </h2>
         <div className="space-y-4">
-          <FormField label={q.women.skin} error={errors.skin?.message}>
+          <FormField label={q.women.skin} required error={errors.skin?.message}>
             <textarea {...register('skin')} placeholder={q.women.skinPlaceholder} rows={2} />
           </FormField>
-          <FormField label={q.women.allergies} error={errors.allergies?.message}>
+          <FormField label={q.women.allergies} required error={errors.allergies?.message}>
             <textarea {...register('allergies')} placeholder={q.women.allergiesPlaceholder} rows={2} />
           </FormField>
-          <FormField label={q.women.colds} error={errors.colds?.message}>
+          <FormField label={q.women.colds} required error={errors.colds?.message}>
             <textarea {...register('colds')} placeholder={q.women.coldsPlaceholder} rows={2} />
           </FormField>
-          <FormField label={q.women.sleep} error={errors.sleep?.message}>
+          <FormField label={q.women.sleep} required error={errors.sleep?.message}>
             <select {...register('sleep')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Хороший' : 'Good'}>{q.women.sleepOptions.good}</option>
@@ -288,7 +288,7 @@ export default function WomenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Часто просыпаюсь ночью' : 'Wake up often at night'}>{q.women.sleepOptions.wakeUpOften}</option>
             </select>
           </FormField>
-          <FormField label={q.women.energy} error={errors.energy?.message}>
+          <FormField label={q.women.energy} required error={errors.energy?.message}>
             <select {...register('energy')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Нормальная' : 'Normal'}>{q.women.energyOptions.normal}</option>
@@ -298,13 +298,13 @@ export default function WomenQuestionnairePage() {
               <option value={locale === 'ru' ? 'Нужно стимулировать себя кофе' : 'Need coffee to stimulate yourself'}>{q.women.energyOptions.needCoffee}</option>
             </select>
           </FormField>
-          <FormField label={q.women.memory} error={errors.memory?.message}>
+          <FormField label={q.women.memory} required error={errors.memory?.message}>
             <textarea {...register('memory')} placeholder={q.women.memoryPlaceholder} rows={3} />
           </FormField>
-          <FormField label={q.women.medications} error={errors.medications?.message}>
+          <FormField label={q.women.medications} required error={errors.medications?.message}>
             <textarea {...register('medications')} placeholder={q.women.medicationsPlaceholder} rows={2} />
           </FormField>
-          <FormField label={q.women.cleansing} error={errors.cleansing?.message}>
+          <FormField label={q.women.cleansing} required error={errors.cleansing?.message}>
             <textarea {...register('cleansing')} placeholder={q.women.cleansingPlaceholder} rows={2} />
           </FormField>
         </div>
@@ -321,7 +321,7 @@ export default function WomenQuestionnairePage() {
           {q.women.completion}
         </h2>
         <div className="space-y-4">
-          <FormField label={q.women.hasTests} error={errors.hasTests?.message}>
+          <FormField label={q.women.hasTests} required error={errors.hasTests?.message}>
             <select {...register('hasTests')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Да, есть анализы / УЗИ за последние 2–3 месяца' : 'Yes, I have tests / ultrasound from the last 2-3 months'}>{q.women.hasTestsOptions.yes}</option>
@@ -343,13 +343,13 @@ export default function WomenQuestionnairePage() {
             </motion.div>
           )}
 
-          <FormField label={q.women.additional} error={errors.additional?.message}>
+          <FormField label={q.women.additional} required error={errors.additional?.message}>
             <textarea {...register('additional')} rows={4} />
           </FormField>
-          <FormField label={q.women.mainProblem} error={errors.mainProblem?.message}>
+          <FormField label={q.women.mainProblem} required error={errors.mainProblem?.message}>
             <textarea {...register('mainProblem')} rows={3} />
           </FormField>
-          <FormField label={q.women.source} error={errors.source?.message}>
+          <FormField label={q.women.source} required error={errors.source?.message}>
             <select {...register('source')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Телеграмм' : 'Telegram'}>{q.women.sourceOptions.telegram}</option>
