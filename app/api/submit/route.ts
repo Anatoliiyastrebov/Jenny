@@ -150,8 +150,22 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Submission error:', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    
+    // Log full error details for debugging
+    console.error('Error details:', {
+      message: errorMessage,
+      stack: errorStack,
+      error: error,
+    });
+    
     return NextResponse.json(
-      { success: false, error: errorMessage },
+      { 
+        success: false, 
+        error: errorMessage,
+        // Include stack trace in development
+        ...(process.env.NODE_ENV === 'development' && errorStack ? { stack: errorStack } : {})
+      },
       { status: 500 }
     );
   }

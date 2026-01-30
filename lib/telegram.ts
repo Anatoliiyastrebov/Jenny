@@ -39,16 +39,35 @@ export async function sendToTelegram(submission: QuestionnaireSubmission): Promi
     // Send files if any
     if (submission.files && submission.files.length > 0) {
       console.log(`Sending ${submission.files.length} file(s) to Telegram...`);
+      const fileErrors: string[] = [];
+      
       for (let i = 0; i < submission.files.length; i++) {
         const file = submission.files[i];
         const fileName = file instanceof File ? file.name : `file_${i + 1}`;
         console.log(`Sending file ${i + 1}/${submission.files.length}: ${fileName}`);
-        await sendFileToTelegram(botToken, chatId, file);
+        
+        try {
+          await sendFileToTelegram(botToken, chatId, file);
+          console.log(`✅ File ${i + 1}/${submission.files.length} sent successfully`);
+        } catch (fileError) {
+          const errorMessage = fileError instanceof Error ? fileError.message : 'Unknown error';
+          console.error(`❌ Failed to send file ${i + 1}/${submission.files.length} (${fileName}):`, errorMessage);
+          fileErrors.push(`${fileName}: ${errorMessage}`);
+          // Continue with other files instead of failing completely
+        }
+        
         // Small delay between files to avoid rate limiting
         if (i < submission.files.length - 1) {
           await new Promise(resolve => setTimeout(resolve, 500));
         }
       }
+      
+      if (fileErrors.length > 0) {
+        const errorMessage = `Failed to send ${fileErrors.length} file(s): ${fileErrors.join('; ')}`;
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+      }
+      
       console.log('All files sent successfully');
     } else {
       console.log('No files to send');
@@ -264,43 +283,79 @@ async function sendFileToTelegram(
     }
 
     const headers = formData.getHeaders();
-    console.log(`Sending to Telegram API: ${apiMethod}, headers:`, Object.keys(headers));
+    console.log(`Sending to Telegram API: ${apiMethod}`);
+    console.log(`Headers:`, Object.keys(headers));
+    console.log(`File size: ${buffer.length} bytes, Content-Type: ${fileOptions.contentType}`);
 
-    const response = await fetch(
-      `https://api.telegram.org/bot${botToken}/${apiMethod}`,
-      {
-        method: 'POST',
-        // @ts-ignore - form-data sets headers automatically
-        body: formData as any,
-        headers: headers,
-      }
-    );
+    // Set timeout for large files (30 seconds)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-    const responseText = await response.text();
-    console.log(`Telegram API response status: ${response.status}`);
-    console.log(`Telegram API response:`, responseText.substring(0, 200));
+    try {
+      const response = await fetch(
+        `https://api.telegram.org/bot${botToken}/${apiMethod}`,
+        {
+          method: 'POST',
+          // @ts-ignore - form-data sets headers automatically
+          body: formData as any,
+          headers: headers,
+          signal: controller.signal,
+        }
+      );
+      
+      clearTimeout(timeoutId);
+      
+      const responseText = await response.text();
+      console.log(`Telegram API response status: ${response.status}`);
+      console.log(`Telegram API response (full):`, responseText);
 
-    if (!response.ok) {
+      if (!response.ok) {
       let errorMessage = `Failed to send file ${fileName}`;
+      let errorDetails: any = null;
       try {
         const errorJson = JSON.parse(responseText);
+        errorDetails = errorJson;
         errorMessage = errorJson.description || errorMessage;
-        console.error('Telegram API error:', errorJson);
+        console.error('Telegram API error details:', JSON.stringify(errorJson, null, 2));
       } catch {
         errorMessage = responseText || errorMessage;
         console.error('Telegram API error (text):', responseText);
       }
-      throw new Error(errorMessage);
+      
+      // Include more details in error message
+      const fullErrorMessage = `${errorMessage}${errorDetails ? ` (Error code: ${errorDetails.error_code || 'unknown'})` : ''}`;
+      throw new Error(fullErrorMessage);
     }
     
-    const result = JSON.parse(responseText);
+    let result: any;
+    try {
+      result = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error('Failed to parse Telegram response:', parseError);
+      throw new Error(`Invalid response from Telegram API: ${responseText.substring(0, 100)}`);
+    }
+    
     if (result.ok) {
       console.log(`✅ File ${fileName} sent successfully`);
     } else {
-      throw new Error(`Telegram API returned ok=false: ${result.description || 'Unknown error'}`);
+      const errorMsg = result.description || 'Unknown error';
+      console.error(`Telegram API returned ok=false:`, result);
+      throw new Error(`Telegram API returned ok=false: ${errorMsg}`);
+      }
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      if (fetchError instanceof Error && fetchError.name === 'AbortError') {
+        throw new Error(`Request timeout while sending file ${fileName} (file may be too large)`);
+      }
+      throw fetchError;
     }
   } catch (error) {
-    console.error(`❌ Error sending file ${file instanceof File ? file.name : 'file'}:`, error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    console.error(`❌ Error sending file ${file instanceof File ? file.name : 'file'}:`, errorMessage);
+    if (errorStack) {
+      console.error('Error stack:', errorStack);
+    }
     throw error;
   }
 }
