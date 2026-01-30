@@ -293,6 +293,15 @@ export const questionnaireTranslations = {
       },
       cleansing: 'Делали ли вы ранее что-то для очищения организма?',
       cleansingPlaceholder: 'Если да, то что?',
+      cleansingOptions: {
+        no: 'Нет',
+        yes: 'Да, делал(а)',
+        detox: 'Детокс программы',
+        fasting: 'Голодание',
+        enemas: 'Клизмы',
+        herbs: 'Травы',
+        other: 'Другое',
+      },
       hasTests: 'Есть ли у вас анализы крови за последние 2-3 месяца? УЗИ?',
       hasTestsOptions: {
         yes: 'Да, есть анализы / УЗИ за последние 2–3 месяца',
