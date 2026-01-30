@@ -80,10 +80,10 @@ export function FileUpload({ files, onChange, label, required }: FileUploadProps
               onClick={() => fileInputRef.current?.click()}
               className="inline-flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 shadow-sm hover:shadow transition-all"
             >
-              <span>{locale === 'ru' ? 'Выберите файлы' : 'Select files'}</span>
+              <span>{q.selectFile}</span>
             </button>
             <p className="mt-3 text-sm text-medical-600">
-              {locale === 'ru' ? 'или перетащите файлы сюда' : 'or drag files here'}
+              {q.uploadFile}
             </p>
             <p className="mt-2 text-xs text-medical-500">
               {locale === 'ru' ? 'PDF, JPG, PNG, DOC, ZIP и другие форматы' : 'PDF, JPG, PNG, DOC, ZIP and other formats'}

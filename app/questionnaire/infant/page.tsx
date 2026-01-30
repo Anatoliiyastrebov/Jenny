@@ -187,7 +187,7 @@ export default function InfantQuestionnairePage() {
       >
         <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.infant.injuries}</h2>
         <div className="space-y-4">
-          <FormField label={q.infant.injuries} error={errors.injuries?.message}>
+          <FormField label={q.infant.injuriesLabel} error={errors.injuries?.message}>
             <select {...register('injuries')}>
               <option value="">{q.select}</option>
               <option value={locale === 'ru' ? 'Все в порядке' : 'All good'}>{q.infant.injuriesOptions.allGood}</option>

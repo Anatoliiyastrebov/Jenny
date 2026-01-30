@@ -14,7 +14,7 @@ import { motion } from 'framer-motion';
 export default function ChildQuestionnairePage() {
   const { locale } = useLocale();
   const t = useTranslation();
-  const q = questionnaireTranslations[locale];
+  const q = questionnaireTranslations[locale] as typeof questionnaireTranslations.ru;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -175,7 +175,7 @@ export default function ChildQuestionnairePage() {
       >
         <h2 className="text-2xl font-semibold mb-6 text-medical-900">{q.child.injuries}</h2>
         <div className="space-y-4">
-          <FormField label={q.child.injuries} error={errors.injuries?.message}>
+          <FormField label={q.child.injuriesLabel} error={errors.injuries?.message}>
             <textarea {...register('injuries')} rows={3} />
           </FormField>
           <FormField label={q.child.headaches} error={errors.headaches?.message}>

@@ -11,12 +11,6 @@ export const metadata: Metadata = {
   description: 'Дженни, ваш wellness-консультант. Профессиональная система онлайн-анкетирования в сфере здоровья',
   keywords: 'здоровье, wellness, анкетирование, консультация, Дженни',
   authors: [{ name: 'Jenny Wellness Consultant' }],
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-  },
   robots: 'index, follow',
   openGraph: {
     type: 'website',
@@ -25,6 +19,13 @@ export const metadata: Metadata = {
     title: 'Дженни - Ваш wellness-консультант',
     description: 'Профессиональная система онлайн-анкетирования в сфере здоровья',
   },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
 };
 
 export default function RootLayout({
