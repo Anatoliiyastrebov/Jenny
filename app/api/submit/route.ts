@@ -360,7 +360,7 @@ function getFieldLabel(key: string, type: string, locale: 'ru' | 'en'): string {
     if (key === 'hasTests') {
       if (type === 'infant') {
         const i = t.infant as any;
-        return i.hasTests || (locale === 'ru' ? 'Есть анализы/УЗИ' : 'Has tests/ultrasound');
+        return i.hasTests || (validLocale === 'ru' ? 'Есть анализы/УЗИ' : 'Has tests/ultrasound');
       }
     }
   }
