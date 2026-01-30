@@ -61,16 +61,27 @@ function formatMessage(submission: QuestionnaireSubmission): string {
 
   // Format all fields
   for (const [key, value] of Object.entries(data)) {
-    if (key === 'files' || !value || value === '') continue;
+    // Skip empty values, files, and gdprConsent (internal field)
+    if (key === 'files' || key === 'gdprConsent' || !value || value === '') continue;
     
     const label = formatFieldLabel(key);
     let formattedValue = value;
 
     if (Array.isArray(value)) {
       formattedValue = value.join(', ');
-    } else if (typeof value === 'object') {
+    } else if (typeof value === 'object' && value !== null) {
       formattedValue = JSON.stringify(value);
+    } else if (typeof value === 'boolean') {
+      formattedValue = value ? 'Да' : 'Нет';
+    } else {
+      formattedValue = String(value);
     }
+
+    // Escape HTML special characters to prevent issues with Telegram HTML parsing
+    formattedValue = String(formattedValue)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
 
     message += `<b>${label}:</b> ${formattedValue}\n`;
   }
@@ -153,33 +164,45 @@ async function sendFileToTelegram(
   chatId: string,
   file: File
 ): Promise<void> {
-  // Convert File to Buffer for serverless environment
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-  
-  // Use form-data package for proper multipart/form-data encoding
-  const FormDataModule = await import('form-data');
-  const FormData = FormDataModule.default;
-  const formData = new FormData();
-  formData.append('chat_id', chatId);
-  formData.append('document', buffer, {
-    filename: file.name,
-    contentType: file.type || 'application/octet-stream',
-  });
+  try {
+    // Convert File to Buffer for serverless environment
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    
+    // Use form-data package for proper multipart/form-data encoding
+    const FormDataModule = await import('form-data');
+    const FormData = FormDataModule.default;
+    const formData = new FormData();
+    formData.append('chat_id', chatId);
+    formData.append('document', buffer, {
+      filename: file.name,
+      contentType: file.type || 'application/octet-stream',
+    });
 
-  const response = await fetch(
-    `https://api.telegram.org/bot${botToken}/sendDocument`,
-    {
-      method: 'POST',
-      // @ts-ignore - form-data sets headers automatically
-      body: formData as any,
-      headers: formData.getHeaders(),
+    const response = await fetch(
+      `https://api.telegram.org/bot${botToken}/sendDocument`,
+      {
+        method: 'POST',
+        // @ts-ignore - form-data sets headers automatically
+        body: formData as any,
+        headers: formData.getHeaders(),
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      let errorMessage = `Failed to send file ${file.name}`;
+      try {
+        const errorJson = JSON.parse(errorText);
+        errorMessage = errorJson.description || errorMessage;
+      } catch {
+        errorMessage = errorText || errorMessage;
+      }
+      throw new Error(errorMessage);
     }
-  );
-
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Failed to send file: ${error}`);
+  } catch (error) {
+    console.error(`Error sending file ${file.name}:`, error);
+    throw error;
   }
 }
 

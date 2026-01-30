@@ -50,15 +50,20 @@ export default function InfantQuestionnairePage() {
         body: formData,
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (response.ok && result.success) {
         setShowSuccess(true);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        alert(q.error);
+        const errorMessage = result.error || q.error;
+        alert(errorMessage);
+        console.error('Submission failed:', result);
       }
     } catch (error) {
       console.error('Submission error:', error);
-      alert(q.error);
+      const errorMessage = error instanceof Error ? error.message : q.error;
+      alert(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
